@@ -1,0 +1,40 @@
+At first, to generate a custom distribution, it is required to create a 
+customization profile structure like below. The voyage-build.sh script 
+understands this profile structure to build the customization distro.
+
+voyage-myproj/               
+  |-- conf/
+  |     |-- apt.conf    # defines multiple apt repository and packages to add
+  |     |-- dpkg-i.lst  # defines a list of deb packages to be downloaded and 
+  |     |					installed using "wget" and "dpkg -i" 
+  |     |-- dpkg-r.lst  # defines a list of deb packages to be removed using 
+  |		|					"dpkg -r" 
+  |		|-- kernel.conf # defines the kernel deb, kernel module debs and 
+  |		|					additional modules.
+  |     |-- rm.lst      # defines a list of files or directories to be removed 
+  |		|					in the target distro.
+  |     `-- tmpfs.lst   # defines a list of files to be symbolic linked to 
+  |  						ramdisk (i.e. defines /ro and /rw files)
+  |-- etc/              # directory contains files that may be useful to 
+  |							scripts/pre.d or scripts/post.d
+  |-- overlay_fs/       # defines the file systems that to be overlayed to the 
+  |		|					existing voyage file systems, 
+  |     |               # you should put any binaries and other custom 
+  |		|					configuration files here
+  |     |-- etc/
+  |     `-- usr/
+  `-- scripts/
+        |--pre.d/       # a set of scripts executed by run-parts before 
+        |					customization process begins
+        `--post.d/      # a set of scripts executed by 
+        					run-parts before customization process ends
+
+voyage-build.sh syntax:
+
+voyage-build.sh <voyage distro dir> <customize profile dir> [distro target directory]
+
+For example,
+
+voyage-build.sh <somewhere>/voyage-0.2pre1 <somewhere>/voyage-myproj
+
+This will generate the customization distro called voyage-0.2pre1-myproj in the current directory

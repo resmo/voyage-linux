@@ -1,0 +1,6 @@
+##########################################################################
+#
+# tmpfs.lst   
+#	defines a list of files to be symbolic linked to 
+# 	ramdisk (i.e. defines /ro and /rw files)	
+#
