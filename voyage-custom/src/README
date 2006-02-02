@@ -8,9 +8,9 @@ voyage-myproj/
   |     |-- dpkg-i.lst  # defines a list of deb packages to be downloaded and 
   |     |					installed using "wget" and "dpkg -i" 
   |     |-- dpkg-r.lst  # defines a list of deb packages to be removed using 
-  |		|					"dpkg -r" 
-  |		|-- kernel.conf # defines the kernel deb, kernel module debs and 
-  |		|					additional modules.
+  |     |					"dpkg -r" 
+  |     |-- kernel.conf # defines the kernel deb, kernel module debs and 
+  |     |					additional modules.
   |     |-- rm.lst      # defines a list of files or directories to be removed 
   |		|					in the target distro.
   |     `-- tmpfs.lst   # defines a list of files to be symbolic linked to 

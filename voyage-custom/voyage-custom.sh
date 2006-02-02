@@ -28,10 +28,9 @@ mkdir -p "$TARGET_DIR"
 
 # setting absolute path
 CURDIR=$PWD
-cd $VOYAGE_DIR; VOYAGE_DIR=$PWD; cd $EXEC_DIR
-cd $CUSTOM_DIR; CUSTOM_DIR=$PWD; cd $EXEC_DIR
-cd $TARGET_DIR; TARGET_DIR=$PWD; cd $EXEC_DIR
-cd $CURDIR
+cd $VOYAGE_DIR; VOYAGE_DIR=$PWD; cd $CURDIR
+cd $CUSTOM_DIR; CUSTOM_DIR=$PWD; cd $CURDIR
+cd $TARGET_DIR; TARGET_DIR=$PWD; cd $CURDIR
 # 
 
 run_preinstall()
@@ -94,7 +93,7 @@ run_apt_conf()
 	done < $FILE
 	
 	mv $SRC_LIST_BAK $SRC_LIST 
-	#chroot "$TARGET_DIR" apt-get update
+	chroot "$TARGET_DIR" apt-get update
 	
 	echo ""
 }
@@ -233,6 +232,22 @@ run_kernel_conf()
 	echo ""
 }
 
+run_overlay_fs()
+{
+	FILE="$CUSTOM_DIR/overlay_fs"
+	if [ ! -d "$FILE" ] ; then echo "$FILE not found. "; return ; fi
+	
+	echo "### Running overlay_fs"
+
+	COUNT=`cp -vRp "$FILE"/* "$TARGET_DIR" | wc -l`
+	
+	find "$TARGET_DIR" -name "CVS" -exec rm -rf '{}' ';'
+	
+	echo ""
+	echo "$COUNT file(s) copied"
+	echo ""
+}
+
 ##################################################
 # Program start here
 #
@@ -281,6 +296,8 @@ run_rm
 run_tmpfs
 
 run_kernel_conf
+
+run_overlay_fs
 
 run_postinstall
 
