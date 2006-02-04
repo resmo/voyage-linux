@@ -29,12 +29,12 @@ voyage-myproj/
         `--post.d/      # a set of scripts executed by 
         					run-parts before customization process ends
 
-voyage-build.sh syntax:
+voyage-custom.sh syntax:
 
-voyage-build.sh <voyage distro dir> <customize profile dir> [distro target directory]
+voyage-custom.sh <voyage distro dir> <customize profile dir> [distro target directory]
 
 For example,
 
-voyage-build.sh <somewhere>/voyage-0.2pre1 <somewhere>/voyage-myproj
+voyage-custom.sh <somewhere>/voyage-0.2pre1 <somewhere>/myproj
 
-This will generate the customization distro called voyage-0.2pre1-myproj in the current directory
+This will generate the customization distro called voyage-myproj in the current directory
