@@ -33,6 +33,8 @@ cd $CUSTOM_DIR; CUSTOM_DIR=$PWD; cd $CURDIR
 cd $TARGET_DIR; TARGET_DIR=$PWD; cd $CURDIR
 # 
 
+MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
+
 run_preinstall()
 {
 	echo "### Running pre-install scripts "
@@ -58,7 +60,7 @@ run_apt_conf()
 	rm "$TARGET_DIR"/var/lib/apt/lists/*_Packages
 	rm "$TARGET_DIR"/var/lib/apt/lists/*_Release
 	chroot "$TARGET_DIR" apt-get update
-	chroot "$TARGET_DIR" apt-get -y -q=1 upgrade
+	chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -y -q=1 upgrade
 	
 	# backup current sources.list
 	SRC_LIST="$TARGET_DIR"/etc/apt/sources.list 
@@ -84,7 +86,7 @@ run_apt_conf()
 					do
 						PKG=`echo $PKG | tr -d "\b\f\n\r\t[:blank:]"`
 						echo "apt-get installing "$PKG""
-						chroot "$TARGET_DIR" apt-get -y -q=2 install "$PKG"
+						chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -y -q=2 install "$PKG"
 					done
 				fi
 				rm -f $SRC_LIST
@@ -137,7 +139,7 @@ run_dpkg_remove()
 		LINE=`echo $LINE | sed -e 's/#.*$//g' -e '/^$/d' `
 	
 		if [ ! -z "$LINE" ] ; then 
-			chroot "$TARGET_DIR" apt-get -f -y -q=2 remove "$LINE"
+			chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -f -y -q=2 remove "$LINE"
 		fi
 	done < $FILE
 	
@@ -285,6 +287,8 @@ cp /etc/resolv.conf "$TARGET_DIR"/ro/etc/resolv.conf
 # copy ro to rw
 #
 cp -r "$TARGET_DIR"/ro/* "$TARGET_DIR"/rw
+
+export DEBIAN_FRONTEND=noninteractive
 
 run_preinstall
 
