@@ -229,7 +229,12 @@ run_kernel_conf()
 	chroot "$TARGET_DIR" apt-get install lilo
 
 	# remove files to chroot directory
-	chroot "$TARGET_DIR" rm -f "$KERNEL_DEB" "$MODULE_DEB" "$MODULE_FILE"
+	chroot "$TARGET_DIR" rm -f "$KERNEL_DEB" "$MODULE_FILE"
+	for PKG in $MODULE_DEB
+	do
+		chroot "$TARGET_DIR" rm -f "$PKG"
+	done
+	
 
 	echo ""
 }
