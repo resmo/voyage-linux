@@ -56,6 +56,7 @@ run_chroot()
 	cp -rp "$CUSTOM_DIR/scripts/chroot.d" "$TARGET_DIR/"
 	for CMD in $TARGET_DIR/chroot.d/*
 	do
+		if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
 		echo "### 	Running chroot command : $CMD"
 	    chmod +x "$CMD"
 	    chroot $TARGET_DIR /chroot.d/`basename "$CMD"`
