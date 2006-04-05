@@ -47,6 +47,21 @@ run_postinstall()
 	echo ""
 }
 
+run_chroot()
+{
+	echo "### Running chroot scripts "
+	echo ""
+	###################################################################
+	# Running patch-cmd.d
+	cp -rp "$CUSTOM_DIR/scripts/chroot.d" "$TARGET_DIR/"
+	for CMD in $TARGET_DIR/chroot.d/*
+	do
+		echo "### 	Running chroot command : $CMD"
+	    chmod +x "$CMD"
+	    chroot $TARGET_DIR /chroot.d/`basename "$CMD"`
+	done
+}
+
 
 run_apt_conf()
 {
@@ -307,6 +322,8 @@ run_tmpfs
 run_kernel_conf
 
 run_overlay_fs
+
+run_chroot
 
 run_postinstall
 
