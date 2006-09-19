@@ -45,6 +45,39 @@ run_postinstall()
 {
 	echo "### Running post-install scripts "
 	echo ""
+	
+	###################################################################
+	# Running post.d
+	#cp -rp "$CUSTOM_DIR/scripts/post.d" "$TARGET_DIR/"
+	for CMD in $CUSTOM_DIR/scripts/post.d/*
+	do
+		if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
+		echo "### 	Running chroot command : $CMD"
+	    chmod +x "$CMD"
+	    cd "$TARGET_DIR/../"
+	    export TARGET_DIR
+	    export RUN_DIR
+	    $CUSTOM_DIR/scripts/post.d/`basename $CMD`
+	done
+	
+	rm -rf "$TARGET_DIR/post.d"
+}
+
+
+Chroot ()
+{
+	# Execute commands in chroot
+	chroot "${TARGET_DIR}" /usr/bin/env -i HOME="/root" DEBIAN_FRONTEND="noninteractive" \
+		TERM="${TERM}" PATH="/usr/sbin:/usr/local/sbin:/usr/bin:/sbin:/bin" \
+		ftp_proxy="${LIVE_FTPPROXY}" http_proxy="${LIVE_HTTPPROXY}" ${1}
+}
+
+Chroot_MountProc ()
+{
+	# Execute commands in chroot
+	chroot "${TARGET_DIR}" /usr/bin/env -i HOME="/root" DEBIAN_FRONTEND="noninteractive" \
+		TERM="${TERM}" PATH="/usr/sbin:/usr/local/sbin:/usr/bin:/sbin:/bin" \
+		ftp_proxy="${LIVE_FTPPROXY}" http_proxy="${LIVE_HTTPPROXY}" ${MOUNT_PROC_SH} ${1}
 }
 
 run_chroot()
@@ -59,8 +92,10 @@ run_chroot()
 		if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
 		echo "### 	Running chroot command : $CMD"
 	    chmod +x "$CMD"
-	    chroot $TARGET_DIR /chroot.d/`basename "$CMD"`
+	    Chroot "/chroot.d/`basename $CMD`"
 	done
+	
+	rm -rf "$TARGET_DIR/chroot.d"
 }
 
 
@@ -75,8 +110,9 @@ run_apt_conf()
 	
 	rm "$TARGET_DIR"/var/lib/apt/lists/*_Packages
 	rm "$TARGET_DIR"/var/lib/apt/lists/*_Release
-	chroot "$TARGET_DIR" apt-get update
-	chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -y -q=1 upgrade
+	Chroot "apt-get update"
+	#Chroot "$MOUNT_PROC_SH apt-get -y -q=1 upgrade"
+	Chroot_MountProc "apt-get -y -q=1 upgrade"
 	
 	# backup current sources.list
 	SRC_LIST="$TARGET_DIR"/etc/apt/sources.list 
@@ -94,7 +130,7 @@ run_apt_conf()
 				if [ ! "$VALUE" == "" ] ; then
 					echo "Using $VALUE"
 					echo $VALUE >> $SRC_LIST
-					chroot "$TARGET_DIR" apt-get update
+					Chroot "apt-get update"
 				fi
 			elif [ $CMD == "DEB_PKGS" ] ; then
 				if [ ! -z "$VALUE" ] ; then
@@ -102,7 +138,8 @@ run_apt_conf()
 					do
 						PKG=`echo $PKG | tr -d "\b\f\n\r\t[:blank:]"`
 						echo "apt-get installing "$PKG""
-						chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -y -q=2 install "$PKG"
+						#Chroot "$MOUNT_PROC_SH apt-get -y -q=2 install $PKG"
+						Chroot_MountProc "apt-get -y -q=2 install $PKG"
 					done
 				fi
 				rm -f $SRC_LIST
@@ -111,7 +148,7 @@ run_apt_conf()
 	done < $FILE
 	
 	mv $SRC_LIST_BAK $SRC_LIST 
-	chroot "$TARGET_DIR" apt-get update
+	Chroot "apt-get update"
 	
 	echo ""
 }
@@ -131,9 +168,9 @@ run_dpkg_install()
 	
 		if [ ! -z "$LINE" ] ; then 
 			DPKG=`basename $LINE`
-			chroot "$TARGET_DIR" wget $LINE
-			chroot "$TARGET_DIR" dpkg -i /"$DPKG"
-			chroot "$TARGET_DIR" rm -f /"$DPKG"
+			Chroot "wget $LINE"
+			Chroot "dpkg -i $DPKG"
+			Chroot "rm -f $DPKG"
 		fi
 	done < $FILE
 
@@ -155,7 +192,8 @@ run_dpkg_remove()
 		LINE=`echo $LINE | sed -e 's/#.*$//g' -e '/^$/d' `
 	
 		if [ ! -z "$LINE" ] ; then 
-			chroot "$TARGET_DIR" $MOUNT_PROC_SH apt-get -f -y -q=2 remove "$LINE"
+			#Chroot "$MOUNT_PROC_SH apt-get -f -y -q=2 remove $LINE"
+			Chroot_MountProc "apt-get -f -y -q=2 --purge remove $LINE"
 		fi
 	done < $FILE
 	
@@ -216,7 +254,7 @@ run_kernel_conf()
 	if [ -z $KERNEL_DEB ] ; then return ; fi
 
 	# Remove lilo
-	chroot "$TARGET_DIR" apt-get -y -q=2 remove lilo
+	Chroot "apt-get -y -q=2 remove lilo"
 	
 	# Copy kernel deb and modules debs
 	cp "$CUSTOM_DIR/files/$KERNEL_DEB" "$TARGET_DIR"
@@ -226,29 +264,32 @@ run_kernel_conf()
 	done
 	
 	# Install kernel deb and module debs
-	chroot "$TARGET_DIR" dpkg -i "$KERNEL_DEB" 
+	Chroot "dpkg -i $KERNEL_DEB"
 	for PKG in $MODULE_DEB
 	do
-		chroot "$TARGET_DIR" dpkg -i /"$PKG"
+		Chroot "dpkg -i $PKG"
 	done
 
 	# Get kernel version from KERNEL_DEB
 	KVERS=`ls -rt "$TARGET_DIR"/lib/modules/ | head -1`
 
 	# Copy module file to /lib/modules
-	cp "$CUSTOM_DIR/files/$MODULE_FILE" "$TARGET_DIR/lib/modules/$KVERS/"
-	
+	for FILE in $MODULE_FILE
+	do
+		cp "$CUSTOM_DIR/files/$FILE" "$TARGET_DIR/lib/modules/$KVERS/"
+	done
+		
 	# Generate module dependencies
-	chroot "$TARGET_DIR" depmod -ae "$KVERS" -F "/boot/System.map-$KVERS"
+	Chroot "depmod -ae $KVERS -F /boot/System.map-$KVERS"
 	
 	# Install lilo back
-	chroot "$TARGET_DIR" apt-get install lilo
+	Chroot "apt-get install lilo"
 
 	# remove files to chroot directory
-	chroot "$TARGET_DIR" rm -f "$KERNEL_DEB" "$MODULE_FILE"
+	Chroot "rm -f $KERNEL_DEB $MODULE_FILE"
 	for PKG in $MODULE_DEB
 	do
-		chroot "$TARGET_DIR" rm -f "$PKG"
+		Chroot "rm -f $PKG"
 	done
 	
 
@@ -263,6 +304,11 @@ run_overlay_fs()
 	echo "### Running overlay_fs"
 
 	COUNT=`cp -vRp "$FILE"/* "$TARGET_DIR" | wc -l`
+	
+	for LINE in `find $FILE/`; do
+		LINE2=`echo $LINE|sed -e "s#$FILE##"`		
+		chown root:root "$TARGET_DIR"/"$LINE2"
+	done
 	
 	find "$TARGET_DIR" -name "CVS" -exec rm -rf '{}' ';'
 	
@@ -302,12 +348,17 @@ fi
 ##################################################
 # copy /etc/resolv.conf
 #
-cp /etc/resolv.conf "$TARGET_DIR"/ro/etc/resolv.conf
+if [ -f "$TARGET_DIR"/ro/etc/resolv.conf ] ; then
+	cp /etc/resolv.conf "$TARGET_DIR"/ro/etc/resolv.conf
+fi 
 
 ##################################################
 # copy ro to rw
 #
-cp -r "$TARGET_DIR"/ro/* "$TARGET_DIR"/rw
+
+if [ -d "$TARGET_DIR"/ro/ ] ; then
+	cp -r "$TARGET_DIR"/ro/* "$TARGET_DIR"/rw
+fi
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -332,19 +383,61 @@ run_postinstall
 # remove stuff
 #
 #exit 
-chroot "$TARGET_DIR" apt-get clean
+Chroot "rm -rf /var/cache/bootstrap"
+Chroot "apt-get clean"
 for i in $(find $TARGET_DIR/var/lib/apt/lists -type f \( -name \*Packages -o -name \*Sources \) 2>/dev/null); do  :>"$i"; done
-chroot "$TARGET_DIR" dpkg --clear-avail
+Chroot "dpkg --clear-avail"
 rm -f "$TARGET_DIR"/var/cache/apt/*.bin
-chroot "$TARGET_DIR" apt-cache gencaches > /dev/null
-chroot "$TARGET_DIR" remove.docs
+Chroot "apt-cache gencaches > /dev/null"
+Chroot "remove.docs"
 
 ##################################################
 # at last, remove rw
 #
-cp -r "$TARGET_DIR"/rw/* "$TARGET_DIR"/ro
-rm -rf "$TARGET_DIR"/rw/*
+if [ -d "$TARGET_DIR"/rw ] ; then
+	cp -r "$TARGET_DIR"/rw/* "$TARGET_DIR"/ro
+	rm -rf "$TARGET_DIR"/rw/*
+fi
 
 if [ -d "$DIST_DIR" ] ; then rm -rf "$DIST_DIR" ; fi
 mv "$TARGET_DIR" "$DIST_DIR"
 rm -rf "$BUILD_DIR"
+
+### exit
+exit
+
+##################################################
+# Build Live CD
+#
+	
+	LIVE_DIR="`dirname $DIST_DIR`/`basename $DIST_DIR`-live"
+	
+	if [ -d "$LIVE_DIR" ] ; then rm -rf "$LIVE_DIR" ; fi
+
+	# Create directory
+	mkdir -p "${LIVE_DIR}"/casper
+	mkdir -p "${LIVE_DIR}"/isolinux
+	
+	# Creating rootfs
+	mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs
+
+
+	# Copying kernel
+	cp "${DIST_DIR}"/boot/vmlinuz-* "${LIVE_DIR}"/vmlinuz
+	cp "${DIST_DIR}"/boot/initrd.img-* "${LIVE_DIR}"/initrd.gz
+
+	# Install syslinux
+	cp /usr/lib/syslinux/isolinux.bin "${LIVE_DIR}"/isolinux
+
+	# Configure syslinux
+cat > "${LIVE_DIR}"/isolinux/isolinux.cfg << EOF
+DEFAULT /vmlinuz
+APPEND append initrd=/initrd.gz boot=casper
+TIMEOUT 500
+EOF
+
+	# Creating image
+	mkisofs -o "${LIVE_DIR}"/../`basename ${LIVE_DIR}`.iso -r -J -l \
+		-b isolinux/isolinux.bin -c isolinux/boot.cat \
+		-no-emul-boot -boot-load-size 4 -boot-info-table "${LIVE_DIR}"
+		
