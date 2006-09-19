@@ -1,0 +1,76 @@
+#!/bin/sh
+
+############################################################
+#  config dnsmasq
+#sed -i '/^dhcp-range/ D' /etc/dnsmasq.more.conf
+cat <<EOF>>/etc/dnsmasq.more.conf
+conf-file=/etc/dnsmasq.pxe.conf
+EOF
+
+touch /etc/dnsmasq.pxe.conf
+
+############################################################
+SERVER_IP=192.168.1.138 # !!!!!!!!!!!! CHANGE THIS!
+NET_RANGE=192.168.1.10,192.168.1.20 # !!!!!!!!!!!! CHANGE THIS!
+DEFAULT_GW=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
+DNS_SERVER=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
+
+cat <<EOF>>/etc/dnsmasq.pxe.conf
+dhcp-range=$NET_RANGE,10m
+dhcp-boot=pxelinux.0,$SERVER_IP
+dhcp-option=3,$DEFAULT_GW
+dhcp-option=6,$DNS_SERVER
+EOF
+
+############################################################
+#  config syslinux and tftpboot
+cp /usr/lib/syslinux/pxelinux.0 /tftpboot/
+
+ln -s /vmlinuz /tftpboot/linux
+ln -s /initrd.img /tftpboot/initrd.img 
+
+############################################################
+#  config dhcp3
+#
+#cat << EOF >> /etc/dhcp3/dhcpd.conf
+#
+#subnet 192.168.1.0 netmask 255.255.255.0 {
+#  range 192.168.1.10 192.168.1.10;
+#  option broadcast-address 192.168.1.255;
+#
+#  allow booting;
+#  allow bootp;
+#
+#  default-lease-time 600;
+#  max-lease-time 600;
+#	
+#  next-server tftpserver;
+#  filename "pxelinux.0";
+#
+##  uncomment the following line if 192.168.1.1 is also
+##  the internet gateway
+##  option routers 192.168.1.1;
+#}
+#EOF
+
+############################################################
+#  config nfs export
+cat << EOF >> /etc/exports
+/media  192.168.1.0/255.255.255.0(ro,no_root_squash,async)
+EOF
+
+############################################################
+#  config nfs export
+sed -i 's/USE_INETD=true/USE_INETD=false/' /etc/default/atftpd
+
+############################################################
+#  config inittab - enable serial
+sed -i -e "s/^#T0:/T0:/" /etc/inittab
+
+############################################################
+#  disable dhcp3-server
+#update-rc.d -f dhcp3-server remove 
+
+############################################################
+#  disable atftpd
+update-rc.d -f atftpd remove
