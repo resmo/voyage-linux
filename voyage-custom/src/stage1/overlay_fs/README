@@ -1,0 +1,421 @@
+1. Introduction
+======================
+Voyage Linux is a pebble-like (www.nycwireless.net/pebble) Linux distribution
+based on Debian.  It is best run on a x86-based embedded platform such as PC 
+Engines WRAP boards and Soekris 45xx/48xx.  Although Notebook and 
+Generic PC is also supported, they are not throughoutly tested.
+
+For more documentation about Voyage Linux, please visit wiki at
+	http://wiki.voyage.hk
+
+2. Installation
+======================
+Download the Voyage Linux software package from 
+	http://www.voyage.hk/download/voyage/ 
+to a Linux machine.
+
+extract the software tarball:
+	tar --numeric-owner -zxvf voyage-<version>.tar.gz
+
+as root, run the installation script:
+	cd voyage-<version>
+	./usr/local/sbin/voyage.update
+	
+Before you run the installer you may have to format the disk device.  Assuming 
+Compact Flash device on /dev/sda.
+	fdisk /dev/sda
+	mkfs.ext2 /dev/sda1
+	tune2fs -c 0 /dev/sda1
+
+There is a helper script in ./usr/local/sbin/format-cf.sh to ease the formatting
+and creation of ext2 file system.  Use it at your own risk!
+	./usr/local/sbin/format-cf.sh /dev/sda
+	
+Voyage Linux now requires at least 128MB storage to run.  However, more disk 
+space is recommended if you want to add more software and be able to run 
+"apt-get upgrade".
+
+voyage.update scripts will ask you a couple of questions to complete the 
+installation:
+	1. Voyage Linux software package directoy. (default to current path)
+	2. The target device to install Voyage Linux. (default to /dev/hde)
+		- At this moment you will have to determined which disk device for 
+		Voyage Linux to install
+		- If you install to Compact Flash vi USB adapter, it should be /dev/sda.  
+		  Try "sg_scan -i" and "sg_map" to test.
+	3. The temporary mount point for the disk device (default to /dev/mnt).  
+		- If it does not exist, you will have to create it manually
+	4. The module configuration to install
+		1 - WRAP : serial console, no pcmcia
+		2 - 4501/4801 : serial console, no pcmcia
+		3 - 4511/4521 : serial console, pcmcia
+		4 - Notebook (pcmcia) : no serial console, pcmcia
+		5 - Generic PC : no serial console, no pcmcia
+
+It will take a short whlie (~1 min) to copy all files from software package to 
+disk device.  The above configuration will be saved to .voyage.config.  If you 
+run voyage.update next time, it will use same configuration as default.
+
+3 Configuration
+======================
+
+3.1 Network Interface
+======================
+edit /etc/network/interface and uncomment the interface configuration section:
+
+auto wlan0
+iface wlan0 inet static
+        address 10.1.10.1
+        netmask 255.255.255.0
+        broadcast 10.1.10.255
+        up iwconfig wlan0 essid voyage mode Master
+        up nat.sh wlan0 eth0 "10.1.10.0/24"
+        
+To enable wlan0 device (probably for Prism 2.5/hostap driver)
+
+A friendly script, nat.sh, is located in /usr/local/sbin/, generates all 
+necessary iptables rules for NAT'ing interface. nat.sh is now integrated to 
+work with nocat.  Syntax:
+	nat.sh <nat device> <output device> <network address>
+	
+	<nat device> - a tag to identify the NAT interface, no need to be a real 
+		device name, but should be unqiue if multiple NAT devices are 
+		configured
+	<output device> - the outbound device name for NAT
+	<network address> - the IP network with mask for NAT
+
+3.2 DHCP/DNS - dnsmasq
+======================
+DHCP support from dnsmasq is now enabled by default. 
+
+Edit /etc/dnsmasq.more.conf and there are following lines:
+
+dhcp-leasefile=/var/tmp/dnsmasq.leases
+dhcp-range=wlan0,10.1.10.10,10.1.10.250,24h
+dhcp-range=eth1,10.1.20.10,10.1.20.250,24h
+dhcp-range=eth2,10.1.30.10,10.1.30.250,24h
+dhcp-range=eth3,10.1.40.10,10.1.40.250,24h
+
+dnsmasq will provide IP address lease 10.1.10.10-250, 10.1.20.10-250, 
+10.1.30.10-250, 10.1.40.10-250.
+
+Comment out all the lines in /etc/dnsmasq.more.conf to disable DHCP in dnsmasq.
+
+3.3 Hostap
+======================
+Kernel source was patched to include the current driver version 0.4.7 for 
+2.6.8 and 2.6.12 voyage kernels.  Starting from 2.6.14, it is included in 
+stock kernel.  The hostap driver in all voyage kernels has 
+PRISM2_NON_VOLATILE_DOWNLOAD enabled to allow non-volatile flashing of 
+firmware.  
+
+(http://hostap.epitest.fi/)
+
+3.4 Prism54
+======================
+Prism54 driver is included in voyage kernel.  Voyage Linux already bundled 
+the required firmware in /usr/lib/hotplug/firmware/isl3890.
+
+(http://www.prism54.org)
+
+3.5 Madwifi
+======================
+Voyage distro is now using madwifi-ng driver as default.  
+To configure atheros device, the full interface definition should look like:
+
+    auto ath0
+    iface ath0 inet static
+        address 10.1.10.1
+        netmask 255.255.255.0
+        broadcast 10.1.10.255
+        madwifi-base wifi0
+        wireless-mode Master
+        up iwpriv ath0 mode 3
+        up iwconfig ath0 mode master
+        up iwconfig ath0 essid voyage
+        up iwconfig ath0 txpower auto
+        up iwconfig ath0 enc off
+        up iwconfig ath0 rate auto
+        up nat.sh ath0 eth0 "10.1.10.0/24" 
+
+Please note tht voyage kernel does not comes with madwifi driver anymore.  
+Instead, they are available in separate module package.  
+
+madwifi-ng has the default auto create option which will create the VAP device 
+in STA mode.  To disable autocreate option, in /etc/modules you can add:
+
+   ath_pci autocreate=none
+   
+or add a new files /etc/modprobe.d/madwifi with the followng line:
+
+   options ath_pci autocreate=none
+
+madwifi-old driver can be found in http://www.voyage.hk/dists/unstable/madwifi/
+The most common way to enable Madwifi in master mode for b/g:
+
+	iwpriv ath0 mode 3
+	iwconfig ath0 mode master
+	iwconfig ath0 essid voyage
+	iwconfig ath0 txpower auto
+	iwconfig ath0 enc off
+	iwconfig ath0 rate auto
+
+You may also include the above commands in /etc/network/interface.
+
+(http://www.madwifi.org)
+
+3.5 Other wireless drivers
+======================
+Many wireless drivers such as rt2400/2500, ipw2100/2200, etc. are now included 
+in 2.6.17-voyage kernel.  However, some of these drivers does not support Master 
+mode (AP mode).
+
+3.6 Bridging 
+====================== 
+The most common way to bridge wireless (ath0) and LAN (eth1) as follow:
+iwpriv ath0 mode 3 
+iwconfig ath0 mode master 
+iwconfig ath0 essid <my essid>
+iwconfig ath0 txpower auto 
+iwconfig ath0 enc off 
+iwconfig ath0 rate auto
+ifconfig ath0 0.0.0.0 up 
+
+ifconfig eth1 0.0.0.0 up 
+
+brctl addbr br0 
+brctl addif br0 eth1 
+brctl addif br0 ath0 
+ifconfig br0 up
+
+There are some samples in /etc/network/interface to ease the setup of bridge.
+
+3.7 Watchdog
+======================
+For WRAP board, wd1100 has been ported to kernel 2.6.  If you choose WRAP
+option in voyage.update, wd1100 driver will be added to /etc/module.
+
+To load wd1100 to kernel, run the following commands:
+
+	modprobe wd1100
+	echo 0 > /proc/sys/dev/wd/graceful
+	echo 30 > /proc/sys/dev/wd/timeout
+or
+	modprobe wd1100 sysctl_wd_graceful=0 sysctl_wd_timeout=30
+
+This will set timeout value to 30 seconds.  
+
+You will have to restart watchdog userland program to activate watchdog timer
+	/etc/init.d/watchdog restart
+
+In addition, you will need to make sure that /etc/watchdog.conf is properly 
+configured.  For above watchdog module configuration for WRAP, the following 
+settings should do:
+
+watchdog-device = /dev/wd
+interval	    = 15
+
+And make sure the watchdog device is available:
+	
+	mknod -m 600 /dev/wd c 10 130
+
+You may also add the following line to /etc/modules to enable loading wd1100 
+driver at startup: 
+	
+	wd1100 sysctl_wd_graceful=0 sysctl_wd_timeout=30
+
+To test watchdog module, you can try to stop the watchdog userland program.
+	/etc/init.d/watchdog stop
+The hardware will restart after 30 seconds at most.
+
+3.8 NoCatSplash
+======================
+NoCatSplash is included in Voyage Linux, but it is disabled by default.  Edit 
+/etc/default/nocatsplash and set ENABLE="true" to enable it.  You will can start 
+or stop NoCatSplash by 
+	/etc/init.d/nocatsplash [start|stop]
+	
+Next, you will also need to edit /etc/nocat.conf to setup NoCatSplash properly.  
+The most common way is to add the following lines at the end of /etc/nocat.conf:
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+
+Make sure that wlan0 matches the LocalNetwork IP address, you should double-
+check that from ifconfig.
+
+3.9 NoCatAuth
+======================
+NoCatAuth is not included in Voyage Linux.  However, it can be installed by 
+running:
+	apt-get install nocatauth-gateway
+	
+Same as NoCatSplash, set ENABLE="true" in /etc/default/nocatauth-gateway to 
+enable it in boot up.   Note that nocat.conf is located in 
+/etc/nocatauth/gateway and the most common to configure nocatauth-gateway is 
+appending the following to nocat.conf:
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+You may also want to touch GatewayMode (default=Passive):
+GatewayMode [Passive|Captive|Open]
+
+It is better to un-install NoCatSplash by "apt-get remove nocatsplash" and 
+"rm /etc/nocat.conf" explicitly to avoid confusion.
+
+As nocatauth requires perl to run, you are required to have a larger disk space 
+to run (probably 128MB).  Please also make sure that you can only run either 
+NoCatSplash or NoCatAuth, not both.
+
+3.10 Hardware Sensors
+======================
+
+If you choose WRAP in voyage.update, the required modules would be added
+to /etc/modules.  It adds the following modules in /etc/modules:
+	scx200_acb base=0x820,0
+	lm77
+
+You will find a new driver in /sys/bus/i2c/drivers/lm77/.  To read the 
+temperature, 
+	cat /sys/bus/i2c/drivers/lm77/0-0048/temp1_input
+
+Divide the temps by 1000 you will get the temperature reading in Celcius.  
+Unfortunately, the temperature reading can not be retrieved using "sensors" util.
+------------------------------------------
+If you are using commodity hardware other than WRAP, the easiest way would be 
+installing lm-sensors package by
+	
+	apt-get install lm-sensors
+	
+and then run sensors-detect
+
+3.11 General Issues
+======================
+  What are the serial port console settings:
+  	- In 0.3, voyage.update provides options for serial port settings
+	- In 0.2 or before, the serial port console must be set at ==> 9600 N 8 1
+
+  Where are the files stored that need to be read-write:
+	- Initially they are stored on /ro, at boot time they are copied over to 
+	  a dynamic ram drive (limited to 8 Mb) at /rw.
+	  Files are then symlinked to the /rw.
+
+  How can I add a program:
+	- use "apt-get install <program>" of course
+
+  How can I add a file or install a program from sources (without using apt-get)
+  so it comes up every time I boot:
+	- /usr/local/sbin/remountrw to allow Read-Write
+	- Move the file or the program to it's location in /ro
+	- Symlink the file's original location to /rw
+	- fastreboot
+
+	EXAMPLE:
+	You install "webmin" from sources, the miniserver is in /var/webmin 
+	directory, configuration files are in /etc/webmin directory and the start on
+	is in /etc/init.d/webmin :
+
+	- move /var/webmin directory to /ro/var/webmin
+	- symlink in the original /var to /rw//var/webmin
+	- create a symlink in /etc/rcS.d/ to start automagically as last one at boot time
+
+	#remountrw
+	#mv /var/webmin /ro/var/webmin
+	#ln -s /rw//var/webmin /var/webmin
+	#ln -s /etc/init.d/webmin /etc/rcS.d/S56webmin
+	#fastreboot
+
+4 Support
+======================
+
+Wiki Documentation - http://wiki.voyage.hk
+
+4.1 Mailing Lists
+======================
+A mailing list is setup for discussing supporting and development issues for 
+Voyage Linux:
+
+To subscribe, send an empty message to :
+	voyage-linux-subscribe@list.voyage.hk 
+	
+To unsubscribe, send an empty message to :
+	voyage-linux-unsubscribe@list.voyage.hk 
+	
+To post a message, send mail to :
+	voyage-linux@list.voyage.hk 
+	
+The list archives can be viewed and searched at :
+	http://list.voyage.hk/pipermail/voyage-linux/
+
+4.2 Development
+======================
+Voyage Linux is completely buildable through a set of scripts.  You can access 
+the CVS Web Repository at: 
+	http://cvs.voyage.hk/cgi-bin/viewcvs.cgi/
+	
+voyage-bootstrap module contains all necessary scripts to build Voyage Linux 
+from scratch.  The minimum requirement is that you have to run it on a Debian 
+sarge system with debootstrap package installed or a Debian woody that have the 
+backported (from www.backports.org) debootstrap package.
+
+There is no plan to provide public access for the CVS repository.  Only 
+Web access is available in this moment. However, to encourage development 
+nightly tarball is accessible to everyone at:
+	http://www.voyage.hk/download/nightly/
+	
+If you have made chanages to Voyage Linux and the supporting scripts, you 
+are encouraged to send all patches to voyage-linux@list.voyage.hk
+
+4.3 Customization
+======================
+Voyage now includes customization script to allow customizing voyage distro. 
+It allows system integrator or interest parties to customize voyage linux 
+to roll out their own version based on voyage.
+
+voyage-custom.sh syntax:
+
+	voyage-custom.sh <voyage distro dir> <customize profile dir>
+
+For example,
+
+	voyage-custom.sh <voyage_path> <somewhere>/myproj
+
+This will generate the customization distro called voyage-myproj in the 
+current directory .
+
+To build the sample "voyage-mesh" distro using customization script:
+
+	<voyage path>/usr/share/voyage-custom/voyage-custom.sh \
+		<voyage_path> \
+		<voyage_path>/usr/share/voyage-custom/src/mesh
+
+Please note that the script is very experimental and is not tested heavily.  
+It is also assumed that you run the script under Debian.  So, it may not work 
+under other Linux distribution.  Use it at your own risk!
+
+For more on how to make a customization disto, please read:
+	<voyage path>/usr/share/voyage-custom/src/README
+or
+	http://wiki.voyage.hk/dokuwiki/doku.php?id=customization
+	
+The customization scripts can also be found in CVS and nightly tarball 
+as well.
+
+4.4 Known Issues
+======================
+- There is a problem reported when installing voyage over usb device using ub 
+kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1 of 
+the target platform.  
+- If you install additional pacakges that add files to /var/run, they will 
+disappear after reboot and those files in /var/run reside in /rw/var/run.
+
+4.5 TODOs
+======================
+1. scripts for setting up network configuration
+2. further reducing in size
+3. light-weighted web server (thttpd + php) for system configuration
+
+======================
+Last Updated: 20061102
+======================
+
