@@ -17,8 +17,8 @@ mkdir -p "${LIVE_DIR}"/isolinux
 # Creating rootfs
 mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs
 
-
 # Copying kernel
+rm "${DIST_DIR}"/boot/initrd.img-*.bak
 cp "${DIST_DIR}"/boot/vmlinuz-* "${LIVE_DIR}"/vmlinuz
 cp "${DIST_DIR}"/boot/initrd.img-* "${LIVE_DIR}"/initrd.gz
 

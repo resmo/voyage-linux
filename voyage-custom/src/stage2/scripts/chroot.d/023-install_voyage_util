@@ -6,8 +6,8 @@ update-rc.d -f ntpdate remove
 update-rc.d -f rmnologin remove 
 
 #update-rc.d voyage-util defaults 99
-export DEBIAN_FRONTEND=noninteractive
-apt-get -q=2 -y install --force-yes voyage-util
+export DEBIAN_FRONTEND="noninteractive"
+apt-get --yes --force-yes install voyage-util
 
 cat /etc/motd.voyage >> /etc/motd.tail
 

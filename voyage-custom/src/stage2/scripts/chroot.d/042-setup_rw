@@ -12,7 +12,8 @@ echo "Done"
 # Remapping files to /rw
 #################################
 echo -n "Remapping files to /rw ... "
-FILES="/etc/adjtime /etc/hostname /etc/issue /etc/issue.net /etc/resolv.conf /etc/mtab~"
+#FILES="/etc/adjtime /etc/hostname /etc/issue /etc/issue.net /etc/resolv.conf /etc/mtab~"
+FILES="/etc/adjtime /etc/issue /etc/issue.net /etc/resolv.conf /etc/mtab~"
 FILES=$FILES" /var/lock /var/log /var/mail /var/run /var/spool /var/tmp /var/lib/dhcp"
 
 for FILE in $FILES
@@ -26,9 +27,9 @@ echo "Done"
 #################################
 # Modifying /etc/network/ifstate
 #################################
-echo -n "Modifying /etc/network/run/ifstate ... "
+#echo -n "Modifying /etc/network/run/ifstate ... "
 
-ln -sf /rw/etc/network/run/ifstate /etc/network/run/ifstate
-mkdir -p /ro/etc/network/run
-touch /ro/etc/network/run/ifstate
-echo "Done"
+#ln -sf /rw/etc/network/run/ifstate /etc/network/run/ifstate
+#mkdir -p /ro/etc/network/run
+#touch /ro/etc/network/run/ifstate
+#echo "Done"

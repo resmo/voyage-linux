@@ -108,8 +108,13 @@ run_apt_conf()
 	
 	cd "$BUILD_DIR"
 	
-	rm "$TARGET_DIR"/var/lib/apt/lists/*_Packages
-	rm "$TARGET_DIR"/var/lib/apt/lists/*_Release
+	if [ ! -f "$TARGET_DIR"/etc/resolv.conf ] ; then
+		echo "resolv.conf not found.  Copy from /etc/resolv.conf"
+		cp /etc/resolv.conf "$TARGET_DIR"/etc/
+	fi
+	
+	rm -f "$TARGET_DIR"/var/lib/apt/lists/*_Packages
+	rm -f "$TARGET_DIR"/var/lib/apt/lists/*_Release
 	Chroot "apt-get update"
 	#Chroot "$MOUNT_PROC_SH apt-get -y -q=1 upgrade"
 	Chroot_MountProc "apt-get -y -q=1 upgrade"

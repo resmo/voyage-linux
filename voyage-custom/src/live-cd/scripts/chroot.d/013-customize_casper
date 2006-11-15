@@ -30,6 +30,7 @@ fi
 
 #patch initramfs nfs scripts
 sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/nfs
+sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/casper
 
 dpkg-reconfigure `dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1 `
 
