@@ -1,5 +1,5 @@
 0.3pre1 (17 Nov 2006)
-- etch-based Voyage Linux
+- based on Debian 4.0 (etch) 
 - kernel-image-2.6.17-486-voyage_3.0-1
 	- [general] Ubuntu linux source 2.6.17-10.33
 	- [general] kernel ticks count at 1000HZ 
@@ -11,10 +11,10 @@
 	- [wireless] adm8211, bcm43xx, zd1211, acx, prism54_softmac, rtl818x, rtl8187
 	- [wireless] ipw3945, rt2400, rt2500, rt61, rt73
 	- [netdev] NE2000 ISA support
-	- [netdev]pcnet PCMCIA support
-	- [netdev]ISDN support
+	- [netdev] pcnet PCMCIA support
+	- [netdev] ISDN support
 	- [fs] squashfs, unionfs and nfs v4	
-- madwifi modules (0.9.2_avnr1784)
+- madwifi modules (0.9.2_svnr1784)
 - booted with initrd and grub 
 - newly written installation/updating scripts (by William M. Brack)
 - voyage.update now in ./usr/local/sbin
