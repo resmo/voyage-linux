@@ -8,3 +8,7 @@
 #kernel-image-2.6.15-486-voyage
 #pcmcia-cs
 
+ed
+nano
+vim-tiny
+vim-common

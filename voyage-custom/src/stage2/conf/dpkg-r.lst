@@ -64,7 +64,7 @@ dmidecode
 laptop-detect
 dselect
 gcc-4.0-base
-libncursesw5
+#libncursesw5
 telnet
 libnewt0.51   
 libsigc++-2.0-0c2a

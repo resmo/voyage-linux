@@ -18,9 +18,12 @@ FILES=$FILES" /var/lock /var/log /var/mail /var/run /var/spool /var/tmp /var/lib
 
 for FILE in $FILES
 do
-	if [ ! -f $DEST/$FILE ] ; then touch $DEST/$FILE ; fi
-	mv $FILE /ro/`dirname $FILE`
-	ln -sf /rw$FILE $FILE
+	echo "Making link for $FILE"
+
+	if [ ! -f $FILE ] ; then touch $FILE ; fi
+	if [ ! -d /ro`dirname $FILE` ] ; then mkdir -p /ro`dirname $FILE`; fi	
+	mv "$FILE" "/ro`dirname $FILE`"
+	ln -sf "/rw$FILE" "$FILE"
 done
 echo "Done"	
 
