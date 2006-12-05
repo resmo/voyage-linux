@@ -12,13 +12,12 @@ at
 libbz2-1.0
 bsdmainutils
 groff-base
-dhcp3-client
 ed
 fdutils
 info
 libident
 libpcre3
-logrotate
+#logrotate
 libtext-charwidth-perl
 libtext-iconv-perl
 libtext-wrapi18n-perl
@@ -59,18 +58,27 @@ libconsole
 libdb4.2
 
 # new remove for etch
+dhcp3-client
 dhcp3-common
 dmidecode
 laptop-detect
 dselect
 gcc-4.0-base
-#libncursesw5
 telnet
-libnewt0.51   
+libnewt0.51
+libnewt0.52
 libsigc++-2.0-0c2a
 libusb-0.1-4
 hostname
 setserial
+
+libldap-2.3-0
+liblzo2-2
+libdb4.4
+gettext-base
+libncursesw5
+modutils
+netcat
 
 # new remove for etch : may have problem
 #hostname

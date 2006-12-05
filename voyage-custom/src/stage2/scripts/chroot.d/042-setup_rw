@@ -14,7 +14,7 @@ echo "Done"
 echo -n "Remapping files to /rw ... "
 #FILES="/etc/adjtime /etc/hostname /etc/issue /etc/issue.net /etc/resolv.conf /etc/mtab~"
 FILES="/etc/adjtime /etc/issue /etc/issue.net /etc/resolv.conf /etc/mtab~"
-FILES=$FILES" /var/lock /var/log /var/mail /var/run /var/spool /var/tmp /var/lib/dhcp"
+FILES=$FILES" /var/lock /var/log /var/mail /var/run /var/spool /var/tmp /var/lib/dhcp /var/lib/logrotate"
 
 for FILE in $FILES
 do

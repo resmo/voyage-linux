@@ -19,3 +19,4 @@ find /usr/share/locale -path '*/en' -mindepth 1 -maxdepth 2 -prune -o -print 	-e
 rm -f /var/lib/dpkg/info/*.md5sums
 #rm -f /var/lib/dpkg/info/*.postinst
 
+rm -f /boot/*.bmp

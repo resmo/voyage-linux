@@ -10,7 +10,7 @@ EOF
 touch /etc/dnsmasq.pxe.conf
 
 ############################################################
-SERVER_IP=192.168.1.138 # !!!!!!!!!!!! CHANGE THIS!
+SERVER_IP=192.168.1.200 # !!!!!!!!!!!! CHANGE THIS!
 NET_RANGE=192.168.1.10,192.168.1.20 # !!!!!!!!!!!! CHANGE THIS!
 DEFAULT_GW=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
 DNS_SERVER=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
@@ -74,3 +74,7 @@ sed -i -e "s/^#T0:/T0:/" /etc/inittab
 ############################################################
 #  disable atftpd
 update-rc.d -f atftpd remove
+
+############################################################
+#  disable atftpd
+update-rc.d -f nfs-user-server remove

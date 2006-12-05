@@ -74,10 +74,16 @@ Chroot ()
 
 Chroot_MountProc ()
 {
-	# Execute commands in chroot
-	chroot "${TARGET_DIR}" /usr/bin/env -i HOME="/root" DEBIAN_FRONTEND="noninteractive" \
-		TERM="${TERM}" PATH="/usr/sbin:/usr/local/sbin:/usr/bin:/sbin:/bin" \
-		ftp_proxy="${LIVE_FTPPROXY}" http_proxy="${LIVE_HTTPPROXY}" ${MOUNT_PROC_SH} ${1}
+	if [ -f ${TARGET_DIR}/${MOUNT_PROC_SH} ] ;
+	then
+		# Execute commands in chroot
+		chroot "${TARGET_DIR}" /usr/bin/env -i HOME="/root" DEBIAN_FRONTEND="noninteractive" \
+			TERM="${TERM}" PATH="/usr/sbin:/usr/local/sbin:/usr/bin:/sbin:/bin" \
+			ftp_proxy="${LIVE_FTPPROXY}" http_proxy="${LIVE_HTTPPROXY}" ${MOUNT_PROC_SH} ${1}
+	else
+		echo "No ${MOUNT_PROC_SH}, call Chroot() instead"
+		Chroot "${1}"
+	fi
 }
 
 run_chroot()

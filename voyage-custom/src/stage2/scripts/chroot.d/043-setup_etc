@@ -34,18 +34,18 @@ echo "Done"
 #################################
 # Modifying /etc/dnsmasq.conf
 #################################
-echo -n "Modifying /etc/dnsmasq.conf ... "
-DNSMASQ_CONF=/etc/dnsmasq.conf 
-DNSMASQ_MORE_CONF=/etc/dnsmasq.more.conf
-if [ -f $DNSMASQ_CONF ] ; then
-	echo "conf-file=$DNSMASQ_MORE_CONF" >> $DNSMASQ_CONF
-fi	
-echo "dhcp-leasefile=/var/tmp/dnsmasq.leases" >> $DNSMASQ_MORE_CONF
-echo "dhcp-range=wlan0,10.1.10.10,10.1.10.250,24h" >> $DNSMASQ_MORE_CONF
-echo "dhcp-range=eth1,10.1.20.10,10.1.20.250,24h" >> $DNSMASQ_MORE_CONF
-echo "dhcp-range=eth2,10.1.30.10,10.1.30.250,24h" >> $DNSMASQ_MORE_CONF
-echo "dhcp-range=eth3,10.1.40.10,10.1.40.250,24h" >> $DNSMASQ_MORE_CONF
-echo "Done"
+#echo -n "Modifying /etc/dnsmasq.conf ... "
+#DNSMASQ_CONF=/etc/dnsmasq.conf 
+#DNSMASQ_MORE_CONF=/etc/dnsmasq.more.conf
+#if [ -f $DNSMASQ_CONF ] ; then
+#	echo "conf-file=$DNSMASQ_MORE_CONF" >> $DNSMASQ_CONF
+#fi	
+#echo "dhcp-leasefile=/var/tmp/dnsmasq.leases" >> $DNSMASQ_MORE_CONF
+#echo "dhcp-range=wlan0,10.1.10.10,10.1.10.250,24h" >> $DNSMASQ_MORE_CONF
+#echo "dhcp-range=eth1,10.1.20.10,10.1.20.250,24h" >> $DNSMASQ_MORE_CONF
+#echo "dhcp-range=eth2,10.1.30.10,10.1.30.250,24h" >> $DNSMASQ_MORE_CONF
+#echo "dhcp-range=eth3,10.1.40.10,10.1.40.250,24h" >> $DNSMASQ_MORE_CONF
+#echo "Done"
 	
 #################################
 # Adding configuration for watchdog

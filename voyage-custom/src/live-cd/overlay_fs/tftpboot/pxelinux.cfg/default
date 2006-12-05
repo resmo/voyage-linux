@@ -4,7 +4,5 @@ console 0
 
 label linux
 KERNEL linux
-#APPEND initrd=initrd.img console=ttyS0,9600n8 root=/dev/ram0 ramdisk_size=25000
-APPEND initrd=initrd.img console=tty0 console=ttyS0,9600n8 boot=casper netboot root=/dev/nfs nfsroot=192.168.1.138:/media ip=dhcp
-#APPEND initrd=rootfs.gz console=ttyS0,9600n8 root=/dev/ram0 ramdisk_size=25000
+APPEND initrd=initrd.img console=tty0 console=ttyS0,9600n8 boot=casper netboot root=/dev/nfs nfsroot=192.168.1.200:/media ip=dhcp
 
