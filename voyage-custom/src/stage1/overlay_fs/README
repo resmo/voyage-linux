@@ -69,6 +69,12 @@ It will take a short whlie (~1 min) to copy all files from software package to
 disk device.  The above configuration will be saved to .voyage.config.  If you 
 run voyage.update next time, it will use same configuration as default.
 
+Once Voyage Linux is booted up, you will be prompted for login.  The default
+root password is "voyage", please change the root password after first login.
+
+	# remountrw
+	# passwd
+
 3 Configuration
 ======================
 
