@@ -29,15 +29,23 @@ case $1 in
 	'start')
 		SERIAL=$2
 		if [ ! -z $SERIAL ] ; then
-			echo -n "Setting serial $SERIAL to $INITTAB ... "
-			if [ ! -f $INITTAB.pxe ] ; then cp $INITTAB $INITTAB.pxe ; fi
-			sed -i -e "s/9600/${SERIAL}/" $INITTAB 
-			echo "Done."
-			
-			echo -n "Setting serial $SERIAL to $PXEDEFAULT ... "
-			if [ ! -f $PXEDEFAULT.pxe ] ; then cp $PXEDEFAULT $PXEDEFAULT.pxe ; fi
-			sed -i -e "s/9600/${SERIAL}/" $PXEDEFAULT 
-			echo "Done."
+		
+			if [ "$SERIAL" == "0" ] ; then
+				echo -n "Setting console display... "
+				if [ ! -f $PXEDEFAULT.pxe ] ; then cp $PXEDEFAULT $PXEDEFAULT.pxe ; fi
+				sed -i -e "s/console 0/console 1/" $PXEDEFAULT 
+				echo "Done."
+			else
+				echo -n "Setting serial $SERIAL to $INITTAB ... "
+				if [ ! -f $INITTAB.pxe ] ; then cp $INITTAB $INITTAB.pxe ; fi
+				sed -i -e "s/9600/${SERIAL}/" $INITTAB 
+				echo "Done."
+				
+				echo -n "Setting serial $SERIAL to $PXEDEFAULT ... "
+				if [ ! -f $PXEDEFAULT.pxe ] ; then cp $PXEDEFAULT $PXEDEFAULT.pxe ; fi
+				sed -i -e "s/9600/${SERIAL}/" $PXEDEFAULT 
+				echo "Done."
+			fi
 		else
 			echo "No serial setting is supplied, using 9600"
 		fi
@@ -47,20 +55,27 @@ case $1 in
 		ifconfig eth0 192.168.1.200 netmask 255.255.255.0 up 
 		echo "Done."
 		
-		echo -n "Un-mounting /media ... "
-		mount -o loop /live_media/casper/filesystem.squashfs /media
-		#mount -n -t unionfs -o dirs=/cow=rw:/media=ro unionfs /media
-		echo "Done."
+		#echo -n "mounting /media ... "
+		#mount -o loop /live_media/casper/filesystem.squashfs /media
+		
+		#if [ ! -d /filesystem.squashfs ] ; then mkdir /filesystem.squashfs ; fi
+		#mount -o loop /live_media/casper/filesystem.squashfs /filesystem.squashfs
+		#mount -n -t unionfs -o dirs=/cow=rw:/filesystem.squashfs=ro unionfs /media
+		#echo "Done."
 		
 		/etc/init.d/nfs-user-server restart
+		#/etc/init.d/nfs-kernel-server restart
 		/etc/init.d/atftpd restart
 		;;
 	'stop')
 		/etc/init.d/nfs-user-server stop
+		#/etc/init.d/nfs-kernel-server stop
 		/etc/init.d/atftpd stop
-		echo -n "Un-mounting /media ... "
-		umount /media
-		echo "Done."
+		
+		#echo -n "Un-mounting /media ... "
+		#umount /media
+		#umount /filesystem.squashfs
+		#echo "Done."
 		
 		echo -n "Restoring eth0 ... "
 		ifconfig eth0 down	
@@ -68,11 +83,15 @@ case $1 in
 		echo "Done."
 		
 		echo -n "Restoring $INITTAB ... "
-		mv $INITTAB.pxe $INITTAB
+		if [ -f $INITTAB.pxe ] ; then 
+			mv $INITTAB.pxe $INITTAB
+		fi
 		echo "Done."
 		
 		echo -n "Restoring $PXEDEFAULT ... "
-		mv $PXEDEFAULT.pxe $PXEDEFAULT
+		if [ -f $PXEDEFAULT.pxe ] ; then 
+			mv $PXEDEFAULT.pxe $PXEDEFAULT
+		fi
 		echo "Done."
 		;;
 	*)

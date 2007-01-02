@@ -4,7 +4,7 @@
    \/ \___/ \  / \___,\_  |\___|     remountro - mount disk as read-only
            _/_/        _'_|          remove.docs - remove all docs and manpages
      { V o y a g e } - L i n u x
-      < http://www.voyage.hk >      Version: 0.3
+      < http://linux.voyage.hk >   Version: 0.3
 
 1. Introduction
 ======================
@@ -82,6 +82,7 @@ root password is "voyage", please change the root password after first login.
 ======================
 edit /etc/network/interface and uncomment the interface configuration section:
 
+# for hostap driver
 auto wlan0
 iface wlan0 inet static
         address 10.1.10.1
@@ -90,7 +91,25 @@ iface wlan0 inet static
         up iwconfig wlan0 essid voyage mode Master
         up nat.sh wlan0 eth0 "10.1.10.0/24"
         
-To enable wlan0 device (probably for Prism 2.5/hostap driver)
+To enable wlan0 device (for Prism 2.5/hostap driver)
+
+# for atheros madwifi-ng driver
+auto ath0
+iface ath0 inet static
+        address 10.1.20.1
+        netmask 255.255.255.0
+        broadcast 10.1.20.255
+        madwifi-base wifi0
+        wireless-mode Master
+        up iwpriv ath0 mode 3
+        up iwconfig ath0 mode master
+        up iwconfig ath0 essid voyage
+        up iwconfig ath0 txpower auto
+        up iwconfig ath0 enc off
+        up iwconfig ath0 rate auto
+        up nat.sh ath0 eth0 "10.1.20.0/24"
+
+To enable ath0 device (for Atheros/madwifi-ng driver)
 
 A friendly script, nat.sh, is located in /usr/local/sbin/, generates all 
 necessary iptables rules for NAT'ing interface. nat.sh is now integrated to 

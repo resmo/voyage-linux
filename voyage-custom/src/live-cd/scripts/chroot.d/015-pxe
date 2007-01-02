@@ -16,7 +16,7 @@ DEFAULT_GW=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
 DNS_SERVER=192.168.1.1 # !!!!!!!!!!!! CHANGE THIS!
 
 cat <<EOF>>/etc/dnsmasq.pxe.conf
-dhcp-range=$NET_RANGE,10m
+dhcp-range=$NET_RANGE,60m
 dhcp-boot=pxelinux.0,$SERVER_IP
 dhcp-option=3,$DEFAULT_GW
 dhcp-option=6,$DNS_SERVER
@@ -56,7 +56,7 @@ ln -s /initrd.img /tftpboot/initrd.img
 ############################################################
 #  config nfs export
 cat << EOF >> /etc/exports
-/media  192.168.1.0/255.255.255.0(ro,no_root_squash,async)
+/live_media	192.168.1.0/255.255.255.0(ro,fsid=42,insecure,no_root_squash,async)
 EOF
 
 ############################################################
@@ -76,5 +76,9 @@ sed -i -e "s/^#T0:/T0:/" /etc/inittab
 update-rc.d -f atftpd remove
 
 ############################################################
-#  disable atftpd
+#  disable nfs-user-server
 update-rc.d -f nfs-user-server remove
+
+############################################################
+#  disable nfs-kernel-server
+update-rc.d -f nfs-kernel-server remove

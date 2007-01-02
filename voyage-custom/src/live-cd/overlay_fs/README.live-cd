@@ -1,0 +1,41 @@
+README.live-cd
+=============================================================================
+                     __  __
+                     \ \/ /___ __  __ ___  ___  ___
+                      \  // _ \\ \/ /,-_ |/ _ |/ -_)
+                       \/ \___/ \  / \___,\_  |\___|
+                               _/_/        _'_|
+                         { V o y a g e } - L i n u x
+                          < http://linux.voyage.hk >
+==============================================================================
+
+This README.live-cd provide information on how to install Voyage Linux from the 
+Live CD:
+
+Afte booting the Live CD, login as root (password: voyage) 
+
+1. Create distribution directory for installation
+	
+	# mkdir /tmp/root
+	# mount -o loop /live_media/casper/filesystem.squashfs  /tmp/root
+	# cd /tmp/root
+	
+2. Make a mount point for installation disk
+
+	# mkdir /tmp/cf
+
+3. Format target disk device
+
+	# /usr/local/sbin/format-cf.sh /dev/hda    
+	
+This will create /dev/hda1 ext2 partition on /dev/hda disk device. 
+** Note that this operation is very dangerous since it will erase your disk! 
+   Make sure what you are doing and must do it right!
+   
+4. Start voyage.update installation script
+	
+	# /usr/local/sbin/voyage.update
+
+Following the instruction to select /tmp/root as distribution directory, and 
+/tmp/cf as mount point.  After the installation complete, simple reboot the
+board and voyage will be started!

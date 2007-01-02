@@ -79,6 +79,7 @@ gettext-base
 libncursesw5
 modutils
 netcat
+cyrus-sasl2-doc
 
 # new remove for etch : may have problem
 #hostname

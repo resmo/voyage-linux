@@ -1,8 +1,8 @@
 #deb ftp://ftp.hk.debian.org/debian/ etch main
 #deb http://security.debian.org/ sarge/updates main
 
-#deb http://debian.cn99.com/debian/ testing main
-deb http://mirrors.geekbone.org/debian testing main
+deb http://debian.cn99.com/debian/ testing main
+#deb http://mirrors.geekbone.org/debian testing main
 #deb http://ftp.hk.debian.org/debian testing main
 
 deb http://www.voyage.hk/dists/experimental ./
