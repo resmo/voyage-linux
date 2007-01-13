@@ -38,4 +38,12 @@ This will create /dev/hda1 ext2 partition on /dev/hda disk device.
 
 Following the instruction to select /tmp/root as distribution directory, and 
 /tmp/cf as mount point.  After the installation complete, simple reboot the
-board and voyage will be started!
+board and Voyage will be started!
+
+There are some additional packages installed for PXE and NFS server.  After
+starting Voyage, you can safely remove them by:
+
+	# remountrw
+	# apt-get remove casper syslinux atftpd nfs-user-server \
+					 bzip2 unionfs-tools sg3-utils minicom
+
