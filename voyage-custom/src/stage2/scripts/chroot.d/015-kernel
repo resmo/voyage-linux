@@ -23,6 +23,13 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 	apt-get --yes --force-yes install $MODULE_IMAGE			
 	dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
 	depmod -a $KERNEL_VER -F /boot/System.map-$KERNEL_VER
+
+	for LINK in `find boot/ -name "vmlinuz*"`; do 
+		if [ ! -f `basename $LINK` ] ; then ln -s $LINK `basename $LINK` ; fi
+	done
+	for LINK in `find boot/ -name "initrd*"`; do 
+		if [ ! -f `basename $LINK` ] ; then ln -s $LINK `basename $LINK` ; fi
+	done
 	
 	## Debian Live Code
 	#LINUX_FLAVOUR=486

@@ -34,6 +34,10 @@ EOF
 
 # Creating image
 mkisofs -o $RUN_DIR/`basename ${DIST_DIR}`.iso -r -J -l \
+	-A "Voyage Linux"  \
+	-p "Voyage Linux - http://linux.voyage.hk " \
+	-publisher "Voyage Linux - http://linux.voyage.hk " \
+	-V "Voyage Linux `date +%Y%m%d`" \
 	-b isolinux/isolinux.bin -c isolinux/boot.cat \
 	-no-emul-boot -boot-load-size 4 -boot-info-table "${LIVE_DIR}"
 	

@@ -56,6 +56,7 @@ run_postinstall()
 	    chmod +x "$CMD"
 	    cd "$TARGET_DIR/../"
 	    export TARGET_DIR
+	    export CUSTOM_DIR
 	    export RUN_DIR
 	    $CUSTOM_DIR/scripts/post.d/`basename $CMD`
 	done

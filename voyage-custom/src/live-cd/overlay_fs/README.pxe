@@ -83,6 +83,9 @@ starting Voyage, you can safely remove them by:
 	# apt-get remove casper syslinux atftpd nfs-user-server \
                      bzip2 unionfs-tools sg3-utils minicom
 
+After all, remove the last line in /etc/dnsmasq.more.conf:
+	conf-file=/etc/dnsmasq.pxe.conf
+
 Important Note:
 The current NFS server and client code is unstable for long time use.  Hence,
 it is not recommended to use PXE+NFS environment for real production.  It is

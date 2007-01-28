@@ -30,11 +30,16 @@ for x in $(cat /proc/cmdline); do
  		console=*)
 			export DEFCONSOLE=$(sed -e 's%.*console=%console=%' /proc/cmdline)
 			;;
+		autoinstall=*)
+			AUTOINSTALL=$(sed -e 's%.*autoinstall=%%' /proc/cmdline | \
+						  cut -d " " -f 1 )
+			;;
   	esac	
 done
     		
 echo "DEFCONSOLE=${DEFCONSOLE}"
 echo "CASPERGETTY=${CASPERGETTY}"
+echo "AUTOINSTALL=${AUTOINSTALL}"
 
 if [ ! -z "${DEFCONSOLE}" ]; then
    if echo "${DEFCONSOLE}" | grep -qs ttyS; then
@@ -51,6 +56,11 @@ if [ ! -z "${DEFCONSOLE}" ]; then
 		
 		sed -i -e "${cmd1}" /root/etc/inittab 
     fi
+fi
+
+if [ ! -z "${AUTOINSTALL}" ] ; then
+	echo "V0:23:once:/usr/local/sbin/autoinstall.sh ${AUTOINSTALL}" >> /root/etc/inittab
+	sed -i -e "s/^T0/#T0/" /root/etc/inittab 
 fi
 
 log_end_msg

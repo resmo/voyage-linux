@@ -45,5 +45,8 @@ starting Voyage, you can safely remove them by:
 
 	# remountrw
 	# apt-get remove casper syslinux atftpd nfs-user-server \
-					 bzip2 unionfs-tools sg3-utils minicom
+                     bzip2 unionfs-tools sg3-utils minicom
+
+After all, remove the last line in /etc/dnsmasq.more.conf:
+	conf-file=/etc/dnsmasq.pxe.conf
 
