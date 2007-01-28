@@ -10,7 +10,7 @@ README.pxe
 ==============================================================================
 
 This README.pxe provide information on how to start a PXE+NFS server for 
-network booting environment using Voyage Live-CD. This is useful to install 
+network booting environment using Voyage Live CD. This is useful to install 
 voyage from Live CD over the network.
 
 To start PXE environment from live-cd, after login root (password: voyage) ,
@@ -45,10 +45,13 @@ is loaded, you have several options:
 The boot prompt will wait for 5 seconds.  After the timeout, option 1 (login
 shell) will be started automatically. 
 
-*** Please note that option 2-4 for automated install is incompleted.
+*** Please note that option 2-4 for automated install will erase your disk on
+    /dev/hda and install a fresh copy of Voyage Linux.  Make sure you know what 
+    it is going to do before choosing option 2-4.
 
-Starting a login shell, you can login as root.  To install voyage under netboot
-environment, you can follow the below procedures:
+If you want to go through all the steps for manual install, select option 1.
+After boot with a login shell, you can login as root.  To install voyage under 
+netboot environment, you can follow the below procedures:
 
 1. Create distribution directory for installation
 
