@@ -50,3 +50,34 @@ starting Voyage, you can safely remove them by:
 After all, remove the last line in /etc/dnsmasq.more.conf:
 	conf-file=/etc/dnsmasq.pxe.conf
 
+==============================================================================
+
+Installing to a Thumb-drive or Disk-constraint system (net4826)
+
+Follow the instruction to install Voyage Linux to a ext2 partition with root 
+squashfs filesystem like the Live CD format.  This is done by extlinux.
+
+1. As usual, create mount point for the installation disk and format it 
+
+    # mkdir /tmp/cf
+    # /usr/local/sbin/format-cf.sh /dev/hda 
+
+This will create /dev/hda1 ext2 partition on /dev/hda disk device. 
+** Note that this operation is very dangerous since it will erase your disk! 
+   Make sure what you are doing and must do it right!
+   
+2. Mount the disk and copy CD content to disk device
+    
+    # mount /dev/hda1 /tmp/cf
+    # rsync -aHx /live_media/* /tmp/cf
+	
+3. Create extlinux.conf and install extlinux 
+    
+    # cp /tmp/cf/isolinux/isolinux.cfg /tmp/cf/isolinux/extlinux.conf
+    # extlinux -i /tmp/cf/isolinux 
+	
+4. Update master boot record for disk device
+    
+    # cat /usr/lib/syslinux/mbr.bin > /dev/hda
+	
+After all, reboot!
