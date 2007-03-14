@@ -27,9 +27,12 @@ cp /usr/lib/syslinux/isolinux.bin "${LIVE_DIR}"/isolinux
 
 # Configure syslinux
 cat > "${LIVE_DIR}"/isolinux/isolinux.cfg << EOF
-DEFAULT /vmlinuz
-APPEND append initrd=/initrd.gz boot=casper
-TIMEOUT 500
+DEFAULT linux
+label linux
+	KERNEL /vmlinuz
+	APPEND initrd=/initrd.gz boot=casper
+timeout 50
+prompt 1
 EOF
 
 # Creating image

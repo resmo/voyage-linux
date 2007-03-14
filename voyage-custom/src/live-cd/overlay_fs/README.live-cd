@@ -10,7 +10,11 @@ README.live-cd
 ==============================================================================
 
 This README.live-cd provide information on how to install Voyage Linux from the 
-Live CD:
+Live CD.
+
+==============================================================================
+Installing Voyage Linux to a hard disk from Live CD 
+==============================================================================
 
 Afte booting the Live CD, login as root (password: voyage) 
 
@@ -50,12 +54,13 @@ starting Voyage, you can safely remove them by:
 After all, remove the last line in /etc/dnsmasq.more.conf:
 	conf-file=/etc/dnsmasq.pxe.conf
 
+
+==============================================================================
+Installing to a Thumb-drive or Disk-constraint system (net4826)
 ==============================================================================
 
-Installing to a Thumb-drive or Disk-constraint system (net4826)
-
 Follow the instruction to install Voyage Linux to a ext2 partition with root 
-squashfs filesystem like the Live CD format.  This is done by extlinux.
+squashfs filesystem like the Live CD format.  This is done by extlinux.  
 
 1. As usual, create mount point for the installation disk and format it 
 
@@ -80,4 +85,23 @@ This will create /dev/hda1 ext2 partition on /dev/hda disk device.
     
     # cat /usr/lib/syslinux/mbr.bin > /dev/hda
 	
-After all, reboot!
+After all, reboot!  
+
+There are some notes when using this installation method:
+
+a. You will have a read-only squashfs root filesystem on a CF that consumes 
+   just 36MB and you cannot modify the rootfs.
+b. By default, all changes made to the system reside on tmpfs.  i.e. Changes 
+   are lost after reboot.  You can preserve the changes by creating another 
+   partition and labeled it as "casper-rw", or create a loopback file called 
+   "casper-rw" at / 
+   (see https://help.ubuntu.com/community/LiveCDPersistence: this is not tested 
+   and need more exploration)
+c. You will still be able to boot Live CD again after the installation.  But 
+   once the CD is booted, the installed disk with be mounted as rootfs and you 
+   are unable to umount it.  To get around this, you need to specify the 
+   following command at boot prompt (assume CD-ROM device is /dev/hdc):
+   
+   		linux bootfrom=/dev/hdc
+   		
+   		

@@ -13,6 +13,10 @@ This README.pxe provide information on how to start a PXE+NFS server for
 network booting environment using Voyage Live CD. This is useful to install 
 voyage from Live CD over the network.
 
+==============================================================================
+Starting the Live CD as PXE server
+==============================================================================
+
 To start PXE environment from live-cd, after login root (password: voyage) ,
 type:
 
@@ -34,6 +38,10 @@ To shutdown PXE server environment,
 
 	# /etc/init.d/voyage-pxe stop
 
+==============================================================================
+Booting a PXE client and starting automated installation
+==============================================================================
+
 Start your WRAP/Soekric board or PC to boot from network. When the bootloader 
 is loaded, you have several options:
 
@@ -48,6 +56,10 @@ shell) will be started automatically.
 *** Please note that option 2-4 for automated install will erase your disk on
     /dev/hda and install a fresh copy of Voyage Linux.  Make sure you know what 
     it is going to do before choosing option 2-4.
+
+==============================================================================
+Installing Voyage Linux on a PXE booted environment
+==============================================================================
 
 If you want to go through all the steps for manual install, select option 1.
 After boot with a login shell, you can login as root.  To install voyage under 
