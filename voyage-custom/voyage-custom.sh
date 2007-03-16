@@ -360,7 +360,7 @@ fi
 ##################################################
 # copy /etc/resolv.conf
 #
-if [ -f "$TARGET_DIR"/ro/etc/resolv.conf ] ; then
+if [ ! -f "$TARGET_DIR"/ro/etc/resolv.conf ] ; then
 	cp /etc/resolv.conf "$TARGET_DIR"/ro/etc/resolv.conf
 fi 
 
