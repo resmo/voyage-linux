@@ -3,6 +3,7 @@
 - installation script update
 - remove /etc/network/options, replaced with /etc/sysctl.conf
 - Live CD: enable boot prompt and support auto-install
+- trafmon script and bash_completion (by Solomon Asare)
 
 0.3pre3 (28 Jan 2007)
 - kernel-image-2.6.17-486-voyage_3.0-3
