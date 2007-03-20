@@ -1,0 +1,3 @@
+#!/bin/sh
+
+sed -i -e "s/ath/Ath/" /etc/udev/rules.d/z45_persistent-net-generator.rules

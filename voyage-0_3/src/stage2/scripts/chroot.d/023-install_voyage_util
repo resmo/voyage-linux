@@ -1,0 +1,15 @@
+#!/bin/sh
+
+apt-get install voyage-util
+
+update-rc.d -f ntpdate remove 
+update-rc.d -f rmnologin remove 
+
+update-rc.d voyage-util defaults 99
+
+#export DEBIAN_FRONTEND=noninteractive
+#DEBIAN_FRONTEND=noninteractive apt-get -q=2 --yes --force-yes install voyage-util
+
+cat /etc/motd.voyage >> /etc/motd.tail
+
+touch voyage.1st

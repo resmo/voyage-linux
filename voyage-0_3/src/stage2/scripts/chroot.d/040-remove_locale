@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo -n "Removing Locale in /usr/share/locale ... "
+find /usr/share/locale -name "*.mo" -exec rm '{}' ';'
+echo "Done"

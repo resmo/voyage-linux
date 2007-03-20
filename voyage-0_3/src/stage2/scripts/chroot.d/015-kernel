@@ -1,0 +1,42 @@
+#!/bin/sh
+
+echo -n "Install kernel ... "
+
+#KERNEL_VER=2.6.15-486-voyage
+KERNEL_VER=2.6.17-486-voyage
+
+KERNEL_IMAGE=linux-image-"$KERNEL_VER"
+MODULE_IMAGE=madwifi-modules-"$KERNEL_VER"
+
+MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
+
+	if expr $KERNEL_VER : 2.6 >/dev/null ; then 
+		apt-get -q=2 -y install module-init-tools
+	fi
+	
+	#$MOUNT_PROC_SH apt-get --yes --force-yes install $KERNEL_IMAGE 
+	#$MOUNT_PROC_SH apt-get --yes --force-yes install $MODULE_IMAGE
+	
+	mount -t proc none /proc
+	
+	apt-get --yes --force-yes install $KERNEL_IMAGE 
+	apt-get --yes --force-yes install $MODULE_IMAGE			
+	dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
+	depmod -a $KERNEL_VER -F /boot/System.map-$KERNEL_VER
+
+	for LINK in `find boot/ -name "vmlinuz*"`; do 
+		if [ ! -f `basename $LINK` ] ; then ln -s $LINK `basename $LINK` ; fi
+	done
+	for LINK in `find boot/ -name "initrd*"`; do 
+		if [ ! -f `basename $LINK` ] ; then ln -s $LINK `basename $LINK` ; fi
+	done
+	
+	## Debian Live Code
+	#LINUX_FLAVOUR=486
+	#apt-get install --yes --force-yes linux-image-2.6-${LINUX_FLAVOUR}
+	#apt-get install --yes --force-yes casper squashfs-modules-2.6-${LINUX_FLAVOUR} unionfs-modules-2.6-${LINUX_FLAVOUR}
+	#dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-${LINUX_FLAVOUR}.postinst .postinst`
+
+	umount /proc
+	
+echo "Done"

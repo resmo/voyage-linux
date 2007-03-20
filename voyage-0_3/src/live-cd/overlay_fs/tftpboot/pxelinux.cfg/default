@@ -1,0 +1,25 @@
+say Voyage Linux PXE boot
+serial 0 9600
+console 0
+default 1
+
+label 1
+	KERNEL linux
+	APPEND initrd=initrd.img boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,9600n8
+
+label 2
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=wrap boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,38400n8 
+
+label 3
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=4511 boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,19200n8
+
+label 4
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=genericpc boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media 
+
+implicit 0
+display display.msg
+prompt 1
+timeout 50
