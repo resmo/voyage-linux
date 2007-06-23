@@ -1,3 +1,25 @@
+0.4.0 (23 Jun 2007)
+- new x.y.z versioning scheme
+- linux-image-2.6.20-486-voyage_4.0-1
+	- [general] ubuntu kernel source 2.6.20-16.28 (Linux 2.6.20.10)
+	- [iosched] set CFQ as default IO scheduler
+	- [bus] add PCI Express and NatSemi SCx200 HR Timer support
+	- [netfilter] add userland conntrack support
+	- [netsched] add red and tbf queueing
+	- [blkdev] add CS5535 support
+	- [netdev] add forcedeth and VIA Rhine NAPI support
+	- [wireless] remove ieee80211_softmac stack and ipw3945, add iwlwifi driver 
+	- [wireless] add devicescape wireless stack - bcm43xx now uses dscape stack
+	- [watchdog] add sc1200wdt, w83627hf_wdt, w83697hf_wdt and w83977f_wdt
+	- [i2c] add CS5535 gpio support and remove incompatible i2c_nscacb
+	- [usb] add Garmin USB serial support for GPS devices and QuickCam support
+	- [cypto] add Geode LX AES support
+- update madwifi-tools and madwifi modules (0.9.3)
+- remove devices from /dev as udev taking care of it
+- remove udev net-generator rules and script
+- fix PXE boot with console screen 
+- Live CD now shows splash logo at boot screen
+
 0.3.1 (14 Apr 2007)
 - sync with Debian 4.0 etch release
 	

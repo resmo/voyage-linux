@@ -35,7 +35,14 @@ sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/ca
 mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/casper-bottom/
 #mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/nfs-bottom/
 
-dpkg-reconfigure `dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1 `
+#dpkg-reconfigure `dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1 `
 
-rm -f /boot/*.bak
+# Re-creating initrd.img
+for KVERS in $(dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1  | sed -s "s/linux-image-//" ) 
+do
+	update-initramfs -k $KVERS -d
+	update-initramfs -k $KVERS -c 
+done
+
+rm -f /boot/*.bak /*.bak
 

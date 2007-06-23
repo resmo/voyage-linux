@@ -4,7 +4,7 @@
    \/ \___/ \  / \___,\_  |\___|     remountro - mount disk as read-only
            _/_/        _'_|          remove.docs - remove all docs and manpages
      { V o y a g e } - L i n u x
-      < http://linux.voyage.hk >   Version: 0.3
+      < http://linux.voyage.hk >   Version: 0.4
 
 1. Introduction
 ======================
@@ -193,7 +193,7 @@ or add a new files /etc/modprobe.d/madwifi with the followng line:
 3.5 Other wireless drivers
 ======================
 Many wireless drivers such as rt2400/2500, ipw2100/2200, etc. are now included 
-in 2.6.17-voyage kernel.  However, some of these drivers does not support Master 
+in 2.6.20-voyage kernel.  However, some of these drivers does not support Master 
 mode (AP mode).
 
 3.6 Bridging 
@@ -326,11 +326,23 @@ installing lm-sensors package by
 	
 and then run sensors-detect
 
-3.11 General Issues
+3.11 ALIX support
+======================
+When running Voyage Linux with ALIX, choose WRAP profile in voyage update,
+then add the following modules to /etc/modules for temperature sensors:
+	w83627hf
+	
+You can get the temperature reading from sensors program, or get the values from
+sysfs:
+	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp1_input
+	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp2_input
+	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp3_input
+
+3.12 General Issues
 ======================
 
   What are the serial port console settings:
-  	- In 0.3, voyage.update provides options for serial port settings
+	- In 0.3, voyage.update provides options for serial port settings
 	- In 0.2 or before, the serial port console must be set at ==> 9600 N 8 1
 
   Where are the files stored that need to be read-write:
@@ -470,6 +482,6 @@ You can find the README.live-cd and README.pxe in the root direcory of Live CD
 3. light-weighted web server (thttpd + php) for system configuration
 
 ======================
-Last Updated: 20070316
+Last Updated: 20070623
 ======================
 

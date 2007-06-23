@@ -117,7 +117,7 @@ run_apt_conf()
 	
 	if [ ! -f "$TARGET_DIR"/etc/resolv.conf ] ; then
 		echo "resolv.conf not found.  Copy from /etc/resolv.conf"
-		cp /etc/resolv.conf "$TARGET_DIR"/etc/
+		cp /etc/resolv.conf "$TARGET_DIR"/etc/resolv.conf
 	fi
 	
 	rm -f "$TARGET_DIR"/var/lib/apt/lists/*_Packages
@@ -322,7 +322,7 @@ run_overlay_fs()
 		chown root:root "$TARGET_DIR"/"$LINE2"
 	done
 	
-	find "$TARGET_DIR" -name "CVS" -exec rm -rf '{}' ';'
+	find "$TARGET_DIR" -name "CVS" -exec rm -rf '{}' '+'
 	
 	echo ""
 	echo "$COUNT file(s) copied"

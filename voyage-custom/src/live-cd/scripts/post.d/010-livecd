@@ -27,12 +27,21 @@ cp /usr/lib/syslinux/isolinux.bin "${LIVE_DIR}"/isolinux
 
 # Configure syslinux
 cat > "${LIVE_DIR}"/isolinux/isolinux.cfg << EOF
+DISPLAY splash.msg
 DEFAULT linux
 label linux
 	KERNEL /vmlinuz
 	APPEND initrd=/initrd.gz boot=casper
 timeout 50
 prompt 1
+EOF
+
+cp -rp "${DIST_DIR}"/isolinux/* "${LIVE_DIR}"/isolinux/
+
+cat > "${LIVE_DIR}"/isolinux/splash.msg << EOF
+voyage.lss
+Welcome to Voyage Linux 
+This Live CD will boot automatically in 5 seconds
 EOF
 
 # Creating image

@@ -5,7 +5,7 @@
 #deb http://mirrors.geekbone.org/debian etch main
 deb http://ftp.hk.debian.org/debian etch main
 
-#deb http://www.voyage.hk/dists/experimental ./
-deb http://www.voyage.hk/dists/0.3 ./
+deb http://www.voyage.hk/dists/experimental ./
+deb http://www.voyage.hk/dists/0.4 ./
 
 #deb http://live.debian.net/debian unstable main

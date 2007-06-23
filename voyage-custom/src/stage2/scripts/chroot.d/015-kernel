@@ -2,8 +2,9 @@
 
 echo -n "Install kernel ... "
 
-#KERNEL_VER=2.6.15-486-voyage
-KERNEL_VER=2.6.17-486-voyage
+#KERNEL_VER=2.6.15-486-voyage # 0.2
+#KERNEL_VER=2.6.17-486-voyage # 0.2
+KERNEL_VER=2.6.20-486-voyage
 
 KERNEL_IMAGE=linux-image-"$KERNEL_VER"
 MODULE_IMAGE=madwifi-modules-"$KERNEL_VER"
@@ -21,9 +22,11 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 	
 	apt-get --yes --force-yes install $KERNEL_IMAGE 
 	apt-get --yes --force-yes install $MODULE_IMAGE			
-	dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
 	depmod -a $KERNEL_VER -F /boot/System.map-$KERNEL_VER
-
+	dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
+	#update-initramfs -u
+	rm -f /boot/initrd*.bak /initrd*.bak
+	
 	for LINK in `find boot/ -name "vmlinuz*"`; do 
 		if [ ! -f `basename $LINK` ] ; then ln -s $LINK `basename $LINK` ; fi
 	done

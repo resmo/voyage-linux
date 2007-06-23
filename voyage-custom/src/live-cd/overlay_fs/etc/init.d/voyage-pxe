@@ -34,6 +34,8 @@ case $1 in
 				echo -n "Setting console display... "
 				if [ ! -f $PXEDEFAULT.pxe ] ; then cp $PXEDEFAULT $PXEDEFAULT.pxe ; fi
 				sed -i -e "s/console 0/console 1/" $PXEDEFAULT 
+				sed -i -e "/^serial/ D" $PXEDEFAULT 
+				sed -i -e "s/ console.*$//" $PXEDEFAULT 
 				echo "Done."
 			else
 				echo -n "Setting serial $SERIAL to $INITTAB ... "
