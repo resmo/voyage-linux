@@ -13,9 +13,17 @@ label 2
 
 label 3
 	KERNEL linux
-	APPEND initrd=initrd.img autoinstall=4511 boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,19200n8
+	APPEND initrd=initrd.img autoinstall=alix boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,38400n8 
 
 label 4
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=4511 boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,19200n8
+
+label 5
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=5501 boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media casper-getty console=ttyS0,19200n8
+
+label 6
 	KERNEL linux
 	APPEND initrd=initrd.img autoinstall=genericpc boot=casper netboot=nfs nfsroot=192.168.1.200:/live_media 
 

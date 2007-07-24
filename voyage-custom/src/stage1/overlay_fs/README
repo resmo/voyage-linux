@@ -302,7 +302,7 @@ As nocatauth requires perl to run, you are required to have a larger disk space
 to run (probably 128MB).  Please also make sure that you can only run either 
 NoCatSplash or NoCatAuth, not both.
 
-3.10 Hardware Sensors
+3.10 WRAP support
 ======================
 
 If you choose WRAP in voyage.update, the required modules would be added
@@ -328,15 +328,35 @@ and then run sensors-detect
 
 3.11 ALIX support
 ======================
-When running Voyage Linux with ALIX, choose WRAP profile in voyage update,
-then add the following modules to /etc/modules for temperature sensors:
+When running Voyage Linux with ALIX, choose ALIX profile in voyage update,
+the required modules would be added to /etc/modules.  It adds the following 
+modules in /etc/modules:
 	w83627hf
+	geodewdt
 	
 You can get the temperature reading from sensors program, or get the values from
 sysfs:
 	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp1_input
 	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp2_input
 	cat /sys/bus/i2c/drivers/w83627hf/9191-0290/temp3_input
+	
+You may also use sensors utility to get the temperature reading.  If temp1 
+reading may not be ready at boot up, you need to modify w83627hf section in 
+/etc/sensors.conf:
+
+chip "w83782d-*" "w83627hf-*"
+...
+	set sensor1 1
+	
+Known Issue: the readings returned from w83627hf is not very accurate.  temp1 
+reading is too low (~30C) and some offset should be applied.  But temp1 reading 
+can move down to 20C if you apply cooling agent on the Geode processor.  temp2 
+and temp3 do not move up or down too much at idle or under high low.
+
+Voyage Linux comes with geodewdt driver that uses the multi-function general 
+purpose timer in CS5536 for watchdog timer.  To use geodewdt driver, load 
+geodewdt driver or add geodewdt to /etc/modules.  Restart watchdog daemon to 
+make it effective.
 
 3.12 General Issues
 ======================
@@ -482,6 +502,6 @@ You can find the README.live-cd and README.pxe in the root direcory of Live CD
 3. light-weighted web server (thttpd + php) for system configuration
 
 ======================
-Last Updated: 20070623
+Last Updated: 20070628
 ======================
 

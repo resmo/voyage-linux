@@ -1,3 +1,26 @@
+0.4.1 (23 Jul 2007)
+- [kernel] linux-image-2.6.20-486-voyage_4.0-2
+	- [general] ubuntu kernel source 2.6.20-16.29 (Linux 2.6.20.10)
+	- [ide] enable CS5535 chipset support
+	- [netsched] add esfq queueing
+	- [char] increase max. number of 8250 serial port to 20
+	- [char] add AMD CS5535 UART2 as a serial port	
+	- [char] add AMD Geode multi-purpose timers
+	- [char] add real time clock support
+	- [watchdog] add geodewdt for Geode GX/LX watchdog support
+	- [hwmon] add k8temp and w83781d
+	- [usb] add UDC/UOC support for Geode CS5536 companion chip
+	- [snd] enable Advanced Linux Sound Architecture
+	- [snd] ATI IXP, ALI and VIA AC97 controllers
+	- [snd] CS5535 audio, SB Audigy, Creative Ensoniq/Emu10k1, Intel HD
+- [wireless]
+	- madwifi driver update to 0.9.3-3 with security fix
+	- wireless-tools upgrade to 29pre22.
+- [general]
+	- add ALIX and 5501 profile in voyage.update and PXE boot menu
+	- add build date in /etc/motd
+	- move /etc/network/run to /rw
+	
 0.4.0 (23 Jun 2007)
 - new x.y.z versioning scheme
 - linux-image-2.6.20-486-voyage_4.0-1
