@@ -1,0 +1,48 @@
+#!/bin/sh
+
+cat << EOF > /etc/casper.conf
+export USERNAME=""
+export USERFULLNAME=""
+export HOSTNAME="voyage"
+export quiet="n"
+EOF
+
+
+#if [ -f /usr/share/initramfs-tools/hooks/casper ] ; then
+#cat << EOF >> /usr/share/initramfs-tools/hooks/casper
+#
+#cp /etc/casper.conf \$DESTDIR/etc/
+#EOF
+#fi
+
+
+CASPERDIR=/usr/share/initramfs-tools/scripts/casper-bottom
+
+if [ -d $CASPERDIR ] ; then
+#disable casper init scripts
+chmod -x $CASPERDIR/??adduser
+chmod -x $CASPERDIR/??networking
+chmod -x $CASPERDIR/??autologin
+chmod -x $CASPERDIR/??accessibility
+chmod -x $CASPERDIR/??gnome_panel_data
+fi
+
+
+#patch initramfs nfs scripts
+sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/nfs
+sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/casper
+
+mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/casper-bottom/
+#mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/nfs-bottom/
+
+#dpkg-reconfigure `dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1 `
+
+# Re-creating initrd.img
+for KVERS in $(dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1  | sed -s "s/linux-image-//" ) 
+do
+	update-initramfs -k $KVERS -d
+	update-initramfs -k $KVERS -c 
+done
+
+rm -f /boot/*.bak /*.bak
+

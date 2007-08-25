@@ -1,0 +1,8 @@
+##########################################################################
+#
+# rm.lst      
+# 	defines a list of files or directories to be removed 
+#	in the target distro.
+#
+
+voyage.d*
