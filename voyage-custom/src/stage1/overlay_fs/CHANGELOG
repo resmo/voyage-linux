@@ -1,3 +1,22 @@
+0.5.0 (29 Feb 2008)
+- [kernel] linux-image-2.6.23-486-voyage_4.0-3
+	- [general] Debian kernel source 2.6.23-2
+	- [general] enable HPET and dynamic ticks
+	- [geode] backport new mfgpt codes from 2.6.24
+	- [net] built-in KLIPS for openswan
+	- [netfilter] enable ipv6 netfilter
+	- [scsi] add 3w_9xxx and aac_raid driver
+	- [ata] add basic support for sata and pata drivers 
+	- [wireless] add bcm43xx driver
+	- [pcmcia] add basic support for PCMCIA usb network driver
+	- [v4l] enable video capture, usb support and radio adaptor 
+	- [fs] build-in unionfs
+	- [misc] enable LED drivers
+- [wireless]
+	- madwifi driver update to 0.9.4rc2
+- [general]
+	- no. of fixes and enhancements in voyage.update [William Brack and Mike O'Connor]
+
 0.4.1 (23 Jul 2007)
 - [kernel] linux-image-2.6.20-486-voyage_4.0-2
 	- [general] ubuntu kernel source 2.6.20-16.29 (Linux 2.6.20.10)

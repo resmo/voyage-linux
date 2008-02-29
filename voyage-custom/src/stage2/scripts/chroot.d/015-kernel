@@ -3,11 +3,12 @@
 echo -n "Install kernel ... "
 
 #KERNEL_VER=2.6.15-486-voyage # 0.2
-#KERNEL_VER=2.6.17-486-voyage # 0.2
-KERNEL_VER=2.6.20-486-voyage
+#KERNEL_VER=2.6.17-486-voyage # 0.3
+#KERNEL_VER=2.6.20-486-voyage # 0.4
+KERNEL_VER=2.6.23-486-voyage
 
 KERNEL_IMAGE=linux-image-"$KERNEL_VER"
-MODULE_IMAGE=madwifi-modules-"$KERNEL_VER"
+MODULE_IMAGE=madwifi-modules-"$KERNEL_VER" 
 
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
@@ -21,7 +22,8 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 	mount -t proc none /proc
 	
 	apt-get --yes --force-yes install $KERNEL_IMAGE 
-	apt-get --yes --force-yes install $MODULE_IMAGE			
+	apt-get --yes --force-yes install $MODULE_IMAGE		
+	
 	depmod -a $KERNEL_VER -F /boot/System.map-$KERNEL_VER
 	dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
 	#update-initramfs -u

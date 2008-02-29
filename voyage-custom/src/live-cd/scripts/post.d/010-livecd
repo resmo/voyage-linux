@@ -16,6 +16,7 @@ mkdir -p "${LIVE_DIR}"/isolinux
 
 # Creating rootfs
 mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs
+#mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs -b 1048576
 
 # Copying kernel
 rm "${DIST_DIR}"/boot/initrd.img-*.bak
@@ -31,7 +32,7 @@ DISPLAY splash.msg
 DEFAULT linux
 label linux
 	KERNEL /vmlinuz
-	APPEND initrd=/initrd.gz boot=casper
+	APPEND initrd=/initrd.gz boot=casper console=ttyS0,9600 console=tty0
 timeout 50
 prompt 1
 EOF

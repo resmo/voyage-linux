@@ -1,5 +1,6 @@
 #!/bin/sh
 
+
 cat << EOF > /etc/casper.conf
 export USERNAME=""
 export USERFULLNAME=""
@@ -31,6 +32,13 @@ fi
 #patch initramfs nfs scripts
 sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/nfs
 sed -i -e "s/nfsmount -o/mount -t nfs -o/" /usr/share/initramfs-tools/scripts/casper
+sed -i -e "s/nfsro/ro/" /usr/share/initramfs-tools/scripts/casper
+
+sed -i -e "s/b unionfs/b unionfs; modprobe \-b squashfs/" /usr/share/initramfs-tools/scripts/casper
+sed -i -e "/mkdir -p \"\${croot}\//i fstype=\"\$\{image_type\}\"" /usr/share/initramfs-tools/scripts/casper
+
+#sed -i -e "/Unknown file/i fstype=\"\$\{image_type\}\"" /usr/share/initramfs-tools/scripts/casper
+#sed -i -e "s/panic /_log_msg /g" /usr/share/initramfs-tools/scripts/casper
 
 mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/casper-bottom/
 #mv /etc/25serial_inittab /usr/share/initramfs-tools/scripts/nfs-bottom/

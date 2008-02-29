@@ -369,7 +369,7 @@ fi
 #
 
 if [ -d "$TARGET_DIR"/ro/ ] ; then
-	cp -r "$TARGET_DIR"/ro/* "$TARGET_DIR"/rw
+	cp -pr "$TARGET_DIR"/ro/* "$TARGET_DIR"/rw
 fi
 
 export DEBIAN_FRONTEND=noninteractive
@@ -407,7 +407,7 @@ Chroot "remove.docs"
 # at last, remove rw
 #
 if [ -d "$TARGET_DIR"/rw ] ; then
-	cp -r "$TARGET_DIR"/rw/* "$TARGET_DIR"/ro
+	cp -pr "$TARGET_DIR"/rw/* "$TARGET_DIR"/ro
 	rm -rf "$TARGET_DIR"/rw/*
 fi
 
