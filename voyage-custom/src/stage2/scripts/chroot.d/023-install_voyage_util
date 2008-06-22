@@ -24,3 +24,5 @@ echo "Done"
 
 touch voyage.1st
 
+wget http://www.voyage.hk/dists/experimental/archive.key -O - | apt-key add - 
+

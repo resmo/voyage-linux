@@ -292,13 +292,18 @@ LED trigger modules:
 
 3. enable LED3 for timer-based control, 1 sec on, 5 sec off
 	# echo timer > /sys/class/leds/alix\:3/trigger
-	# echo 1000 >  /sys/class/leds/alix:\3/delay_on
+	# echo 1000 >  /sys/class/leds/alix\:3/delay_on
 	# echo 5000 >  /sys/class/leds/alix\:3/delay_off
 
 to turn off trigger
 	# echo none > /sys/class/leds/alix\:1/trigger
 	# echo none > /sys/class/leds/alix\:2/trigger
 	# echo none > /sys/class/leds/alix\:3/trigger 
+
+In 0.5.1, if ALIX and WRAP install profile is selected, heartbeat and ide-disk 
+driver will be automatically enabled at boot. To disable this feature, edit
+/etc/default/voyage-util and update VOYAGE_LED variable to "NO":
+	VOYAGE_LEDS="NO"
 
 4. Board-specific Notes
 =======================
@@ -580,6 +585,6 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 3. light-weighted web server (thttpd + php) for system configuration
 
 ======================
-Last Updated: 20080229
+Last Updated: 20080623
 ======================
 

@@ -1,11 +1,13 @@
 #deb ftp://ftp.hk.debian.org/debian/ etch main
-#deb http://security.debian.org/ sarge/updates main
+#deb http://security.debian.org/ etch/updates main
 
 #deb http://debian.cn99.com/debian/ etch main
 #deb ftp://debian.cn99.com/debian/ etch main
 #deb http://mirrors.geekbone.org/debian etch main
 #deb ftp://mirrors.geekbone.org/debian etch main
+
 deb http://ftp.hk.debian.org/debian etch main
+deb http://security.debian.org/ etch/updates main
 
 deb http://www.voyage.hk/dists/experimental ./
 deb http://www.voyage.hk/dists/0.5 ./

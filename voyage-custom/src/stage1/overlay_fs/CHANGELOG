@@ -1,5 +1,16 @@
+0.5.1 (23 Jun 2008)
+- [kernel] linux-image-2.6.23-486-voyage_5.0-2
+	- [general] enable math emulation
+	- [netdev] enable gigabit dl2k, e1000e, ns83820 drivers
+	- [framebuffer] enable lxfb for geodelx framebuffer support
+	- [snd] enable snd_usb_audio
+- [voyage-utils] 
+	- enables heartbeat and ide LED drivers for ALIX and WRAP profiles.
+	- new 4801 profile options
+- [general] add security.debian.org to /etc/apt/sources.list
+
 0.5.0 (29 Feb 2008)
-- [kernel] linux-image-2.6.23-486-voyage_4.0-3
+- [kernel] linux-image-2.6.23-486-voyage_5.0-1
 	- [general] Debian kernel source 2.6.23-2
 	- [general] enable HPET and dynamic ticks
 	- [geode] backport new mfgpt codes from 2.6.24
