@@ -1,3 +1,7 @@
+0.5.2 (29 Jun 2008)
+- [madiwifi] upgarde madwifi-modules-2.6.23-486-voyage to version 5.0-2
+- [general] update wireless-tools to version 29-1
+
 0.5.1 (23 Jun 2008)
 - [kernel] linux-image-2.6.23-486-voyage_5.0-2
 	- [general] enable math emulation
