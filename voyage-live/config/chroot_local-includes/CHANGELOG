@@ -1,7 +1,7 @@
-0.6.0 (09 Dec 2008)
-- based on Debian 5.0 (lenny) 
+0.6.0 (18 Dec 2008)
+- based on upcoming Debian 5.0 (testing/lenny) 
 - [kernel] linux-image-2.6.26-486-voyage_6.0-1
-	- [general] Debian kernel source 2.6.26-11
+	- [general] Debian kernel source 2.6.26-12
 	- [general] enable large block device
 	- [iosched] re-enable as and deadline scheduling
 	- [geode] new geode timer and watchdog
