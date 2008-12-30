@@ -32,12 +32,12 @@ SYNC_DIRS="var/log var/tmp"
 #	
 #	update-rc.d voyage-sync start 36 S . stop 99 0 6 .
 
+if [ -f /etc/default/voyage-util ] ; then . /etc/default/voyage-util; fi
+SYNC_DIRS="$SYNC_DIRS $VOYAGE_SYNC_DIRS"
 
 case $1 in
 	'start')
 		echo "Voyage is now setting up tmpfs for changed files..."
-		
-		SYNC_DIRS="$SYNC_DIRS"
 		
 		for SYNC_DIR in $SYNC_DIRS; do
 			[ ! -d $TMPFS_ROOT/$SYNC_DIR ] && mkdir -p $TMPFS_ROOT/$SYNC_DIR			

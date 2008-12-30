@@ -1,5 +1,6 @@
-0.6.0 (18 Dec 2008)
+0.6.0 (29 Dec 2008)
 - based on upcoming Debian 5.0 (testing/lenny) 
+- both distro and Live CD built by Debian Live
 - [kernel] linux-image-2.6.26-486-voyage_6.0-1
 	- [general] Debian kernel source 2.6.26-12
 	- [general] enable large block device
@@ -12,9 +13,10 @@
 	- [net] increase IMQ devices to 16
 	- [netdev] enable b44, NAPI for nforce
 	- [netdev] enable bnx2, intel 82575 (igb) and atl1e
-	- [wireless] enable b43 and b43legacy - replacing bcm43xx, enable zd1211rw
+	- [wireless] enable b43 and b43legacy - replacing bcm43xx, 
+	- [wireless] enable zd1211rw and rt2x00
 	- [video] enable media tuner drivers, usb video and quickcam messenger
-	- [ata] make some drivers to kernel modules
+	- [ata] enable some drivers to kernel modules (for VMWare)
 	- [crypto] geode-aes, padlock and hifn hardware crypto drivers as modules
 	- [crypto] include ocf-linux patch
 	- [usb] enable USB high speed mobile device (hso)
@@ -26,7 +28,6 @@
 - [misc.] 
 	- removed /rw and /ro and are replaced by aufs, for /var/log and /var/tmp
 	- nocatsplash rebuild for Debian Lenny
-	- both distro and Live CD built by Debian Live
 	- netdev led trigger enabled for wrap and alix
 	- pump to replace dhclient
 	- add arptable, aufs, conntrack, file, lsof and sudo to distro
