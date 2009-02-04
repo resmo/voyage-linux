@@ -9,12 +9,12 @@ LH_BINARY_FILESYSTEM="fat16"
 LH_BINARY_IMAGES="tar"
 
 # $LH_BINARY_INDICES: set apt/aptitude generic indices
-# (Default: enabled)
-LH_BINARY_INDICES="enabled"
+# (Default: disabled)
+LH_BINARY_INDICES="disabled"
 
 # $LH_BOOTAPPEND_LIVE: set boot parameters
 # (Default: empty)
-LH_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug all_generic_ide"
+LH_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug all_generic_ide nolocales"
 
 # $LH_BOOTAPPEND_INSTALL: set boot parameters
 # (Default: empty)

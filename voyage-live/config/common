@@ -85,8 +85,8 @@ LH_MODE="debian"
 LH_USE_FAKEROOT="disabled"
 
 # $LH_TASKSEL: set tasksel program
-# (Default: aptitude)
-LH_TASKSEL="aptitude"
+# (Default: none)
+LH_TASKSEL="none"
 
 # $LH_INCLUDES: set includes
 # (Default: /usr/share/live-helper/includes)
