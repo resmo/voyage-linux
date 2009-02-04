@@ -1,6 +1,11 @@
 #!/bin/sh
 
+DISTRO="voyage-current"
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
+
+if [ $(uname -m) == "x86_64" ] ; then
+	ARCH="-amd64"
+fi
 
 Chroot ()
 {
@@ -36,9 +41,9 @@ BuildTar()
 	rm binary/live/filesystem.dir/boot/*.bak
 	
 	if [ -d binary/live/filesystem.dir ] ; then
-		mv binary/live/filesystem.dir binary/live/voyage-current
-		tar -jcf voyage-current.tar.bz2 -C binary/live/	voyage-current/. 
-		mv binary/live/voyage-current binary/live/filesystem.dir
+		mv binary/live/filesystem.dir binary/live/$DISTRO
+		tar -jcf $DISTRO$ARCH.tar.bz2 -C binary/live/	$DISTRO/. 
+		mv binary/live/$DISTRO binary/live/filesystem.dir
 	else
 		echo "binary/live/filesystem.dir not found!"
 	fi
@@ -52,7 +57,20 @@ BuildISO()
 	lh_build
 	
 	if [ -f binary.iso ] ; then
-		mv binary.iso voyage-current.iso
+		mv binary.iso $DISTRO$ARCH.iso
+	else
+		echo "binary.iso not found!"
+	fi
+}
+
+BuildSDK()
+{
+	lh_clean
+	lh_config -b iso --chroot-filesystem squashfs -p voyage-sdk
+	lh_build
+	
+	if [ -f binary.iso ] ; then
+		mv binary.iso voyage-sdk.iso
 	else
 		echo "binary.iso not found!"
 	fi
@@ -65,6 +83,9 @@ for TYPE in $1; do
 		;;
 		iso)
 			BuildISO
+		;;
+		sdk)
+			BuildSDK
 		;;
 		test)
 			Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove busybox live-initramfs"
