@@ -5,6 +5,7 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="-amd64"
+	lh_config -a amd64
 fi
 
 Chroot ()
@@ -70,7 +71,7 @@ BuildSDK()
 	lh_build
 	
 	if [ -f binary.iso ] ; then
-		mv binary.iso voyage-sdk.iso
+		mv binary.iso voyage-sdk$ARCH.iso
 	else
 		echo "binary.iso not found!"
 	fi
