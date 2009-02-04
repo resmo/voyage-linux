@@ -22,7 +22,7 @@
 	- [usb] enable USB high speed mobile device (hso)
 	- [misc.] enable firewire
 	- [misc.] enable netdev led trigger 
-- [madiwifi] 
+- [madiwifi]
 	- upgrade madwifi-modules to 1:0.9.4+r3772.20080716-1+6.0-1
 	- upgrade madwifi-tools to 1:0.9.4+r3772.20080716-1+6.0-1
 - [misc.] 
