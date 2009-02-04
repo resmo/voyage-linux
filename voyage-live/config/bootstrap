@@ -50,4 +50,4 @@ LH_MIRROR_BINARY_SECURITY="http://security.debian.org/"
 
 # $LH_CATEGORIES: select categories to use
 # (Default: main)
-LH_CATEGORIES="main"
+LH_CATEGORIES="main contrib non-free"

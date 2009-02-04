@@ -5,8 +5,8 @@
 LH_BINARY_FILESYSTEM="fat16"
 
 # $LH_BINARY_IMAGES: set image type
-# (Default: tar)
-LH_BINARY_IMAGES="tar"
+# (Default: iso)
+LH_BINARY_IMAGES="iso"
 
 # $LH_BINARY_INDICES: set apt/aptitude generic indices
 # (Default: disabled)
