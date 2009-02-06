@@ -66,6 +66,7 @@ EOF
 
 ############################################################
 #  config atftpd
+sed -i -e 's/^tftp/#tftp/' /etc/inetd.conf
 sed -i 's/USE_INETD=true/USE_INETD=false/' /etc/default/atftpd
 
 cat << EOF >> /etc/default/atftpd
