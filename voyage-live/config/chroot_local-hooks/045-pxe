@@ -65,6 +65,10 @@ cat << EOF >> /etc/exports
 EOF
 
 ############################################################
+#  config atftpd - the below won't work for inetd
+#sed -i -e '/^tftp/ s/\/var\/lib//' /etc/inetd.conf
+
+############################################################
 #  config atftpd
 sed -i -e 's/^tftp/#tftp/' /etc/inetd.conf
 sed -i 's/USE_INETD=true/USE_INETD=false/' /etc/default/atftpd
