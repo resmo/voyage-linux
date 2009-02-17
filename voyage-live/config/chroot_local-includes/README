@@ -508,11 +508,11 @@ The list archives can be viewed and searched at :
 Starting from 0.6.0, Voyage Linux is built by Debian Live.  You can find
 the subversion repository for Debian Live config in:
 
-http://voyage.hk:8080/repos/voyage/trunk/voyage-live
+http://svn.voyage.hk/repos/voyage/trunk/voyage-live
 
 Getting start to build Voyage Linux under Debian r5.0(lenny) or Voyage SDK:
 # apt-get install live-helper
-# svn co http://punknix.com:8080/repos/voyage/trunk/voyage-live voyage-live
+# svn co http://svn.voyage.hk/repos/voyage/trunk/voyage-live voyage-live
 # cd voyage-live
 # ./build.sh iso 	<= this will build the Live CD
 # ./build.sh tar 	<= this will build .tar.bz2 distro
