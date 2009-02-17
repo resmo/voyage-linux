@@ -23,7 +23,6 @@ kbd \
 libconsole \
 apt-utils \
 libgnutls13 \
-libgdbm3 \
 libdb4.4 \
 dmidecode \
 gcc-4.2-base \
@@ -45,12 +44,15 @@ dhcp3-common \
 
 for PKG in $RMPKGS
 do
+	echo "*** RMPKG Removing $PKG"
 	apt-get -f -y -q=2 --purge remove $PKG
 done
 
 exit
 
+# libgdbm3  is removed because of voyage-sdk.
 # below are harmful
+
 libbz2-1.0 \
 libtasn1-3 \
 libgcrypt11 \
