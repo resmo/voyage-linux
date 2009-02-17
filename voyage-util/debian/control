@@ -1,0 +1,12 @@
+Source: voyage-util
+Section: main
+Priority: optional
+Maintainer: Punky Tse <punkytse@yahoo.com>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.1
+
+Package: voyage-util
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: This debian package contains all useful scripts for installing 
+ and configurating voyage linix distribution.
