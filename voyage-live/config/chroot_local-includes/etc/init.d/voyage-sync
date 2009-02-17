@@ -43,14 +43,20 @@ mount_dirs()
 	# $3 : target directory
 	case $1 in
 		'aufs')
-			chmod --reference=/$2 $3
-			chown --reference=/$2 $3
-			mount -t aufs -o dirs=$3:$2=ro none /$2> /dev/null 2>&1
+			PERM=$(stat --format=%U:%G $2)
+			chmod --reference=$2 $3
+			chown --reference=$2 $3
+			mount -t aufs -o dirs=$3:$2=ro none $2> /dev/null 2>&1
+			#echo "chown $PERM $2"
+			chown $PERM $2
 			;;
 		'unionfs')
-			chmod --reference=/$2 $3
-			chown --reference=/$2 $3
-			mount -t unionfs -o dirs=$3:$2=ro none /$2> /dev/null 2>&1
+			PERM=$(stat --format=%U:%G $2)
+			chmod --reference=$2 $3
+			chown --reference=$2 $3
+			mount -t unionfs -o dirs=$3:$2=ro none $2> /dev/null 2>&1
+			#echo "chown $PERM $2"
+			chown $PERM $2
 			;;
 		'tmpfs')
 			echo not implemented
@@ -79,7 +85,11 @@ case $1 in
 		echo "Voyage is now synchroning changed files..."
 		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
 		for SYNC_DIR in $SYNC_DIRS; do
-			[ ! -d /.sync/$SYNC_DIR ] && mkdir -p /.sync/$SYNC_DIR
+			if [ ! -d /.sync/$SYNC_DIR ] ; then
+                                mkdir -p /.sync/$SYNC_DIR
+                                PERM=$(stat --format=%U:%G /$SYNC_DIR)
+                                chown $PERM /.sync/$SYNC_DIR
+                        fi
 			
 			echo "  Sync'ing /$SYNC_DIR to `dirname /$SYNC_DIR`	"
 
@@ -87,6 +97,9 @@ case $1 in
 			umount /$SYNC_DIR		
 			
 			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
+
+			#PERM=$(stat --format=%U:%G $SYNC_DIR)
+                        #echo "owner $PERM $SYNC_DIR"
 		done
 		
 		# at last remove /.sync
