@@ -1,0 +1,71 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          voyage-sync
+# Required-Start:    
+# Required-Stop:     
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Voyage tmpfs and sync
+### END INIT INFO
+#
+# skeleton  example file to build /etc/init.d/ scripts.
+#       This file should be used to construct scripts for /etc/init.d.
+#
+#       Written by Miquel van Smoorenburg <miquels@cistron.nl>.
+#       Modified for Debian
+#       by Ian Murdock <imurdock@gnu.ai.mit.edu>.
+#
+# Version:  @(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
+#
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+#DAEMON=/usr/sbin/voyage-sync
+NAME=voyage-sync
+DESC=voyage-sync
+
+TMPFS_ROOT=/rw
+TMPFS_ROOT=/lib/init/rw
+
+SYNC_DIRS="var/log var/tmp"
+
+# using the following commands to install
+#	
+#	update-rc.d voyage-sync start 36 S . stop 99 0 6 .
+
+if [ -f /etc/default/voyage-util ] ; then . /etc/default/voyage-util; fi
+SYNC_DIRS="$SYNC_DIRS $VOYAGE_SYNC_DIRS"
+
+case $1 in
+	'start')
+		echo "Voyage is now setting up tmpfs for changed files..."
+		
+		for SYNC_DIR in $SYNC_DIRS; do
+			[ ! -d $TMPFS_ROOT/$SYNC_DIR ] && mkdir -p $TMPFS_ROOT/$SYNC_DIR			
+			chmod --reference=/$SYNC_DIR $TMPFS_ROOT/$SYNC_DIR
+			chown --reference=/$SYNC_DIR $TMPFS_ROOT/$SYNC_DIR			
+			mount -t aufs -o dirs=$TMPFS_ROOT/$SYNC_DIR:$SYNC_DIR=ro none /$SYNC_DIR> /dev/null 2>&1
+		done
+		echo "Done."
+		;;
+	'stop')
+		echo "Voyage is now synchroning changed files..."
+		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
+		for SYNC_DIR in $SYNC_DIRS; do
+			[ ! -d /.sync/$SYNC_DIR ] && mkdir -p /.sync/$SYNC_DIR
+			
+			echo "  Sync'ing /$SYNC_DIR to `dirname /$SYNC_DIR`	"
+
+			rsync -a -q --delete-after /$SYNC_DIR/* /.sync/$SYNC_DIR
+			umount /$SYNC_DIR		
+			
+			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
+		done
+		
+		# at last remove /.sync
+		rm -rf /.sync
+		echo "Done."
+		;;
+	*)
+	    ;;
+esac
+
