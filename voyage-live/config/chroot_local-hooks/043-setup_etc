@@ -137,7 +137,7 @@ echo "" >> /etc/apt/sources.list
 echo "# Primary Debian Mirror Sites (http://www.debian.org/mirror/list)" >> /etc/apt/sources.list
 wget http://www.debian.org/mirror/list -O - | \
 sed -n  -e "/td><a href=\"http:\/\/ftp\.[a-z][a-z]/ P" | \
-sed -e "s/^.*a href=\"//g" -e "s/\">.*$//g" -e "s/^/#deb /g " -e "s/$/ lenny main/g" | sort \
+sed -e "s/^.*a href=\"//g" -e "s/\">.*$//g" -e "s/^/#deb /g " -e "s/$/ lenny main contrib non-free/g" | sort \
 >> /etc/apt/sources.list
 
 echo "Done"
