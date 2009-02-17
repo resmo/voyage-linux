@@ -5,10 +5,12 @@
 	- [general] add microcode, MSR and CPUID support
 	- [serial] 4 UARTS ports at runtime, additional serial modules
 	- [usb] add sierra wireless module
+	- [fs] add ntfs support
 - [misc]
 	- voyage-sync script
 		- fix owner permission
 		- configurable unionfs/aufs (WIP)
+	- move voyage-sync and voyage-pxe to voyage-util package
 	- fix atftp for pxe boot for generic pc
 	- add debian mirror list to /etc/apt/sources.lst
 	- add non-free and contrib to /etc/apt/sources.lst
