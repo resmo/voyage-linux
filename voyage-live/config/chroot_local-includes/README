@@ -503,7 +503,22 @@ To post a message, send mail to :
 The list archives can be viewed and searched at :
 	http://list.voyage.hk/pipermail/voyage-linux/
 
-6.2 Development
+6.2 Development (0.6 or later)
+======================
+Starting from 0.6.0, Voyage Linux is built by Debian Live.  You can find
+the subversion repository for Debian Live config in:
+
+http://voyage.hk:8080/repos/voyage/trunk/voyage-live
+
+Getting start to build Voyage Linux under Debian r5.0(lenny) or Voyage SDK:
+# apt-get install live-helper
+# svn co http://punknix.com:8080/repos/voyage/trunk/voyage-live voyage-live
+# cd voyage-live
+# ./build.sh iso 	<= this will build the Live CD
+# ./build.sh tar 	<= this will build .tar.bz2 distro
+# ./build.sh sdk 	<= this will build sdk Live CD
+
+6.3 Development (0.5 or before)
 ======================
 Voyage Linux is completely buildable through customization framework. You can 
 access the CVS Web Repository at: 
@@ -519,9 +534,7 @@ nightly tarball is accessible to everyone at:
 If you have made chanages to Voyage Linux and the supporting scripts, you 
 are encouraged to send all patches to voyage-linux@list.voyage.hk
 
-6.3 Customization
-======================
-Voyage now includes customization script to allow customizing voyage distro. 
+Voyage includes customization script to allow customizing voyage distro. 
 It allows system integrator or interest parties to customize voyage linux 
 to roll out their own version based on voyage.
 
@@ -558,6 +571,14 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 
 6.4 Known Issues
 ======================
+- If Voyage cannot boot complaining rootfs can't be located, tyr to added the 
+following to the kernel boot parameters:
+	"ide=nodma all_generic_ide"
+
+- Sometimes, grub boot screen may not appear after BIOS post if the boot
+partition is too large (~4GB).  Creating a smaller boot partition (512MB) and 
+install Voyage to it may solve this issue.
+
 - There have been repeatedly reported problem for lilo installation problem
 while voyage.update is installing lilo bootloader to the flash media.  This
 problem should have be fixed in Voyage 0.5.  If you encounter a similar 
@@ -569,16 +590,8 @@ of the error message:
 	apt-get install dialog apt-utils
 
 - There is a problem reported when installing voyage over usb device using ub 
-kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1 of 
-the target platform.  
-
-- If Voyage cannot boot complaining rootfs can't be located, tyr to added the 
-following to the kernel boot parameters:
-	"ide=nodma all_generic_ide"
-
-- Sometimes, grub boot screen may not appear after BIOS post if the boot
-partition is too large (~4GB).  Creating a smaller boot partition (512MB) and 
-install Voyage to it may solve this issue.
+kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1
+of the target platform.  
 
 6.5 Live CD
 ======================
@@ -595,9 +608,9 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 	
 6.6 TODOs
 ======================
-1. scripts for setting up network configuration
+1. light-weighted web server (thttpd + php) for system configuration
 2. further reducing in size
-3. light-weighted web server (thttpd + php) for system configuration
+3. scripts for setting up network configuration
 
 7. Appendix
 ======================
@@ -605,6 +618,7 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 7.1 Release History
 ======================
 	Voyage 0.6
+    * [2009-02-17] voyage-0.6.1
     * [2008-12-30] voyage-0.6.0
     
 	Voyage 0.5
@@ -649,6 +663,6 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 	* Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20081205
+Last Updated: 20090217
 ======================
 

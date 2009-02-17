@@ -1,3 +1,19 @@
+0.6.1 (17 Feb 2009)
+- based on Debian 5.0 (lenny) release
+- [kernel] linux-image-2.6.26-486-voyage_6.0-2
+	- [general] Debian kernel source 2.6.26-13
+	- [general] add microcode, MSR and CPUID support
+	- [serial] 4 UARTS ports at runtime, additional serial modules
+	- [usb] add sierra wireless module
+- [misc]
+	- voyage-sync script
+		- fix owner permission
+		- configurable unionfs/aufs (WIP)
+	- fix atftp for pxe boot for generic pc
+	- add debian mirror list to /etc/apt/sources.lst
+	- add non-free and contrib to /etc/apt/sources.lst
+	- new amd64 port and sdk distro
+
 0.6.0 (29 Dec 2008)
 - based on upcoming Debian 5.0 (testing/lenny) 
 - both distro and Live CD built by Debian Live
