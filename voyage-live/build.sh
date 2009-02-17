@@ -4,7 +4,7 @@ DISTRO="voyage-current"
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
 if [ $(uname -m) == "x86_64" ] ; then
-	ARCH="-amd64"
+	ARCH="_amd64"
 	lh_config -a amd64
 fi
 
@@ -42,9 +42,9 @@ BuildTar()
 	rm binary/live/filesystem.dir/boot/*.bak
 	
 	if [ -d binary/live/filesystem.dir ] ; then
-		mv binary/live/filesystem.dir binary/live/$DISTRO
-		tar -jcf $DISTRO$ARCH.tar.bz2 -C binary/live/	$DISTRO/. 
-		mv binary/live/$DISTRO binary/live/filesystem.dir
+		mv binary/live/filesystem.dir binary/live/$DISTRO$ARCH
+		tar -jcf $DISTRO$ARCH.tar.bz2 -C binary/live/	$DISTRO$ARCH/. 
+		mv binary/live/$DISTRO$ARCH binary/live/filesystem.dir
 	else
 		echo "binary/live/filesystem.dir not found!"
 	fi
