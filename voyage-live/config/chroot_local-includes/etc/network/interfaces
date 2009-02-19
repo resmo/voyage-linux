@@ -51,6 +51,15 @@ iface eth0 inet dhcp
 #       broadcast 10.1.40.255
 
 ##########################################################
+#	Sample ath0 with wpa_supplicant settings
+
+#auto ath0
+#iface ath0 inet dhcp
+#        madwifi-base wifi0
+#        wireless-mode Managed
+#        wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+##########################################################
 #	Sample WDS Bridge Settings
 
 # madwifi-ng WDS Bridge

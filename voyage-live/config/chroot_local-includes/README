@@ -258,7 +258,68 @@ As nocatauth requires perl to run, you are required to have a larger disk space
 to run (probably 128MB).  Please also make sure that you can only run either 
 NoCatSplash or NoCatAuth, not both.
 
-3.8 LED Support
+3.8 Hostapd
+======================
+To enable hostapd, edit /etc/default/hostapd and add the following line:
+
+RUN_DAEMON="yes"
+
+A sample /etc/hostapd/hostapd.conf is like below:
+
+#bridge=br0   #uncomment this line if bridged.
+interface=ath0
+driver=madwifi
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+debug=4
+dump_file=/tmp/hostapd.dump
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+macaddr_acl=0
+auth_algs=3
+eapol_key_index_workaround=0
+eap_server=0
+wpa=3
+ssid=voyage-wds
+wpa_passphrase=voyage-wds
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+eapol_version=1
+ 
+
+3.9 wpa-supplicant
+======================
+
+If you want to connect to a WPA-PSK enabled AP, first generate the 
+/etc/wpa_suppliant.conf.  For example, if the essid and pre-shared key are 
+both "voyage-wds", execute the following commands:
+
+# wpa_passphrase voyage-wds voyage-wds>> /etc/wpa_supplicant.conf
+
+Then, edit /etc/wpa_supplicant.conf and adding key_mgmt and proto parameters:
+
+network={
+    ssid="voyage-wds"
+    #psk="voyage-wds"
+    psk=76ab47787aa8b560895f617dd351ad9d32faa86232f5366b6554832073d07481
+    key_mgmt=WPA-PSK
+    proto=WPA
+#   proto=RSN	# uncomment for WPA2
+}
+
+Edit /etc/network/interfaces and add the following entries:
+
+auto ath0
+iface ath0 inet dhcp
+        madwifi-base wifi0
+        wireless-mode Managed
+        wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+This will create ath0 for wifi0 devices, using the specified wpa_supplicant.conf
+
+3.10 LED Support
 ======================
 Voyage kernel >= 2.6.23 (as in Voyage 0.5) comes with LED driver for WRAP, ALIX 
 and Soekris 48xx boards.
