@@ -296,9 +296,10 @@ If you want to connect to a WPA-PSK enabled AP, first generate the
 /etc/wpa_suppliant.conf.  For example, if the essid and pre-shared key are 
 both "voyage-wds", execute the following commands:
 
-# wpa_passphrase voyage-wds voyage-wds>> /etc/wpa_supplicant.conf
+# wpa_passphrase voyage-wds voyage-wds>> /etc/wpa_supplicant/wpa_supplicant.conf
 
-Then, edit /etc/wpa_supplicant.conf and adding key_mgmt and proto parameters:
+Then, edit /etc/wpa_supplicant/wpa_supplicant.conf and adding key_mgmt and 
+proto parameters:
 
 network={
     ssid="voyage-wds"
