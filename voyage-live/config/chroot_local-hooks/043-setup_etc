@@ -100,7 +100,7 @@ update-rc.d voyage-sync start 36 S . stop 99 0 6 .
 echo -n "Modifying /etc/modules ... "
 echo "natsemi" >> /etc/modules
 echo "hostap_pci" >> /etc/modules
-echo "options ath_pci autocreate=none" >> /etc/modprobe.d/madwifi
+echo "options ath_pci autocreate=none ratectrl=minstrel" >> /etc/modprobe.d/madwifi
 echo "Done"
 
 #################################
