@@ -1,3 +1,13 @@
+voyage-util (0.6-3) unstable; urgency=low
+
+  * new upstream release
+  * add VOYAGE_UNIONFS to /etc/default/voyage-util
+  * patch to fix selecting console for Generic PC not persist [Sean Lazar]
+  * voyage-sync: add 'sync' command argument 
+  * voyage-sync: kill process before unmount
+
+ -- Punky Tse <punkytse@punknix.com>  Sun, 25 Jun 2009 00:03:42 +0800
+
 voyage-util (0.6-2) unstable; urgency=low
 
   * new upstream release

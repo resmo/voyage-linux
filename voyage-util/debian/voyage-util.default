@@ -15,3 +15,6 @@ VOYAGE_LEDS="YES"
 # apart from /var/tmp and /var/log, add extra directories to sync from tmpfs
 VOYAGE_SYNC_DIRS=""
 
+# set unionfs type, support unionfs or aufs only.
+#VOYAGE_UNIONFS=unionfs
+

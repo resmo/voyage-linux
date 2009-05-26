@@ -33,8 +33,9 @@ SYNC_DIRS="var/log var/tmp"
 if [ -f /etc/default/voyage-util ] ; then 
 	. /etc/default/voyage-util; 
 fi
+
 SYNC_DIRS="$SYNC_DIRS $VOYAGE_SYNC_DIRS"
-UNIONFS=${VOYAGE_UNIONFS:=aufs}
+UNIONFS=${VOYAGE_UNIONFS:=tmpfs}
 
 mount_dirs()
 {
@@ -59,7 +60,9 @@ mount_dirs()
 			chown $PERM $2
 			;;
 		'tmpfs')
-			echo not implemented
+			cp -rp $2/* $3/
+			echo "    tmpfs: mount back $3 to $2"
+			mount --bind $3 $2 
 			;;
 		*)
 	    	;;
@@ -81,25 +84,40 @@ case $1 in
 		done
 		echo "Done."
 		;;
-	'stop')
+	'sync')
 		echo "Voyage is now synchroning changed files..."
-		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
 		for SYNC_DIR in $SYNC_DIRS; do
 			if [ ! -d /.sync/$SYNC_DIR ] ; then
-                                mkdir -p /.sync/$SYNC_DIR
-                                PERM=$(stat --format=%U:%G /$SYNC_DIR)
-                                chown $PERM /.sync/$SYNC_DIR
-                        fi
+            	mkdir -p /.sync/$SYNC_DIR
+            	PERM=$(stat --format=%U:%G /$SYNC_DIR)
+            	chown $PERM /.sync/$SYNC_DIR
+            fi
 			
 			echo "  Sync'ing /$SYNC_DIR to `dirname /$SYNC_DIR`	"
-
 			rsync -a -q --delete-after /$SYNC_DIR/* /.sync/$SYNC_DIR
+		done
+		;;
+		
+	'stop')
+		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
+
+		# call "voyage-sync sync"
+		$0 sync
+
+		# then kill suspicous process in sync dir and unmount
+		for SYNC_DIR in $SYNC_DIRS; do
+			for P in `lsof -F p /$SYNC_DIR/*`
+			do
+				echo "Killing process ${P:1}"
+				kill ${P:1}
+			done
+			sleep 1
+
 			umount /$SYNC_DIR		
 			
 			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
-
 			#PERM=$(stat --format=%U:%G $SYNC_DIR)
-                        #echo "owner $PERM $SYNC_DIR"
+            #echo "owner $PERM $SYNC_DIR"
 		done
 		
 		# at last remove /.sync

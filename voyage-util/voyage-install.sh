@@ -134,8 +134,13 @@ select_target_boot() {
 #	Sets environment vars VOYAGE_SYSTEM_CONSOLE and VOYAGE_SYSTEM_SERIAL
 #
 select_target_console() {
+	if [ "$VOYAGE_SYSTEM_CONSOLE" == "standard" ]; then
+		VOYAGE_SYSTEM_CONSOLE_DEFAULT=2
+	else
+		VOYAGE_SYSTEM_CONSOLE_DEFAULT=1
+	fi
 	local a opts="Serial Terminal%Console Interface"
-	ask_setting "Select terminal type:" "$opts" 1
+	ask_setting "Select terminal type:" "$opts" $VOYAGE_SYSTEM_CONSOLE_DEFAULT
 	case $v in
 		1) VOYAGE_SYSTEM_CONSOLE="serial";;
 		2) VOYAGE_SYSTEM_CONSOLE="standard";;
