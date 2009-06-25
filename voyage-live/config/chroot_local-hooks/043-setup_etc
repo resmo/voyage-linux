@@ -92,6 +92,8 @@ echo "Done"
 echo -n "Add voyage-sync to rc.d "
 
 update-rc.d voyage-sync start 36 S . stop 99 0 6 .
+mv /etc/rc0.d/K99voyage-sync /etc/rc0.d/S36voyage-sync 
+mv /etc/rc6.d/K99voyage-sync /etc/rc6.d/S36voyage-sync 
 
 
 #################################
