@@ -5,7 +5,7 @@
 	- [general] enable printk with time
 	- [ide] CONFIG_IDE=y and enable hpt366 
 	- [netdev] enable tulip, de2104x and cs89x0
-	- [usb] enable IR and TI chipset
+	- [usb] enable IR, IUU and TI chipset
 	- [fs] enable xfs, autofs and nls_utf8
 -[misc]
 	- add hostapd and wpa-supplicant configuration samples
