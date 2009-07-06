@@ -1,3 +1,25 @@
+0.6.2 (xx Jul 2009)
+-[kernel] linux-image-2.6.26-486-voyage_6.0-3
+    - [general] Debian kernel source 2.6.26-17
+	- [general] enable ACPI and PM
+	- [general] enable printk with time
+	- [ide] CONFIG_IDE=y and enable hpt366 
+	- [netdev] enable tulip, de2104x and cs89x0
+	- [usb] enable IR and TI chipset
+	- [fs] enable xfs, autofs and nls_utf8
+-[misc]
+	- add hostapd and wpa-supplicant configuration samples
+	- change to use minstrel for madwifi rate control default
+	- add quickboot for Live CD boot parameter
+-[voyage-util]
+	- add VOYAGE_UNIONFS to /etc/default/voyage-util
+	- patch to fix selecting console for Generic PC not persist [Sean Lazar]
+	- add do-update.sh
+	- voyage-sync: add 'sync' command argument 
+	- voyage-sync: kill process before unmount
+	- voyage-sync: use tmpfs as default
+	- voyage-sync: shutdown sequence change from K99 to S36
+
 0.6.1 (17 Feb 2009)
 - based on Debian 5.0 (lenny) release
 - [kernel] linux-image-2.6.26-486-voyage_6.0-2

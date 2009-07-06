@@ -655,7 +655,7 @@ of the error message:
 kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1
 of the target platform.  
 
-6.5 Live CD
+6.5 Live CD and PXE boot
 ======================
 Voyage Live CD is now available for every stable voyage release:
 	http://www.voyage.hk/download/ISO/
@@ -680,6 +680,7 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 7.1 Release History
 ======================
 	Voyage 0.6
+    * [2009-07-xx] voyage-0.6.2
     * [2009-02-17] voyage-0.6.1
     * [2008-12-30] voyage-0.6.0
     
