@@ -633,7 +633,14 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 
 6.4 Known Issues
 ======================
-- If Voyage cannot boot complaining rootfs can't be located, tyr to added the 
+- when running madwifi driver with AP mode, stuck beacon problem may occur:
+    wifi0: ath_bstuck_tasklet: Stuck beacon; resetting (beacon miss )
+  When this error happens, sometime it is not recoverable.  After some test,
+  it is found that the most stable vesion is 0.9.4-rc2, fallback by:
+ # wget http://www.voyage.hk/dists/0.6/madwifi/madwifi-modules-2.6.26-486-voyage_0.9.4~rc2-1+6.0-3_i386.deb
+ # apt-get install madwifi-modules-2.6.26-486-voyage_0.9.4~rc2-1+6.0-3_i386.deb
+  
+- If Voyage cannot boot complaining rootfs can't be located, tty to added the 
 following to the kernel boot parameters:
 	"ide=nodma all_generic_ide"
 
