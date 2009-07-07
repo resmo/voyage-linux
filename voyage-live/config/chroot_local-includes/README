@@ -680,7 +680,7 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 7.1 Release History
 ======================
 	Voyage 0.6
-    * [2009-07-xx] voyage-0.6.2
+    * [2009-07-07] voyage-0.6.2
     * [2009-02-17] voyage-0.6.1
     * [2008-12-30] voyage-0.6.0
     
@@ -726,6 +726,6 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 	* Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20090217
+Last Updated: 20090707
 ======================
 

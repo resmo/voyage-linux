@@ -1,4 +1,4 @@
-0.6.2 (xx Jul 2009)
+0.6.2 (07 Jul 2009)
 -[kernel] linux-image-2.6.26-486-voyage_6.0-3
     - [general] Debian kernel source 2.6.26-17
 	- [general] enable ACPI and PM
