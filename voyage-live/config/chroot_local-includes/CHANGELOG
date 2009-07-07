@@ -1,5 +1,5 @@
 0.6.2 (07 Jul 2009)
--[kernel] linux-image-2.6.26-486-voyage_6.0-3
+- [kernel] linux-image-2.6.26-486-voyage_6.0-3
     - [general] Debian kernel source 2.6.26-17
 	- [general] enable ACPI and PM
 	- [general] enable printk with time
@@ -7,11 +7,12 @@
 	- [netdev] enable tulip, de2104x and cs89x0
 	- [usb] enable IR, IUU and TI chipset
 	- [fs] enable xfs, autofs and nls_utf8
--[misc]
+- [madwifi] upgrade to madwifi-trunk 0.9.4+r4022.20090513-1+6.0-3
+- [misc]
 	- add hostapd and wpa-supplicant configuration samples
 	- change to use minstrel for madwifi rate control default
 	- add quickboot for Live CD boot parameter
--[voyage-util]
+- [voyage-util]
 	- add VOYAGE_UNIONFS to /etc/default/voyage-util
 	- patch to fix selecting console for Generic PC not persist [Sean Lazar]
 	- add do-update.sh
