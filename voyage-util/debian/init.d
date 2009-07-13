@@ -1,4 +1,12 @@
 #! /bin/sh
+### BEGIN INIT INFO
+# Provides:          voyage-util
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Voyage Init script
+### END INIT INFO
 #
 # skeleton  example file to build /etc/init.d/ scripts.
 #       This file should be used to construct scripts for /etc/init.d.
@@ -94,6 +102,12 @@ case $1 in
 		#fi
 
 		# Do nothing
+		;;
+	force-reload|restart)
+
+    	;;
+	status)
+	
 		;;
 	*)
 	    ;;
