@@ -1,8 +1,8 @@
-#! /bin/sh
+#! /bin/bash
 ### BEGIN INIT INFO
 # Provides:          voyage-sync
-# Required-Start:    
-# Required-Stop:     
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
 # Default-Start:     S
 # Default-Stop:      0 6
 # Short-Description: Voyage tmpfs and sync
@@ -124,7 +124,11 @@ case $1 in
 		rm -rf /.sync
 		echo "Done."
 		;;
+  	force-reload|restart)
+    	;;
+
 	*)
+		echo "Usage: /etc/init.d/voyage-sync {start|stop|sync}" >&2
 	    ;;
 esac
 
