@@ -66,8 +66,8 @@ binary-arch: build install
 #	dh_installpam
 #	dh_installmime
 #	dh_installinit -n -r -- "defaults 99"
-	dh_installinit -r -- "defaults 99"
-	dh_installinit --name=voyage-sync -o -r -- "start 36 S . start 36 0 6 ."
+	dh_installinit --no-start -r -- "defaults 99"
+	dh_installinit --no-start --name=voyage-sync -o -r -- "start 36 S . start 36 0 6 ."
 #	dh_installcron
 #	dh_installinfo
 	dh_installman
