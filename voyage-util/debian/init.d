@@ -32,7 +32,7 @@ fi
 
 start_leds()
 {
-	if [ $VOYAGE_LEDS == "NO" ] ; then return ; fi
+	if [ $VOYAGE_LEDS = "NO" ] ; then return ; fi
 	
 	if [ ! -f /etc/voyage.conf ] ; then return ; fi
 	. /etc/voyage.conf
