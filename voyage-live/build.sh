@@ -3,6 +3,8 @@
 DISTRO="voyage-current"
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
+export MKSQUASHFS_OPTIONS="-b 1048576"
+
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
 	lh_config -a amd64
