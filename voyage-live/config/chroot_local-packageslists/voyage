@@ -47,6 +47,7 @@ conntrack
 lsof
 bash-completion
 nocatsplash
+resolvconf
 #sysklogd
 #klogd
 #openbsd-inetd
