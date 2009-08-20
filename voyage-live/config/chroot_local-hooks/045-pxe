@@ -98,10 +98,10 @@ update-rc.d -f nfs-user-server remove
 update-rc.d -f nfs-kernel-server remove
 
 # Re-creating initrd.img
-for KVERS in $(dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1  | sed -s "s/linux-image-//" ) 
-do
-	update-initramfs -k $KVERS -d
-	update-initramfs -k $KVERS -c 
-done
+#for KVERS in $(dpkg-query --show | grep linux-image | tr -s "\t" " " | cut -d " " -f 1  | sed -s "s/linux-image-//" ) 
+#do
+#	update-initramfs -k $KVERS -d
+#	update-initramfs -k $KVERS -c 
+#done
 
 rm -f /boot/*.bak /*.bak
