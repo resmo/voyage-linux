@@ -39,8 +39,8 @@ BuildTar()
 
 	lh_build
 
-	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove busybox live-initramfs"
-	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove"
+	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
+	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove --purge"
 	rm binary/live/filesystem.dir/boot/*.bak
 	
 	if [ -d binary/live/filesystem.dir ] ; then
