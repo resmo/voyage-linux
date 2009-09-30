@@ -2,6 +2,9 @@ voyage-util (0.7-1) unstable; urgency=low
 
   * new upstream release
   * better debhelper support for initscripts
+  * PATCH[3/3]: command line processing for voyage.update (Christian Recktenwald)
+  * PATCH: command line processing for format-cf.sh (Christian Recktenwald)
+  * PATCH: prevent /sys /proc /dev and /tmp/cf from	being copied by	copyfiles.sh / alternate network installation procedure (Christian Recktenwald)
 
  -- Punky Tse <punkytse@punknix.com>  Fri, 10 Jul 2009 23:29:14 +0800
 
