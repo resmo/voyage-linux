@@ -10,7 +10,7 @@ LH_UNION_FILESYSTEM="aufs"
 
 # $LH_VIRTUAL_ROOT_SIZE: set virtual-hdd filesystem size
 # (Default: 10000)
-LH_VIRTUAL_ROOT_SIZE="10000"
+LH_VIRTUAL_ROOT_SIZE="8000"
 
 # $LH_EXPOSED_ROOT: expose root as read only
 # (Default: disabled)
