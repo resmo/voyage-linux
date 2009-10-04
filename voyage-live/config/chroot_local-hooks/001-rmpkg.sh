@@ -11,6 +11,23 @@ console-common \
 apt-utils \
 gcc-4.2-base \
 netcat-traditional \
+bsdmainutils \
+dmidecode \
+ed \
+groff-base \
+info \
+libcwidget3 \
+libept0 \
+libgdbm3 \
+libnewt0.52 \
+libsigc++-2.0-0c2a \
+libxapian15 \
+man-db \
+nano \
+rsyslog \
+vim-common \
+vim-tiny \
+whiptail \
 dhcp3-client \
 dhcp3-common \
 "
