@@ -1,11 +1,14 @@
 #! /bin/bash
 ### BEGIN INIT INFO
-# Provides:          voyage-sync
-# Required-Start:    $remote_fs
-# Required-Stop:     $remote_fs
-# Default-Start:     S
-# Default-Stop:      0 6
-# Short-Description: Voyage tmpfs and sync
+# Provides:             voyage-sync
+# Required-Start:       $local_fs
+# Required-Stop:        $local_fs
+# Should-Start:
+# Should-Stop:          
+# Default-Start:        S
+# Default-Stop:         0 6
+# Short-Description:    Voyage tmpfs and sync
+# Description:          Voyage tmpfs and sync
 ### END INIT INFO
 #
 # skeleton  example file to build /etc/init.d/ scripts.

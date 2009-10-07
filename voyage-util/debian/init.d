@@ -1,10 +1,12 @@
 #! /bin/sh
 ### BEGIN INIT INFO
 # Provides:          voyage-util
-# Required-Start:    $remote_fs
-# Required-Stop:     $remote_fs
-# Default-Start:     S
-# Default-Stop:      0 6
+# Required-Start:    $all
+# Required-Stop:     
+# Should-Start:      
+# Should-Stop:       
+# Default-Start:     2 3 4 5 
+# Default-Stop:      
 # Short-Description: Voyage Init script
 ### END INIT INFO
 #
