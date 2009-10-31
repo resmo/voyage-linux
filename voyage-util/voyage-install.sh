@@ -376,7 +376,7 @@ doopt () {
 		    shift
 			;;
 		-f) CLA_MAKEFS="1"
-                        BITMAP=$[ $BITMAP | 512 ]
+			BITMAP=$[ $BITMAP | 512 ]
 			;;
 		*)  usage
 			exit 1
