@@ -93,6 +93,7 @@ update_modules "$TARGET_MOUNT"
 update_inittab "$DISTDIR" "$TARGET_MOUNT"
 update_pcmcia "$TARGET_MOUNT"
 remove_dnsmasq_pxe "$TARGET_MOUNT"
+reconfig_resolvconf "$TARGET_MOUNT"
 ${EXECDIR}/setboot.sh
 write_config "$TARGET_MOUNT/etc/voyage.conf" "$VOYAGE_CONF_LIST"
 umount $TARGET_MOUNT

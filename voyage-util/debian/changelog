@@ -2,6 +2,7 @@ voyage-util (0.7-1) unstable; urgency=low
 
   * new upstream release
   * better debhelper support for initscripts
+  * reconfigure resolvconf at installation
   * [voyage-sync] add empty directory checking 
   * [voyage-sync] fix .* hidden files not sync'ing
   * [voyage-sync] add VOYAGE_RW_DIRS for non-sync read-write directories
