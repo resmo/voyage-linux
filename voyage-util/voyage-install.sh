@@ -319,6 +319,7 @@ usage: $0 [options]
 		-c  VOYAGE_SYSTEM_CONSOLE default=$VOYAGE_SYSTEM_CONSOLE
 		-d  DISTDIR               default=$DISTDIR
 		-f  partition and mkfs    default=ask
+		-U  use flash media as-is default=ask
 EOF
 }
 
@@ -376,6 +377,9 @@ doopt () {
 		    shift
 			;;
 		-f) CLA_MAKEFS="1"
+			BITMAP=$[ $BITMAP | 512 ]
+			;;
+		-U) CLA_MAKEFS="0"
 			BITMAP=$[ $BITMAP | 512 ]
 			;;
 		*)  usage
