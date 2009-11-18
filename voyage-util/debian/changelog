@@ -3,9 +3,11 @@ voyage-util (0.7-1) unstable; urgency=low
   * new upstream release
   * better debhelper support for initscripts
   * reconfigure resolvconf at installation
+  * fix profile and serial menu items without numbers
   * [voyage-sync] add empty directory checking 
   * [voyage-sync] fix .* hidden files not sync'ing
   * [voyage-sync] add VOYAGE_RW_DIRS for non-sync read-write directories
+  * [voyage-sync] run sync command after finish synchronization to disk 
   * PATCH[3/3]: command line processing for voyage.update (Christian Recktenwald)
   * PATCH: command line processing for format-cf.sh (Christian Recktenwald)
   * PATCH: prevent /sys /proc /dev and /tmp/cf from	being copied by	copyfiles.sh / alternate network installation procedure (Christian Recktenwald)

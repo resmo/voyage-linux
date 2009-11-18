@@ -268,6 +268,13 @@ split_ask_setting_option () {
 	saso_nr="$1" 
 	saso_desc="$2"
 	saso_cla="$3"
+	
+	# the list may not be ":" separated.  If so, saso_nr is left blank and
+	# fill with saso_desc instead.
+	if [ -z "$saso_desc" ] ; then 
+		saso_desc="$saso_nr"
+		saso_nr=""
+	fi
 
 	IFS="$saveifs"
 }
@@ -293,10 +300,11 @@ ask_setting()
 				default="$saso_desc"
 			fi
 			if [ -z "$saso_cla" ]; then
+				if [ -z "$saso_nr" ]; then saso_nr="$len"; fi
 				echo "  $saso_nr - $saso_desc" >&2
 			fi
 		done
-		read_response "       (default=$3 [$default]): " v
+		read_response "      (default=$3 [$default]): " v
 		v=${v:-$3}
 		if [ $v -ge 1 ]; then
 			if [ $v -le $len ]; then

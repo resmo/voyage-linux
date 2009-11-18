@@ -101,6 +101,7 @@ case $1 in
 				rsync -a -q --delete-after /$SYNC_DIR/. /.sync/$SYNC_DIR
 			fi
 		done
+		sync
 		;;
 		
 	'stop')

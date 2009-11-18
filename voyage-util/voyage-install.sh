@@ -163,17 +163,16 @@ select_target_console() {
 #
 select_fs_creation () {
 	local MAKEFS_DEFAULT
-	if [ "$MAKEFS" == "" ]; then 
-		MAKEFS_DEFAULT=0
-	else
+	MAKEFS_DEFAULT="$MAKEFS"
+	if [ "$MAKEFS" = "" ]; then 
 		MAKEFS_DEFAULT=1
-	fi 
+	fi
 
 	local a opts="1:Partition Flash Media and Create Filesystem%2:Use Flash Media as-is"
 	ask_setting "What shall I do with your Flash Media?" "$opts" "$MAKEFS_DEFAULT"
 	case $v in
 		1) MAKEFS=1;;
-		2) MAKEFS=0;;
+		2) MAKEFS=2;;
 		*) err_quit "Unrecognized response from ask_setting";;
 	esac
 	save_config_var MAKEFS VOYAGE_CONF_LIST
@@ -379,7 +378,7 @@ doopt () {
 		-f) CLA_MAKEFS="1"
 			BITMAP=$[ $BITMAP | 512 ]
 			;;
-		-U) CLA_MAKEFS="0"
+		-U) CLA_MAKEFS="2"
 			BITMAP=$[ $BITMAP | 512 ]
 			;;
 		*)  usage
@@ -462,10 +461,10 @@ if [ "$run_dialog" = 1 ]; then
 	while true
 	do
 	    opt=$((opt + 1))
-	    if [ $opt -ge 7 ] ; then opt=7 ; fi
+	    if [ $opt -ge 8 ] ; then opt=8 ; fi
 	    
 	    # Work starts here.  The default is set to "2" at first
-	    #ask_setting "What would you like to do?" "$OPTIONS" 7
+	    #ask_setting "What would you like to do?" "$OPTIONS" 8
 	    ask_setting "What would you like to do?" "$OPTIONS" $opt
 	    opt=$v
 		case $v in
