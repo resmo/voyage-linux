@@ -63,9 +63,14 @@ mount_dirs()
 			chown $PERM $2
 			;;
 		'tmpfs')
+			PERM=$(stat --format=%U:%G $2)
+			chmod --reference=$2 $3
+			chown --reference=$2 $3
 			if [ "$(ls -A $2)" ] ; then cp -rp $2/. $3/; fi
 			echo "    tmpfs: mount back $3 to $2"
 			mount --bind $3 $2 
+			#echo "chown $PERM $2"
+			chown $PERM $2
 			;;
 		*)
 	    	;;
@@ -96,8 +101,8 @@ case $1 in
 				chown $PERM /.sync/$SYNC_DIR
 			fi
 		
-			echo "  Sync'ing /$SYNC_DIR to `dirname /$SYNC_DIR`	"
-			if [ "$(ls -A $SYNC_DIR)" ]; then
+			echo "  Sync'ing /$SYNC_DIR to `dirname /.sync/$SYNC_DIR`	"
+			if [ "$(ls -A /$SYNC_DIR)" ]; then
 				rsync -a -q --delete-after /$SYNC_DIR/. /.sync/$SYNC_DIR
 			fi
 		done
@@ -112,20 +117,22 @@ case $1 in
 
 		# then kill suspicous process in sync & RW dir and unmount
 		for SYNC_DIR in $SYNC_DIRS $VOYAGE_RW_DIRS; do
-			if [ "$(ls -A $SYNC_DIR)" ]; then
-			for P in `lsof -F p /$SYNC_DIR/.`
+			if [ "$(ls -A /$SYNC_DIR)" ]; then
+			for P in `lsof -F p /$SYNC_DIR`
 			do
-				echo "Killing process ${P:1}"
+				echo "Killing process: $(ps --no-heading --format=comm -p ${P:1})"
 				kill ${P:1}
 			done
 			fi
 			sleep 1
 
+			echo "  unmount'ing /$SYNC_DIR	"
 			umount /$SYNC_DIR		
 			
+			echo "  Sync'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`	"
 			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
-			#PERM=$(stat --format=%U:%G $SYNC_DIR)
-			#echo "owner $PERM $SYNC_DIR"
+			#PERM=$(stat --format=%U:%G /$SYNC_DIR)
+			#echo "owner $PERM /$SYNC_DIR"
 		done
 		
 		# at last remove /.sync
