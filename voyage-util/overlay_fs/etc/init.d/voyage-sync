@@ -29,6 +29,8 @@ DESC=voyage-sync
 TMPFS_ROOT=/lib/init/rw
 SYNC_DIRS="var/log var/tmp"
 
+NEED_REBOOT=no
+
 # using the following commands to install
 #	
 #	update-rc.d voyage-sync start 36 S . stop 99 0 6 .
@@ -43,13 +45,13 @@ UNIONFS=${VOYAGE_UNIONFS:=tmpfs}
 reconfig_resolvconf() {
 	PKG=$(dpkg-query --show|grep resolvconf)
 	if  [ ! -z "$PKG" ] && [ ! -L /etc/resolv.conf ] ; then
-		echo -n "Reconfiguring resolvconf."
+		echo "Reconfiguring resolvconf."
 		DEBIAN_FRONTEND=noninteractive dpkg-reconfigure resolvconf
 	fi
 }
 
 copy_rw_to_ro() {
-	echo "Copy /ro to /rw."
+	echo "Copying /ro to /rw."
 	#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
 	tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
 }
@@ -93,6 +95,26 @@ mount_dirs()
 
 case $1 in
 	'start')
+		# check SYNC_DIRS if recovery after a power failure is activated
+		if [ "$VOYAGE_SYNC_RECOVER" = "YES" ] ; then
+			echo "Voyage is now checking if recovery from a power failure is needed..."
+			VOYAGE_SYNC_RECOVER_DIRS=${VOYAGE_SYNC_RECOVER_DIRS:-$SYNC_DIRS}
+			for SYNC_DIR in $VOYAGE_SYNC_RECOVER_DIRS ; do
+				if [ -d /.sync/$SYNC_DIR ] ; then
+					echo "  Recover'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`	"
+					rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`
+					NEED_REBOOT=yes
+				fi
+			done
+			# and now remove /.sync
+			rm -rf /.sync
+			# check if reboot is needed
+			if [ "$NEED_REBOOT" = yes ] ; then
+				echo "  Will now restart after recovery from a power failure"
+				reboot -f
+			fi
+		fi
+
 		reconfig_resolvconf
 		copy_rw_to_ro
 		
