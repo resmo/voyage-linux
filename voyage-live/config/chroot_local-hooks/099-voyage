@@ -54,3 +54,6 @@ for FILE in $(find /var/log/ -type f)
 do
 	: > ${FILE}
 done
+
+# at last, remove .svn
+find / -name ".svn" -exec rm -rf '{}' '+'
