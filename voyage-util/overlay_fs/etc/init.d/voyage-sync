@@ -50,7 +50,7 @@ reconfig_resolvconf() {
 	fi
 }
 
-copy_rw_to_ro() {
+copy_ro_to_rw() {
 	echo "Copying /ro to /rw."
 	#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
 	tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
@@ -116,7 +116,7 @@ case $1 in
 		fi
 
 		reconfig_resolvconf
-		copy_rw_to_ro
+		copy_ro_to_rw
 		
 		echo "Voyage is now setting up tmpfs for changed files..."
 		for SYNC_DIR in $SYNC_DIRS $VOYAGE_RW_DIRS; do
