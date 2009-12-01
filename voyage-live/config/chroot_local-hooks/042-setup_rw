@@ -2,6 +2,8 @@
 
 #################################
 
+/usr/local/sbin/voyage-rwfile.sh create /var/lib/logrotate
+
 exit
 
 echo -n "Installing /ro and /rw directories ... "
