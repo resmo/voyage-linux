@@ -64,7 +64,9 @@ echo "Done"
 #################################
 #echo -n "Modifying /etc/init.d/mountall.sh ... "
 
-#echo "tar -C /ro -cf - . | tar -C /rw -xf -  > /dev/null 2>&1" >> /etc/init.d/mountall.sh
+mkdir /ro
+#echo "tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1" >> /etc/init.d/mountall.sh
+
 #cat >> /etc/init.d/mountall.sh <<EOF
 #mkdir -p /rw/var/log > /dev/null 2>&1
 #mount -t aufs -o dirs=/rw/var/log:/var/log=ro none /var/log  > /dev/null 2>&1
