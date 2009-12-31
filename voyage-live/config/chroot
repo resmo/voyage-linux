@@ -1,15 +1,15 @@
 # config/chroot - options for live-helper(7), chroot stage
 
 # $LH_CHROOT_FILESYSTEM: set chroot filesystem
-# (Default: plain)
-LH_CHROOT_FILESYSTEM="plain"
+# (Default: squashfs)
+LH_CHROOT_FILESYSTEM="squashfs"
 
 # $LH_UNION_FILESYSTEM: set union filesystem
 # (Default: aufs)
 LH_UNION_FILESYSTEM="aufs"
 
 # $LH_VIRTUAL_ROOT_SIZE: set virtual-hdd filesystem size
-# (Default: 10000)
+# (Default: 8000)
 LH_VIRTUAL_ROOT_SIZE="8000"
 
 # $LH_EXPOSED_ROOT: expose root as read only
@@ -34,7 +34,7 @@ LH_LANGUAGE="en"
 
 # $LH_LINUX_FLAVOURS: set kernel flavour to use
 # (Default: autodetected)
-LH_LINUX_FLAVOURS="486-voyage"
+LH_LINUX_FLAVOURS="voyage"
 
 # $LH_LINUX_PACKAGES: set kernel packages to use
 # (Default: autodetected)
@@ -45,8 +45,8 @@ LH_LINUX_PACKAGES="linux-image-2.6.30 aufs-modules-2.6.30 madwifi-modules-2.6.30
 LH_PACKAGES=""
 
 # $LH_PACKAGES_LISTS: set package list to install
-# (Default: voyage)
-LH_PACKAGES_LISTS="voyage"
+# (Default: voyage-cd)
+LH_PACKAGES_LISTS="voyage-cd"
 
 # $LH_TASKS: set tasks to install
 # (Default: empty)
