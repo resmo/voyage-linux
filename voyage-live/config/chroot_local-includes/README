@@ -687,6 +687,7 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 7.1 Release History
 ======================
 	Voyage 0.6
+    * [2010-02-15] voyage-0.6.5
     * [2009-07-07] voyage-0.6.2
     * [2009-02-17] voyage-0.6.1
     * [2008-12-30] voyage-0.6.0
@@ -725,6 +726,7 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 
 7.1 Corresponding Debian and Kernel release
 ======================
+    * Lenny, 2.6.30 - Voyage 0.6.5
 	* Lenny, 2.6.26 - Voyage 0.6
 	* Etch,  2.6.23 - Voyage 0.5
 	* Etch,  2.6.20 - Voyage 0.4

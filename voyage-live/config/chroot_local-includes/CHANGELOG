@@ -1,3 +1,47 @@
+0.6.5 (15 Feb 2009)
+- [kernel] linux-image-2.6.30-486-voyage_7.0-1
+    - [general] Debian kernel source 2.6.30-8squeeze1
+	- [general] enable lzma for kernel image compression
+	- [general] enable verbose bootup with timestamp
+	- [wireless] enable rate minstrel control, 80211s mesh
+	- [ide] enable cs5536 block device
+	- [net] enable PPP multi-link
+	- [netdev] enable atl2, atl1 and atl1c
+	- [netdev-wireless] enable ath9k, ar9170, rt2x00
+	- [usb] enable hso, usb gadget amd5536
+	- [i2c] enable gpiolib, gpio for sysfs, pcf857x, pcf9591 and scx200_i2C
+	- [v4l] enable GSPCA based devices, philips cameras
+	- [led] enable stock leds driver for alix2 and gpio led trigger
+	- [fs] enable ext4 and built-in squashfs
+	- [crypto] enable most of crypto drivers
+	- [staging] enable et131x, rt2860, rt2870
+- [madwifi] upgrade to madwifi-trunk 0.9.4+r4099trunk.20090929-1
+- [misc]
+	- /etc/network/interfaces add bintval 1000 and disable iwpriv ath0 mode 3 
+	- do not remove /usr/share/zoneinfo
+	- add usb mount udev rules
+	- add back /ro directory to distro and add /var/lib/logrotate to /ro
+	- change kernel package flavour to -voyage instead of -486-voyage
+- [live-cd]
+	- remove all_generic_ide in Live CD boot parameter
+	- set mksquashfs to use -b 1M option
+	- disable memtest, d-i and win32loader for Live CD
+- [voyage-util]
+    - better debhelper support for initscripts
+    - reconfigure resolvconf at installation
+    - fix profile and serial menu items without numbers
+    - add new voyage-rwfile script to support /ro /rw style read-only mode
+    - [voyage-sync] add empty directory checking 
+    - [voyage-sync] fix .* hidden files not sync'ing
+    - [voyage-sync] add VOYAGE_RW_DIRS for non-sync read-write directories
+    - [voyage-sync] run sync command after finish synchronization to disk 
+    - [voyage-sync] corrected some typos and preserve ownership and permissions on copied directories to ramdisk. Killing running processes got also some changes. (Hermann Hofer)
+    - [voyage-sync] detect a reboot with data remaining in '/.sync/...' from a previously sync and copy this data over to the correct place before syncing and mounting to ramdisk. (Hermann Hofer)
+    - PATCH[3/3]: command line processing for voyage.update (Christian Recktenwald)
+    - PATCH: command line processing for format-cf.sh (Christian Recktenwald)
+    - PATCH: prevent /sys /proc /dev and /tmp/cf from	being copied by	copyfiles.sh / alternate network installation procedure (Christian Recktenwald)
+    - PATCH: Add -U flag to use flash media as-is (Darshaka Pathirana)
+
 0.6.2 (07 Jul 2009)
 - [kernel] linux-image-2.6.26-486-voyage_6.0-3
     - [general] Debian kernel source 2.6.26-17
