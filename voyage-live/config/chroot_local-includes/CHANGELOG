@@ -1,4 +1,4 @@
-0.6.5 (15 Feb 2009)
+0.6.5 (17 Feb 2009)
 - [kernel] linux-image-2.6.30-486-voyage_7.0-1
     - [general] Debian kernel source 2.6.30-8squeeze1
 	- [general] enable lzma for kernel image compression
