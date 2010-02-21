@@ -83,9 +83,5 @@ save_config_var VOYAGE_PROFILE CONFIGLIST
 
 # and then 'source' the file
 list_ix "$filelist" $proix
-
-echo
-echo "***Selecting profile $1/etc/voyage-profiles/$w"
-echo
 read_config "$1/etc/voyage-profiles/$w" VOYAGE_CONF_LIST
 }
