@@ -48,6 +48,7 @@ lsof
 bash-completion
 nocatsplash
 resolvconf
+iw
 #sysklogd
 #klogd
 #openbsd-inetd
