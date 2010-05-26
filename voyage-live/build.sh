@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DISTRO="voyage-current"
+DISTRO="voyage"
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
 export MKSQUASHFS_OPTIONS="-b 1048576"
@@ -44,9 +44,9 @@ BuildTar()
 	rm binary/live/filesystem.dir/boot/*.bak
 	
 	if [ -d binary/live/filesystem.dir ] ; then
-		mv binary/live/filesystem.dir binary/live/$DISTRO$ARCH
-		tar -jcf $DISTRO$ARCH.tar.bz2 -C binary/live/	$DISTRO$ARCH/. 
-		mv binary/live/$DISTRO$ARCH binary/live/filesystem.dir
+		mv binary/live/filesystem.dir binary/live/$DISTRO-current$ARCH
+		tar -jcf $DISTRO-current$ARCH.tar.bz2 -C binary/live/	$DISTRO-current$ARCH/. 
+		mv binary/live/$DISTRO-current$ARCH binary/live/filesystem.dir
 	else
 		echo "binary/live/filesystem.dir not found!"
 	fi
@@ -59,7 +59,7 @@ BuildImg()
 	lh_build
 	
 	if [ -f binary.img ] ; then
-		mv binary.img $DISTRO$ARCH.img
+		mv binary.img $DISTRO-current$ARCH.img
 	else
 		echo "binary.img not found!"
 	fi
@@ -72,7 +72,7 @@ BuildISO()
 	lh_build
 	
 	if [ -f binary.iso ] ; then
-		mv binary.iso $DISTRO$ARCH.iso
+		mv binary.iso $DISTRO-current$ARCH.iso
 	else
 		echo "binary.iso not found!"
 	fi
@@ -85,7 +85,40 @@ BuildSDK()
 	lh_build
 	
 	if [ -f binary.iso ] ; then
-		mv binary.iso voyage-sdk$ARCH.iso
+		mv binary.iso $DISTRO-sdk$ARCH.iso
+	else
+		echo "binary.iso not found!"
+	fi
+}
+
+BuildOne()
+{
+	lh_clean
+	lh_config -b tar --chroot-filesystem plain -p voyage-one
+
+	lh_build
+
+	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
+	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove --purge"
+	rm binary/live/filesystem.dir/boot/*.bak
+	
+	if [ -d binary/live/filesystem.dir ] ; then
+		mv binary/live/filesystem.dir binary/live/$DISTRO-one-current$ARCH
+		tar -jcf $DISTRO-one-current$ARCH.tar.bz2 -C binary/live/	$DISTRO-one-current$ARCH/. 
+		mv binary/live/$DISTRO-one-current$ARCH binary/live/filesystem.dir
+	else
+		echo "binary/live/filesystem.dir not found!"
+	fi
+}
+
+BuildOneCD()
+{
+	lh_clean
+	lh_config -b iso --chroot-filesystem squashfs -p voyage-one-cd
+	lh_build
+	
+	if [ -f binary.iso ] ; then
+		mv binary.iso $DISTRO-one-current$ARCH.iso
 	else
 		echo "binary.iso not found!"
 	fi
@@ -104,6 +137,12 @@ for TYPE in $1; do
 		;;
 		sdk)
 			BuildSDK
+		;;
+		onecd)
+			BuildOneCD
+		;;
+		one)
+			BuildOne
 		;;
 		test)
 			Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove busybox live-initramfs"
