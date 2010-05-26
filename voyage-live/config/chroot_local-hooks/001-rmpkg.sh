@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ $(dpkg-query --show | cut -f1 | grep "^olsrd$" | wc -l) -gt 0  ] ; then
+    echo "($0) Building Voyage ONE.  No remove package"
+    exit 0
+fi
+   
 RMPKGS="
 libtext-charwidth-perl \
 libtext-iconv-perl \
