@@ -3,6 +3,7 @@
 # Provides:             voyage-sync
 # Required-Start:       $local_fs
 # Required-Stop:        $local_fs
+# X-Stop-After:     	$network
 # Should-Start:
 # Should-Stop:          
 # Default-Start:        S
