@@ -104,7 +104,7 @@ echo "Done"
 echo -n "Modifying /etc/modules ... "
 echo "natsemi" >> /etc/modules
 echo "hostap_pci" >> /etc/modules
-echo "options ath_pci autocreate=none ratectl=minstrel" >> /etc/modprobe.d/madwifi
+echo "options ath_pci autocreate=none ratectl=minstrel" >> /etc/modprobe.d/madwifi.conf
 echo "Done"
 
 #################################

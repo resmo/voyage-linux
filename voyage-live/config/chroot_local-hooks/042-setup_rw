@@ -3,6 +3,7 @@
 #################################
 
 /usr/local/sbin/voyage-rwfile.sh create /var/lib/logrotate
+/usr/local/sbin/voyage-rwfile.sh create /var/lib/dhcp3
 
 exit
 

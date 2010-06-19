@@ -25,24 +25,24 @@ LH_BOOTSTRAP_FLAVOUR="minimal"
 LH_BOOTSTRAP_KEYRING=""
 
 # $LH_DISTRIBUTION: select distribution to use
-# (Default: lenny)
-LH_DISTRIBUTION="lenny"
+# (Default: squeeze)
+LH_DISTRIBUTION="squeeze"
 
 # $LH_MIRROR_BOOTSTRAP: set mirror to bootstrap from
-# (Default: http://ftp.tw.debian.org/debian/)
-LH_MIRROR_BOOTSTRAP="http://ftp.tw.debian.org/debian/"
+# (Default: http://ftp.hk.debian.org/debian/)
+LH_MIRROR_BOOTSTRAP="http://ftp.hk.debian.org/debian/"
 
 # $LH_MIRROR_CHROOT: set mirror to fetch packages from
-# (Default: http://ftp.tw.debian.org/debian/)
-LH_MIRROR_CHROOT="http://ftp.tw.debian.org/debian/"
+# (Default: http://ftp.hk.debian.org/debian/)
+LH_MIRROR_CHROOT="http://ftp.hk.debian.org/debian/"
 
 # $LH_MIRROR_CHROOT_SECURITY: set security mirror to fetch packages from
 # (Default: http://security.debian.org/)
 LH_MIRROR_CHROOT_SECURITY="http://security.debian.org/"
 
 # $LH_MIRROR_BINARY: set mirror which ends up in the image
-# (Default: http://ftp.tw.debian.org/debian/)
-LH_MIRROR_BINARY="http://ftp.tw.debian.org/debian/"
+# (Default: http://ftp.hk.debian.org/debian/)
+LH_MIRROR_BINARY="http://ftp.hk.debian.org/debian/"
 
 # $LH_MIRROR_BINARY_SECURITY: set security mirror which ends up in the image
 # (Default: http://security.debian.org/)

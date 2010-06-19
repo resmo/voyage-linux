@@ -23,7 +23,6 @@ groff-base \
 info \
 libcwidget3 \
 libept0 \
-libgdbm3 \
 libnewt0.52 \
 libsigc++-2.0-0c2a \
 libxapian15 \
@@ -33,8 +32,7 @@ rsyslog \
 vim-common \
 vim-tiny \
 whiptail \
-dhcp3-client \
-dhcp3-common \
+libgdbm3 \
 "
 
 for PKG in $RMPKGS
@@ -57,6 +55,8 @@ libgpg-error0 \
 libusb-0.1-4 \
 hostname \
 libldap-2.4-2 \
+dhcp3-client \
+dhcp3-common \
 
 # below are already removed
 at \
