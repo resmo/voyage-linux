@@ -1,0 +1,6 @@
+deb http://www.voyage.hk/dists/experimental ./
+deb http://www.voyage.hk/dists/0.6 ./
+
+#deb http://ftp.tw.debian.org/debian/ lenny non-free
+deb http://ftp.hk.debian.org/debian/ lenny non-free
+
