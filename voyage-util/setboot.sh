@@ -207,9 +207,11 @@ EOM
 	fi
 
 	if [ $SYSTEM_BOOTSTRAP == lilo ]; then
+		echo "Installing lilo"
 		make_lilo_conf
 		update_lilo
 	else
+		echo "Installing grub"
 		update_grub
 	fi
 
