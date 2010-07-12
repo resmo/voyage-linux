@@ -52,9 +52,11 @@ reconfig_resolvconf() {
 }
 
 copy_ro_to_rw() {
-	echo "Copying /ro to /rw."
-	#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
-	tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
+	if [ -d /ro ] ; then
+		echo "Copying /ro to /rw."
+		#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
+		tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
+	fi
 }
 
 mount_dirs()
