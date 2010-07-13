@@ -123,7 +123,8 @@ case $1 in
 		
 		echo "Voyage is now setting up tmpfs for changed files..."
 		for SYNC_DIR in $SYNC_DIRS $VOYAGE_RW_DIRS; do
-			[ ! -d $TMPFS_ROOT/$SYNC_DIR ] && mkdir -p $TMPFS_ROOT/$SYNC_DIR			
+			if [ ! -d /$SYNC_DIR ] ; then continue; fi
+			[ ! -d $TMPFS_ROOT/$SYNC_DIR ] && mkdir -p $TMPFS_ROOT/$SYNC_DIR
 			
 			mount_dirs $UNIONFS /$SYNC_DIR $TMPFS_ROOT/$SYNC_DIR
 			
@@ -136,6 +137,7 @@ case $1 in
 	'sync')
 		echo "Voyage is now synchronizing changed files..."
 		for SYNC_DIR in $SYNC_DIRS ; do
+			if [ ! -d /$SYNC_DIR ] ; then continue; fi
 			if [ ! -d /.sync/$SYNC_DIR ] ; then
 				mkdir -p /.sync/$SYNC_DIR
 				PERM=$(stat --format=%U:%G /$SYNC_DIR)
@@ -158,6 +160,7 @@ case $1 in
 
 		# then kill suspicous process in sync & RW dir and unmount
 		for SYNC_DIR in $SYNC_DIRS $VOYAGE_RW_DIRS; do
+			if [ ! -d /$SYNC_DIR ] ; then continue; fi
 			if [ "$(ls -A /$SYNC_DIR)" ]; then
 			for P in `lsof -F p /$SYNC_DIR`
 			do
