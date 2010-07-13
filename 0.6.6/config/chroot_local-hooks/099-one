@@ -84,6 +84,24 @@ sh /usr/share/asterisk/scripts/checkconfig
 echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS etc/asterisk var/lib/asterisk var/spool/asterisk var/lib/nfs\"" >> /etc/default/voyage-util
 
 #
+# Update /etc/default/lcr
+# 
+if [ -f /etc/default/lcr ] ; then
+	echo "RUNLCR=yes" >> /etc/default/lcr
+fi
+if [ -f /etc/lcr/options.conf ] ; then
+	echo "socketrights 0700" >>  /etc/lcr/options.conf
+	echo "socketuser asterisk" >>  /etc/lcr/options.conf
+	echo "socketgroup asterisk" >> /etc/lcr/options.conf
+fi 
+
+#
+# Update /etc/modules
+#
+echo "mISDN_core" >> /etc/modules
+echo "mISDN_dsp" >> /etc/modules
+
+#
 # Change logo for asterisk-gui
 #
 cp /usr/share/voyage-artworks/digiumlogo.gif \
@@ -92,6 +110,6 @@ cp /usr/share/voyage-artworks/digiumlogo.gif \
 	/usr/share/asterisk/static-http/config/images/
 
 cp /usr/share/voyage-artworks/digiumlogo.gif \
-	/usr/share/asterisk/static-http/setup/images/
+	/usr/share/asterisk/static-http/config/setup/
 
 #
