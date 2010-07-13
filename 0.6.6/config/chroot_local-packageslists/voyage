@@ -49,6 +49,7 @@ bash-completion
 nocatsplash
 resolvconf
 iw
+adjtimex
 #sysklogd
 #klogd
 #openbsd-inetd
