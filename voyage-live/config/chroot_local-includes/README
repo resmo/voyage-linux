@@ -643,6 +643,9 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 - If Voyage cannot boot complaining rootfs can't be located, tty to added the 
 following to the kernel boot parameters:
 	"ide=nodma all_generic_ide"
+or try (on or after 0.6.5):
+	"ide_core.nodma=0.0"
+
 
 - Sometimes, grub boot screen may not appear after BIOS post if the boot
 partition is too large (~4GB).  Creating a smaller boot partition (512MB) and 
