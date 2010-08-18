@@ -75,6 +75,8 @@ cat <<EOF >>/etc/asterisk/meetme.conf
 conf = 6300,,
 EOF
 
+# Music on Hold
+sed -i -e "s/directory=moh/directory=\/usr\/share\/asterisk\/moh\//" /etc/asterisk/musiconhold.conf
 
 # Sanity check:
 sh /usr/share/asterisk/scripts/checkconfig
