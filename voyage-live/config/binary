@@ -14,7 +14,7 @@ LH_BINARY_INDICES="disabled"
 
 # $LH_BOOTAPPEND_LIVE: set boot parameters
 # (Default: empty)
-LH_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug nolocales quickreboot"
+LH_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug nolocales quickreboot ide_core.nodma=0.0 all_generic_ide"
 
 # $LH_BOOTAPPEND_INSTALL: set boot parameters
 # (Default: empty)
