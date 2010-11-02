@@ -16,7 +16,10 @@ else
 	if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -gt 0  ] ; then
     	echo "($0) Building Voyage ONE.  "
 		PURGE_PKGS="man-db manpages info dselect"
-    
+	elif  [ $(dpkg-query --show | cut -f1 | grep "^mpd$" | wc -l) -gt 0 ] ; then
+        echo "($0) Building Voyage MPD.  "
+        PURGE_PKGS="man-db manpages info dselect"
+
 	else
 		PURGE_PKGS="apt-utils aptitude man-db manpages info dselect"
 	fi

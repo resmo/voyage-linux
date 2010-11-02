@@ -12,13 +12,17 @@ set -e
 
 # Check if build Voyage ONE.  If not, exit
 if [ $(dpkg-query --show | cut -f1 | grep "^olsrd$" | wc -l) -eq 0  ] ; then
+    echo "No Building Voyage MPD. Exit"
 	exit 0
 fi
 
 echo "($0) Building Voyage ONE. "
 
-KERNEL_VER=2.6.30-voyage
-MODULE_IMAGE="batman-adv-modules-$KERNEL_VER batmand-gateway-modules-$KERNEL_VER dahdi-modules-$KERNEL_VER lirc-modules-$KERNEL_VER"
+#KERNEL_VER=2.6.30-voyage
+#KERNEL_VER=2.6.32-voyage
+
+#MODULE_IMAGE="batman-adv-modules-$KERNEL_VER batmand-gateway-modules-$KERNEL_VER dahdi-modules-$KERNEL_VER lirc-modules-$KERNEL_VER"
+#MODULE_IMAGE="batman-adv-modules-$KERNEL_VER batmand-gateway-modules-$KERNEL_VER dahdi-modules-$KERNEL_VER"
 #MODULE_IMAGE="dahdi-modules-$KERNEL_VER lirc-modules-$KERNEL_VER"
 
 #KERNEL_IMAGE=linux-image-"$KERNEL_VER"
@@ -91,7 +95,14 @@ cp /usr/share/voyage-artworks/digiumlogo.gif \
 	/usr/share/voyage-artworks/favicon.ico \
 	/usr/share/asterisk/static-http/config/images/
 
-cp /usr/share/voyage-artworks/digiumlogo.gif \
-	/usr/share/asterisk/static-http/setup/images/
+if [ -d /usr/share/asterisk/static-http/setup/images/ ] ; then
+	cp /usr/share/voyage-artworks/digiumlogo.gif \
+		/usr/share/asterisk/static-http/setup/images/
+fi
+
+if [ -d /usr/share/asterisk/static-http/config/setup/ ] ; then
+	cp /usr/share/voyage-artworks/digiumlogo.gif \
+		/usr/share/asterisk/static-http/config/setup/
+fi
 
 #

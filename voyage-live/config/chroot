@@ -38,15 +38,15 @@ LH_LINUX_FLAVOURS="voyage"
 
 # $LH_LINUX_PACKAGES: set kernel packages to use
 # (Default: autodetected)
-LH_LINUX_PACKAGES="linux-image-2.6.32 madwifi-modules-2.6.32"
+LH_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 madwifi-modules-2.6.33.7-rt29 batman-adv-modules-2.6.33.7-rt29 batmand-gateway-modules-2.6.33.7-rt29 dahdi-modules-2.6.33.7-rt29"
 
 # $LH_PACKAGES: set packages to install
 # (Default: empty)
 LH_PACKAGES=""
 
 # $LH_PACKAGES_LISTS: set package list to install
-# (Default: voyage)
-LH_PACKAGES_LISTS="voyage"
+# (Default: voyage-one)
+LH_PACKAGES_LISTS="voyage-one"
 
 # $LH_TASKS: set tasks to install
 # (Default: empty)

@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# /usr/share/live-helper/hooks/stripped - hook list for live-helper(7)
+# Copyright (C) 2006-2008 Daniel Baumann <daniel@debian.org>
+#
+# live-helper comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+# This is free software, and you are welcome to redistribute it
+# under certain conditions; see COPYING for details.
+
+#set -e
+
+# Check if build Voyage MPD.  If not, exit
+if [ $(dpkg-query --show | cut -f1 | grep "^mpd$" | wc -l) -eq 0  ] ; then
+	echo "No Building Voyage MPD. Exit"
+	exit 0
+fi
+
+echo "($0) Building Voyage MPD. "
+
+#KERNEL_VER=2.6.32-voyage
+#MODULE_IMAGE="alsa-modules-$KERNEL_VER"
+
+#KERNEL_VER=2.6.33.7-rt29-voyage
+#MODULE_IMAGE="alsa-modules-$KERNEL_VER madwifi-modules-$KERNEL_VER"
+#KERNEL_IMAGE=linux-image-"$KERNEL_VER"
+
+if [ ! -z $KERNEL_IMAGE ] ; then
+	mkdir /boot/grub
+	apt-get --yes --force-yes install "$KERNEL_IMAGE"
+fi
+    
+for IMAGE in $MODULE_IMAGE; do
+	apt-get --yes --force-yes install "$IMAGE"
+done
+
+mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko \
+	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko.bak
+mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
+	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko.bak
+
+#
+# Update /etc/default/voyage-util
+echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS var/lib/mpd \"" >> /etc/default/voyage-util
+
+##
+#  MPD configuration
+##
+
+sed -i -e "s/^options snd-usb/#options snd-usb/" /etc/modprobe.d/alsa-base.conf
+
+echo "@audio - rtprio 85" >> /etc/security/limits.d/mpd
+echo "@audio - memlock 250000" >> /etc/security/limits.d/mpd
+echo "@audio - nice -10" >>  /etc/security/limits.d/mpd
+
