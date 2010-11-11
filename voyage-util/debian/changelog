@@ -1,8 +1,12 @@
-voyage-util (0.8-1) unstable; urgency=low
+voyage-util (0.7-2) unstable; urgency=low
 
-  * insserv compatible
+  * insserv compatible for init.d scripts
+  * add debug info when setting bootloader
+  * use bash in format-cf.sh
+  * [voyage-sync] detect /ro before copying to rw
+  * [voyage-sync] check sync dir before sync
 
- -- Punky Tse <punkytse@punknix.com>  Thu, 27 May 2010 09:48:45 +0800
+ -- Punky Tse <punkytse@punknix.com>  Thu, 13 Jul 2010 09:48:45 +0800
 
 voyage-util (0.7-1) unstable; urgency=low
 
