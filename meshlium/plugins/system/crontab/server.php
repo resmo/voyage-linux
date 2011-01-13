@@ -55,7 +55,7 @@ if ($_POST['type']=="complex")
     fclose($fp);
     // Uncomment following two lines on meshlium.
     exec('sudo cp '.$base_plugin.'data/crontab.txt /etc/crontab.conf');
-    exec('sudo /etc/init.d/crontab.load.sh');
+    exec('sudo '.$base_plugin.'data/crontab.load.sh');
     $out='alert("Data saved");';
     response_additem("script", $out);
     response_return();

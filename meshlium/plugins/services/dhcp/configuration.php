@@ -19,7 +19,7 @@
  *  Version 0.1
  *  Author: Octavio Benedi Sanchez
  */
-$type="PLUGIN"; // This is just for integrity checks.
+$type="_PLUGIN"; // This is just for integrity checks.
 $plugin_name="DHCP configuration"; // THIS SHOULD BE A LINE.
 $plugin_version="0.1"; // THIS SUOULD BE A LINE.
 $plugin_author="Octavio Bened&iacute;"; //THIS SHOULD BE A LINE.

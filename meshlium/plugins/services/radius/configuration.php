@@ -19,7 +19,7 @@
  *  Version 0.1
  *  Author: Daniel Larraz
  */
-$type="PLUGIN"; // This is just for integrity checks.
+$type="_PLUGIN"; // This is just for integrity checks.
 $plugin_name="Radius"; // THIS SHOULD BE A LINE.
 $plugin_version="0.1"; // THIS SUOULD BE A LINE.
 $plugin_author="Daniel Larraz"; //THIS SHOULD BE A LINE.
