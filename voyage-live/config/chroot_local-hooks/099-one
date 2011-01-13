@@ -11,8 +11,8 @@ set -e
 
 
 # Check if build Voyage ONE.  If not, exit
-if [ $(dpkg-query --show | cut -f1 | grep "^olsrd$" | wc -l) -eq 0  ] ; then
-    echo "No Building Voyage MPD. Exit"
+if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -eq 0  ] ; then
+    echo "Not Building Voyage ONE. Exit"
 	exit 0
 fi
 
@@ -105,4 +105,36 @@ if [ -d /usr/share/asterisk/static-http/config/setup/ ] ; then
 		/usr/share/asterisk/static-http/config/setup/
 fi
 
-#
+##
+# remove packages
+##
+RMPKGS="
+aptitude \
+defoma \
+dmidecode \
+gettext-base \
+groff-base \
+install-info \
+libboost-iostreams1.42.0 \
+libcwidget3 \
+libept1 \
+libsigc++-2.0-0c2a \
+libxapian22 \
+nano \
+netcat-traditional \
+rsyslog \
+perl \
+perl-modules \
+perl-base \
+tasksel \
+tasksel-data \
+vim-common \
+vim-tiny \
+"
+
+for PKG in $RMPKGS
+do
+    echo "*** RMPKG Removing $PKG"
+    apt-get -f -y --purge remove $PKG
+done
+

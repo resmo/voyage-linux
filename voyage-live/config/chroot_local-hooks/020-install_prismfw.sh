@@ -7,7 +7,10 @@ PRISM54_FIRMWARE_URL="http://lekernel.net/prism54/firmware/1.0.4.3.arm"
 
 echo -n "Downloading Firmware from Prism54.org ... "
 
-wget "$PRISM54_FIRMWARE_URL" \
-	-O /usr/lib/hotplug/firmware/isl3890
+if [ ! -d /usr/lib/hotplug/firmware ] ; then
+	mkdir -p /usr/lib/hotplug/firmware
+fi
+
+wget "$PRISM54_FIRMWARE_URL" -O /usr/lib/hotplug/firmware/isl3890
 	
 echo "Done"

@@ -7,14 +7,21 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-2.6.32 madwifi-modules-2.6.32"
-#ONE_LINUX_PACKAGES="linux-image-2.6.32 madwifi-modules-2.6.32 batman-adv-modules-2.6.32 batmand-gateway-modules-2.6.32 dahdi-modules-2.6.32"
-ONE_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 madwifi-modules-2.6.33.7-rt29 batman-adv-modules-2.6.33.7-rt29 batmand-gateway-modules-2.6.33.7-rt29 dahdi-modules-2.6.33.7-rt29"
-MPD_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 madwifi-modules-2.6.33.7-rt29 alsa-modules-2.6.33.7-rt29"
+VOYAGE_LINUX_PACKAGES="linux-image-2.6.32 \
+						madwifi-modules-2.6.32"
+ONE_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 \
+					madwifi-modules-2.6.33.7-rt29 \
+					batman-adv-modules-2.6.33.7-rt29 \
+					batmand-gateway-modules-2.6.33.7-rt29 \
+					dahdi-modules-2.6.33.7-rt29"
+MPD_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 \
+					madwifi-modules-2.6.33.7-rt29 \
+					alsa-modules-2.6.33.7-rt29 \
+					lirc-modules-2.6.33.7-rt29"
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
-	lh config -a amd64
+	lb config -a amd64
 fi
 
 Chroot ()
@@ -41,9 +48,9 @@ Chroot_MountProc ()
 
 BuildTar()
 {
-	lh clean
-	lh config -b tar --chroot-filesystem plain -p voyage --linux-packages="$VOYAGE_LINUX_PACKAGES"
-	lh build
+	lb clean
+	lb config -b tar --chroot-filesystem plain --packages-lists "voyage" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove --purge"
@@ -60,9 +67,9 @@ BuildTar()
 
 BuildImg()
 {
-	lh clean
-	lh config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs -p voyage-cd --linux-packages="$VOYAGE_LINUX_PACKAGES"
-	lh build
+	lb clean
+	lb config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb build
 
 	if [ -f binary.img ] ; then
 		mv binary.img $DISTRO-current$ARCH.img
@@ -73,9 +80,9 @@ BuildImg()
 
 BuildISO()
 {
-	lh clean
-	lh config -b iso --chroot-filesystem squashfs -p voyage-cd --linux-packages="$VOYAGE_LINUX_PACKAGES"
-	lh build
+	lb clean
+	lb config -b iso --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-current$ARCH.iso
@@ -86,44 +93,12 @@ BuildISO()
 
 BuildSDK()
 {
-	lh clean
-	lh config -b iso --chroot-filesystem squashfs -p voyage-sdk --linux-packages="$VOYAGE_LINUX_PACKAGES"
-	lh build
+	lb clean
+	lb config -b iso --chroot-filesystem squashfs --packages-lists "voyage-sdk" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-sdk$ARCH.iso
-	else
-		echo "binary.iso not found!"
-	fi
-}
-
-BuildOne()
-{
-	lh clean
-	lh config -b tar --chroot-filesystem plain -p voyage-one --linux-packages="$ONE_LINUX_PACKAGES"
-	lh build
-
-	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
-	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove --purge"
-	rm binary/live/filesystem.dir/boot/*.bak
-	
-	if [ -d binary/live/filesystem.dir ] ; then
-		mv binary/live/filesystem.dir binary/live/$DISTRO-one-current$ARCH
-		tar -jcf $DISTRO-one-current$ARCH.tar.bz2 -C binary/live/	$DISTRO-one-current$ARCH/. 
-		mv binary/live/$DISTRO-one-current$ARCH binary/live/filesystem.dir
-	else
-		echo "binary/live/filesystem.dir not found!"
-	fi
-}
-
-BuildOneCD()
-{
-	lh clean
-	lh config -b iso --chroot-filesystem squashfs -p voyage-one-cd --linux-packages="$ONE_LINUX_PACKAGES"
-	lh build
-	
-	if [ -f binary.iso ] ; then
-		mv binary.iso $DISTRO-one-current$ARCH.iso
 	else
 		echo "binary.iso not found!"
 	fi
@@ -136,9 +111,9 @@ BuildOneCD()
 #
 BuildDistro()
 {
-	lh clean
-	lh config -b tar --chroot-filesystem plain -p $1 --linux-packages="$3"
-	lh build
+	lb clean
+	lb config -b tar --chroot-filesystem plain --packages-lists "$1" --linux-packages="$3"
+	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove --purge"
@@ -160,9 +135,9 @@ BuildDistro()
 #
 BuildCD()
 {
-	lh clean
-	lh config -b iso --chroot-filesystem squashfs -p $1 --linux-packages="$3"
-	lh build
+	lb clean
+	lb config -b iso --chroot-filesystem squashfs --packages-lists "$1" --linux-packages="$3"
+	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-$2-current$ARCH.iso
@@ -171,32 +146,52 @@ BuildCD()
 	fi
 }
 
+#
+# $1 - local package list to use by the distro
+#
+PreparePackageList()
+{
+	rm -f config/chroot_local-packageslists/*.list
+	LISTS=`echo "$1" | sed -e "s/ /\n/g"`
+	for LIST in $LISTS ; do
+		echo "cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list"
+		cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list
+	done
+	
+}
+
 for TYPE in $1; do
 	case "$TYPE" in
 		img)
+			PreparePackageList "voyage voyage-cd"
 			BuildImg
 		;;
 		tar)
+			PreparePackageList "voyage"
 			BuildTar
 		;;
 		iso)
+			PreparePackageList "voyage voyage-cd"
 			BuildISO
 		;;
 		sdk)
+			PreparePackageList "voyage voyage-cd voyage-sdk"
 			BuildSDK
 		;;
 		onecd)
+			PreparePackageList "voyage voyage-cd one"
 			BuildCD voyage-one-cd one "$ONE_LINUX_PACKAGES"
-			#BuildOneCD
 		;;
 		one)
+			PreparePackageList "voyage one"
 			BuildDistro voyage-one one "$ONE_LINUX_PACKAGES"
-			#BuildOne
 		;;
 		mpdcd)
+			PreparePackageList "voyage voyage-cd mpd"
 			BuildCD voyage-mpd-cd mpd "$MPD_LINUX_PACKAGES"
 		;;
 		mpd)
+			PreparePackageList "voyage voyage mpd"
 			BuildDistro voyage-mpd mpd "$MPD_LINUX_PACKAGES"
 		;;
 		test)

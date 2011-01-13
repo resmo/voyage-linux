@@ -32,9 +32,6 @@ batmand
 batctl
 #batman-adv-battool
 
-olsrd
-olsrd-plugins
-
 #zaptel
 #zaptel-firmware
 
@@ -53,4 +50,7 @@ flashybrid
 #batman-adv-modules-2.6.30-voyage
 #batmand-gateway-modules
 #lirc-modules-2.6.30-voyage
+
+#olsrd
+#olsrd-plugins
 

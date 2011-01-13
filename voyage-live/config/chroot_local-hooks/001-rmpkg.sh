@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ $(dpkg-query --show | cut -f1 | grep "^olsrd$" | wc -l) -gt 0  ] ; then
+if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -gt 0  ] ; then
     echo "($0) Building Voyage ONE.  No remove package"
     exit 0
 fi
@@ -17,7 +17,6 @@ aptitude \
 liblocale-gettext-perl \
 console-data \
 console-common \
-apt-utils \
 gcc-4.2-base \
 netcat-traditional \
 bsdmainutils \
@@ -37,6 +36,7 @@ vim-common \
 vim-tiny \
 whiptail \
 libgdbm3 \
+\
 "
 
 for PKG in $RMPKGS
@@ -63,6 +63,7 @@ dhcp3-client \
 dhcp3-common \
 
 # below are already removed
+apt-utils \
 at \
 bsdmainutils \
 ed \
@@ -91,5 +92,8 @@ vim-common \
 locales \
 liblzo2-2 \
 live-initramfs \
-
+live-config \
+live-config-sysvinit \
+live-boot \
+live-boot-initramfs-tools \
 

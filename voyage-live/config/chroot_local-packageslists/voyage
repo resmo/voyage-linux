@@ -38,7 +38,7 @@ iperf
 #deborphan
 wget
 #aufs-tools
-inetutils-ping
+iputils-ping
 ntpdate
 #inetutils-inetd
 #inetutils-syslogd
