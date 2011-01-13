@@ -114,6 +114,30 @@ do
     apt-get -f -y --purge remove $PKG
 done
 
+#########################
+# install webgui
+
+apt-get  --yes --force-yes  install lighttpd php5-cgi sudo subversion
+
+lighttpd-enable-mod fastcgi
+
+echo "%www-data ALL=NOPASSWD: ALL" >> /etc/sudoers
+
+cat <<EOF >>/etc/lighttpd/lighttpd.conf
+fastcgi.server = ( ".php" => ((
+"bin-path" => "/usr/lib/cgi-bin/php",
+"socket" => "/tmp/php.socket",
+"max-procs" => "1",
+)))
+EOF
+
+echo "%www-data ALL=NOPASSWD: /var/www/meshlium/bin/"
+
+cd /var/www/
+svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium
+
+chown -R www-data:www-data /var/www/meshlium/
+chmod -R ago+x /var/www/meshlium/
 
 exit
 
