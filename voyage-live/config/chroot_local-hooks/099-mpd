@@ -98,9 +98,6 @@ libxapian22 \
 nano \
 netcat-traditional \
 rsyslog \
-perl \
-perl-modules \
-perl-base \
 tasksel \
 tasksel-data \
 vim-common \
@@ -119,6 +116,8 @@ done
 
 apt-get  --yes --force-yes  install lighttpd php5-cgi sudo subversion
 
+sed -i -e "s/;session.save_path/session.save_path/" /etc/php5/cgi/php.ini
+
 lighttpd-enable-mod fastcgi
 
 echo "%www-data ALL=NOPASSWD: ALL" >> /etc/sudoers
@@ -134,13 +133,16 @@ EOF
 echo "%www-data ALL=NOPASSWD: /var/www/meshlium/bin/"
 
 cd /var/www/
-svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium
+svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium/. .
 
-chown -R www-data:www-data /var/www/meshlium/
-chmod -R ago+x /var/www/meshlium/
+chown -R www-data:www-data /var/www/./
+chmod -R ago+x /var/www/./
 
 exit
 
 libsigc++-2.0-0c2a \
+perl \
+perl-modules \
+perl-base \
 
 
