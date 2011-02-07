@@ -46,14 +46,19 @@ UNIONFS=${VOYAGE_UNIONFS:=tmpfs}
 reconfig_resolvconf() {
 	PKG=$(dpkg-query --show|grep resolvconf)
 	if  [ ! -z "$PKG" ] && [ ! -L /etc/resolv.conf ] ; then
-		echo "Reconfiguring resolvconf."
+		MSG="  Reconfiguring resolvconf." ; voyage_log
 		DEBIAN_FRONTEND=noninteractive dpkg-reconfigure resolvconf
 	fi
 }
 
+voyage_log() {
+	echo "`date +\"%b %e %T\"` $HOSTNAME $NAME: $MSG" >> /var/log/syslog
+	echo "$NAME: $MSG"
+}
+
 copy_ro_to_rw() {
 	if [ -d /ro ] ; then
-		echo "Copying /ro to /rw."
+		MSG="  Copying /ro to /rw" ; voyage_log
 		#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
 		tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
 	fi
@@ -86,7 +91,7 @@ mount_dirs()
 			chmod --reference=$2 $3
 			chown --reference=$2 $3
 			if [ "$(ls -A $2)" ] ; then cp -rp $2/. $3/; fi
-			echo "    tmpfs: mount back $3 to $2"
+			MSG="  tmpfs: mount back $3 to $2" ; voyage_log
 			mount --bind $3 $2 
 			#echo "chown $PERM $2"
 			chown $PERM $2
@@ -98,14 +103,16 @@ mount_dirs()
 
 case $1 in
 	'start')
+		MSG="Start tmpfs..." ; voyage_log
 		# check SYNC_DIRS if recovery after a power failure is activated
 		if [ "$VOYAGE_SYNC_RECOVER" = "YES" ] ; then
-			echo "Voyage is now checking if recovery from a power failure is needed..."
+			MSG="  Checking if recovery from a power failure is needed..." ; voyage_log
 			VOYAGE_SYNC_RECOVER_DIRS=${VOYAGE_SYNC_RECOVER_DIRS:-$SYNC_DIRS}
 			for SYNC_DIR in $VOYAGE_SYNC_RECOVER_DIRS ; do
 				if [ -d /.sync/$SYNC_DIR ] ; then
-					echo "  Recover'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`	"
+					MSG="  Recover'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`" ; voyage_log
 					rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`
+					MSG="  `dirname /$SYNC_DIR` recovered" ; voyage_log
 					NEED_REBOOT=yes
 				fi
 			done
@@ -113,15 +120,18 @@ case $1 in
 			rm -rf /.sync
 			# check if reboot is needed
 			if [ "$NEED_REBOOT" = yes ] ; then
-				echo "  Will now restart after recovery from a power failure"
+				MSG="Will now restart after recovery from a power failure" ; voyage_log
+				sync
+				# wait for logging to console
+				sleep 1
 				reboot -f
 			fi
 		fi
 
 		reconfig_resolvconf
 		copy_ro_to_rw
-		
-		echo "Voyage is now setting up tmpfs for changed files..."
+	
+		MSG="  Setting up tmpfs for changed files..." ; voyage_log
 		for SYNC_DIR in $SYNC_DIRS $VOYAGE_RW_DIRS; do
 			if [ ! -d /$SYNC_DIR ] ; then continue; fi
 			[ ! -d $TMPFS_ROOT/$SYNC_DIR ] && mkdir -p $TMPFS_ROOT/$SYNC_DIR
@@ -132,10 +142,10 @@ case $1 in
 			#chown --reference=/$SYNC_DIR $TMPFS_ROOT/$SYNC_DIR			
 			#mount -t aufs -o dirs=$TMPFS_ROOT/$SYNC_DIR:$SYNC_DIR=ro none /$SYNC_DIR> /dev/null 2>&1
 		done
-		echo "Done."
+		MSG="Start tmpfs completed" ; voyage_log
 		;;
 	'sync')
-		echo "Voyage is now synchronizing changed files..."
+		MSG="Synchronizing tmpfs changed files..." ; voyage_log
 		for SYNC_DIR in $SYNC_DIRS ; do
 			if [ ! -d /$SYNC_DIR ] ; then continue; fi
 			if [ ! -d /.sync/$SYNC_DIR ] ; then
@@ -144,15 +154,16 @@ case $1 in
 				chown $PERM /.sync/$SYNC_DIR
 			fi
 		
-			echo "  Sync'ing /$SYNC_DIR to `dirname /.sync/$SYNC_DIR`	"
+			MSG="  Sync'ing /$SYNC_DIR to `dirname /.sync/$SYNC_DIR`" ; voyage_log
 			if [ "$(ls -A /$SYNC_DIR)" ]; then
 				rsync -a -q --delete-after /$SYNC_DIR/. /.sync/$SYNC_DIR
 			fi
 		done
 		sync
+		MSG="Synchronization tmpfs completed" ; voyage_log
 		;;
-		
 	'stop')
+		MSG="Stop tmpfs..." ; voyage_log
 		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
 
 		# call "voyage-sync sync"
@@ -164,16 +175,16 @@ case $1 in
 			if [ "$(ls -A /$SYNC_DIR)" ]; then
 			for P in `lsof -F p /$SYNC_DIR`
 			do
-				echo "Killing process: $(ps --no-heading --format=comm -p ${P:1})"
+				MSG="  Killing process: $(ps --no-heading --format=comm -p ${P:1})" ; voyage_log
 				kill ${P:1}
 			done
 			fi
 			sleep 1
 
-			echo "  unmount'ing /$SYNC_DIR	"
+			MSG="  Unmount'ing /$SYNC_DIR" ; voyage_log
 			umount /$SYNC_DIR		
 			
-			echo "  Sync'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`	"
+			MSG="  Sync'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`" ; voyage_log
 			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
 			#PERM=$(stat --format=%U:%G /$SYNC_DIR)
 			#echo "owner $PERM /$SYNC_DIR"
@@ -181,13 +192,13 @@ case $1 in
 		
 		# at last remove /.sync
 		rm -rf /.sync
-		echo "Done."
+		MSG="Stop tmpfs completed" ; voyage_log
 		;;
   	force-reload|restart)
     	;;
 
 	*)
 		echo "Usage: /etc/init.d/voyage-sync {start|stop|sync}" >&2
-	    ;;
+	;;
 esac
 
