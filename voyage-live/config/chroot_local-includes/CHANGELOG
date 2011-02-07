@@ -1,5 +1,47 @@
-0.6.5 (17 Feb 2009)
-- [kernel] linux-image-2.6.30-486-voyage_7.0-1
+0.7.0 (08 Feb 2011)
+- [kernel] linux-image-2.6.32-voyage_8.0-1
+	- based on Debian 6.0 "Squeeze" kernel source 2.6.32-30
+	- [wireless] enabled b43, brcm80211 
+	- [telephony] enabled ISDN, mISDN
+	- [usb] enabled cp210x, mos7840, wwan
+	- [misc] enabled TREE_RCU, AGP, HIDRAW
+	- [fs] enabled aufs 
+- [kernel] linux-image-2.6.33.7-rt29-voyage_8.0-1 (for Voyage ONE and MPD)
+	- based on Abogani's PPA realtime kernel 2.6.33.29.1
+- [general] 
+    - based on Debian 6.0 "Squeeze"
+    - add dhcp3, makedev, sysklogd, klogd; 
+    - remove sqlite3, deborphan, aufs-tools, inetutils-inetd, inetutils-syslogd, nocatsplash
+    - do not remove dhcp3, remove libgdbm3
+	- add iw to voyage package list
+	- use grub-legacy instead grub2
+	- remove aufs modules for squeeze and use in-kernel (2.6.32)
+	- rename /var/lib/dhcp3 to /var/lib/dhcp
+	- change prism54 firmware URL
+	- rewrite some codes for building voyage linux, mpd and one
+	- [madwifi] upgrade to madwifi-trunk 0.9.4+r4132trunk.20100921-1
+- [live-cd]
+    - add back all_generic_ide for LIVE CD
+- [voyage-util]
+    - fix format-cf.sh for not formating ext2fs
+    - fix format-cf.sh not create ext2fs when legacy mode
+    - insserv compatible for init.d scripts
+    - add debug info when setting bootloader
+    - use bash in format-cf.sh
+    - Fix profile not loaded if providing "-P ALIX" in voyage-install.sh
+	- change voyage (motd) banner to version 0.7
+    - [voyage-sync] detect /ro before copying to rw
+    - [voyage-sync] check sync dir before sync
+	- [voyage-sync] write log to syslog
+- [voyage-one]
+    - New debian-live config for Voyage ONE
+- [voyage-mpd]
+    - New debian-live config for Voyage MPD
+    - add lighttpd and webgui to MPD
+    - add meshium webgui and mpd plugin
+    
+0.6.5 (17 Feb 2010)
+- [kernel] linux-image-2.6.30-voyage_7.0-1
     - [general] Debian kernel source 2.6.30-8squeeze1
 	- [general] enable lzma for kernel image compression
 	- [general] enable verbose bootup with timestamp

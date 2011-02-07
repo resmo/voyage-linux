@@ -4,20 +4,30 @@
    \/ \___/ \  / \___,\_  |\___|     remountro - mount disk as read-only
            _/_/        _'_|          remove.docs - remove all docs and manpages
      { V o y a g e } - L i n u x
-      < http://linux.voyage.hk >   Version: 0.6
+      < http://linux.voyage.hk >   Version: 0.7
 
 1. Introduction
 ======================
-Voyage Linux is Debian derived distribution that is best run on a x86-based 
-embedded platforms such as WRAP, ALIX and Soekris 45xx/48xx boards. 
+Voyage Linux is Debian derived distribution that is best run on a x86 embedded 
+platforms such as PC Engines ALIX/WRAP, Soekris 45xx/48xx and Atom-based boards.
 
 It can also run on low-end x86 PC platforms. Typical installation requires 
-128MB disk space, although larger storage allows more packages to be installed. 
+128MB disk space, although larger storage allows more packages to be installed.
 Voyage Linux is so small that it is best suitable for running a full-feature 
-firewall, wireless access point, VoIP gateway and network storage device.
+firewall, wireless access point, Asterisk/VoIP gateway, music player or network 
+storage device. 
 
-For more documentation about Voyage Linux, please visit wiki at
-	http://wiki.voyage.hk
+Currently, Voyage Linux has the following editions:
+
+    * Voyage Linux - the basic version
+    * Voyage ONE - VoIP, mesh software, networking tools, etc.
+    * Voyage MPD - Music Player Daemon
+
+All editions are delivered in distribution tarball and Live CD. We also offers 
+SDK to ease customizing Voyage Linux. 
+
+For more information about Voyage Linux, please visit:
+	http://linux.voyage.hk
 
 2. Installation
 ======================
@@ -217,47 +227,6 @@ Removing the ath1 (WDS VAP) line, a simple wireless bridge is setup instead.
 
 There are some samples in /etc/network/interface to ease the setup of bridge.
 
-3.6 NoCatSplash
-======================
-NoCatSplash is included in Voyage Linux, but it is disabled by default.  Edit 
-/etc/default/nocatsplash and set ENABLE="true" to enable it.  You will can start 
-or stop NoCatSplash by 
-	/etc/init.d/nocatsplash [start|stop]
-	
-Next, you will also need to edit /etc/nocat.conf to setup NoCatSplash properly.  
-The most common way is to add the following lines at the end of /etc/nocat.conf:
-ExternalDevice  eth0  
-InternalDevice  wlan0
-LocalNetwork    10.1.10.0/24
-
-Make sure that wlan0 matches the LocalNetwork IP address, you should double-
-check that from ifconfig.
-
-3.7 NoCatAuth
-======================
-NoCatAuth is not included in Voyage Linux.  However, it can be installed by 
-running:
-	apt-get install nocatauth-gateway
-	
-Same as NoCatSplash, set ENABLE="true" in /etc/default/nocatauth-gateway to 
-enable it in boot up.   Note that nocat.conf is located in 
-/etc/nocatauth/gateway and the most common to configure nocatauth-gateway is 
-appending the following to nocat.conf:
-
-ExternalDevice  eth0  
-InternalDevice  wlan0
-LocalNetwork    10.1.10.0/24
-
-You may also want to touch GatewayMode (default=Passive):
-GatewayMode [Passive|Captive|Open]
-
-It is better to un-install NoCatSplash by "apt-get remove nocatsplash" and 
-"rm /etc/nocat.conf" explicitly to avoid confusion.
-
-As nocatauth requires perl to run, you are required to have a larger disk space 
-to run (probably 128MB).  Please also make sure that you can only run either 
-NoCatSplash or NoCatAuth, not both.
-
 3.8 Hostapd
 ======================
 To enable hostapd, edit /etc/default/hostapd and add the following line:
@@ -372,6 +341,74 @@ In 0.5.1, if ALIX and WRAP install profile is selected, heartbeat and ide-disk
 driver will be automatically enabled at boot. To disable this feature, edit
 /etc/default/voyage-util and update VOYAGE_LED variable to "NO":
 	VOYAGE_LEDS="NO"
+	
+3.10 Ath9k support
+======================
+Ath9k uses nl80211 driver for hostap functions. So, in 
+/etc/hostapd/hostapd.conf, append the following at the end of the file.
+
+driver=nl80211
+interface=wlan0
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+debug=4
+dump_file=/tmp/hostapd.dump
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+macaddr_acl=0
+auth_algs=3
+eapol_key_index_workaround=0
+eap_server=0
+wpa=3
+ssid=voyage-wpa
+wpa_passphrase=voyage-wpa
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+channel=11
+hw_mode=g
+eapol_version=1
+
+Please note that Voyage Linux use wlan0 for ath9k interface. From the above 
+configure, WPA/WPA2 is configured, using voyage-wpa as both SSID and 
+pre-shared key, running 802.11g mode on channel 11. eapol_version=1 is set for 
+backward compatibility to my damn old 2001 iBook. 
+
+At last, don't forget to enable wlan0 in /etc/network/interfaces:
+
+auto wlan0
+iface wlan0 inet static
+        address 10.1.10.1
+        netmask 255.255.255.0
+        broadcast 10.1.10.255
+        up nat.sh wlan0 eth0 "10.1.10.0/24"
+
+You don't need to set anything with iw tools since hostapd will do it for you. 
+Now, make sure hostapd is enabled in /etc/default/hostapd and restart wlan0 
+interface and hostapd by:
+
+# ifdown wlan0
+# ifup wlan0
+# /etc/init.d/hostapd restart
+
+3.11 voyage-sync script
+=======================
+
+Starting from 0.6, the legacy /ro and /rw directories will be replaced by
+voyage-sync script, which is located under /etc/init.d/.  At boot, /var/tmp
+and /var/log are by default mounted under tmpfs.  All the changes will be 
+synchronized back to disk at shutdown. To sync back to disk manually while 
+running, run:
+
+# remountrw
+# /etc/init.d/voyage-sync sync
+# remountro
+
+If you want to add more directories to tmpfs, modify VOYAGE_SYNC_DIRS in 
+/etc/default/voyage-util.  
+
+For more information on the usage, please read /etc/default/voyage-util.
 
 4. Board-specific Notes
 =======================
@@ -637,15 +674,14 @@ The customization scripts can also be found in CVS and nightly tarball as well.
     wifi0: ath_bstuck_tasklet: Stuck beacon; resetting (beacon miss )
   When this error happens, sometime it is not recoverable.  After some test,
   it is found that the most stable vesion is 0.9.4-rc2, fallback by:
- # wget http://www.voyage.hk/dists/0.6/madwifi/madwifi-modules-2.6.26-486-voyage_0.9.4~rc2-1+6.0-3_i386.deb
- # apt-get install madwifi-modules-2.6.26-486-voyage_0.9.4~rc2-1+6.0-3_i386.deb
+ # wget http://www.voyage.hk/dists/experimental/madwifi/madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
+ # apt-get install madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
   
 - If Voyage cannot boot complaining rootfs can't be located, tty to added the 
 following to the kernel boot parameters:
 	"ide=nodma all_generic_ide"
 or try (on or after 0.6.5):
 	"ide_core.nodma=0.0"
-
 
 - Sometimes, grub boot screen may not appear after BIOS post if the boot
 partition is too large (~4GB).  Creating a smaller boot partition (512MB) and 
@@ -684,11 +720,60 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 2. further reducing in size
 3. scripts for setting up network configuration
 
-7. Appendix
+7.0 Deprecated Documentation
+======================
+This section documents deprecated documentation which is no longer supported.
+
+7.1 NoCatSplash 
+======================
+NoCatSplash is included in Voyage Linux, but it is disabled by default.  Edit 
+/etc/default/nocatsplash and set ENABLE="true" to enable it.  You will can start 
+or stop NoCatSplash by 
+	/etc/init.d/nocatsplash [start|stop]
+	
+Next, you will also need to edit /etc/nocat.conf to setup NoCatSplash properly.  
+The most common way is to add the following lines at the end of /etc/nocat.conf:
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+
+Make sure that wlan0 matches the LocalNetwork IP address, you should double-
+check that from ifconfig.
+
+7.2 NoCatAuth
+======================
+NoCatAuth is not included in Voyage Linux.  However, it can be installed by 
+running:
+	apt-get install nocatauth-gateway
+	
+Same as NoCatSplash, set ENABLE="true" in /etc/default/nocatauth-gateway to 
+enable it in boot up.   Note that nocat.conf is located in 
+/etc/nocatauth/gateway and the most common to configure nocatauth-gateway is 
+appending the following to nocat.conf:
+
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+
+You may also want to touch GatewayMode (default=Passive):
+GatewayMode [Passive|Captive|Open]
+
+It is better to un-install NoCatSplash by "apt-get remove nocatsplash" and 
+"rm /etc/nocat.conf" explicitly to avoid confusion.
+
+As nocatauth requires perl to run, you are required to have a larger disk space 
+to run (probably 128MB).  Please also make sure that you can only run either 
+NoCatSplash or NoCatAuth, not both.
+
+
+8. Appendix
 ======================
 
-7.1 Release History
+8.1 Release History
 ======================
+	Voyage 0.7
+    * [2011-02-08] voyage-0.7.0
+
 	Voyage 0.6
     * [2010-02-17] voyage-0.6.5
     * [2009-07-07] voyage-0.6.2
@@ -727,8 +812,10 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
     * [2005-01-06] voyage-0.1pre2
     * [2005-01-02] voyage-0.1pre1
 
-7.1 Corresponding Debian and Kernel release
+8.2 Corresponding Debian and Kernel release
 ======================
+    * Squeeze, 2.6.33rt - Voyage 0.7.0 ONE and MPD
+    * Squeeze, 2.6.32 - Voyage 0.7.0
     * Lenny, 2.6.30 - Voyage 0.6.5
 	* Lenny, 2.6.26 - Voyage 0.6
 	* Etch,  2.6.23 - Voyage 0.5
@@ -738,6 +825,6 @@ You can find README.live-cd and README.pxe from the root direcory of Live CD.
 	* Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20100217
+Last Updated: 20110204
 ======================
 
