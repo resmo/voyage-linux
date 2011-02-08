@@ -1,0 +1,148 @@
+#!/bin/sh
+
+# /usr/share/live-helper/hooks/stripped - hook list for live-helper(7)
+# Copyright (C) 2006-2008 Daniel Baumann <daniel@debian.org>
+#
+# live-helper comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+# This is free software, and you are welcome to redistribute it
+# under certain conditions; see COPYING for details.
+
+#set -e
+
+# Check if build Voyage MPD.  If not, exit
+if [ $(dpkg-query --show | cut -f1 | grep "^mpd$" | wc -l) -eq 0  ] ; then
+	echo "Not Building Voyage MPD. Exit"
+	exit 0
+fi
+
+echo "($0) Building Voyage MPD. "
+
+#KERNEL_VER=2.6.32-voyage
+#MODULE_IMAGE="alsa-modules-$KERNEL_VER"
+
+KERNEL_VER=2.6.33.7-rt29-voyage
+#MODULE_IMAGE="alsa-modules-$KERNEL_VER madwifi-modules-$KERNEL_VER"
+#KERNEL_IMAGE=linux-image-"$KERNEL_VER"
+
+if [ ! -z $KERNEL_IMAGE ] ; then
+	mkdir /boot/grub
+	apt-get --yes --force-yes install "$KERNEL_IMAGE"
+fi
+    
+for IMAGE in $MODULE_IMAGE; do
+	apt-get --yes --force-yes install "$IMAGE"
+done
+
+mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko \
+	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko.bak
+mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
+	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko.bak
+
+#
+# Update /etc/default/voyage-util
+echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS var/lib/mpd \"" >> /etc/default/voyage-util
+
+##
+#  MPD configuration
+##
+
+sed -i -e "s/^options snd-usb/#options snd-usb/" /etc/modprobe.d/alsa-base.conf
+
+echo "@audio - rtprio 85" >> /etc/security/limits.d/mpd
+echo "@audio - memlock 250000" >> /etc/security/limits.d/mpd
+echo "@audio - nice -10" >>  /etc/security/limits.d/mpd
+
+cat <<EOF >> /etc/mpd.conf
+
+follow_outside_symlinks "yes"
+follow_inside_symlinks "yes"
+zeroconf_enabled "yes"
+zeroconf_name "Voyage Music Player"
+mixer_type "software"
+
+EOF
+
+##
+# httpd configuration
+##
+if [ -d /var/www ] ; then
+	ln -s /var/lib/mpd/music/ /var/www/music
+fi
+
+if [ -f /etc/thttpd/thttpd.conf ] ; then
+	echo "nochroot" >> /etc/thttpd/thttpd.conf
+	echo "nosymlinks" >> /etc/thttpd/thttpd.conf
+	sed -i -e "s/^chroot/#chroot/" /etc/thttpd/thttpd.conf 
+fi
+
+##
+# Music library path (for usbmount)
+##
+if [ -d /media/ ] ; then
+	ln -s /media /var/lib/mpd/music/usbmount
+fi
+
+##
+# remove packages
+##
+RMPKGS="
+aptitude \
+bsdmainutils \
+dmidecode \
+groff-base \
+install-info \
+libboost-iostreams1.42.0 \
+libcwidget3 \
+libept1 \
+libxapian22 \
+nano \
+netcat-traditional \
+rsyslog \
+tasksel \
+tasksel-data \
+vim-common \
+vim-tiny \
+"
+
+for PKG in $RMPKGS
+do
+    echo "*** RMPKG Removing $PKG"
+    #apt-get -f -y -q=2 --purge remove $PKG
+    apt-get -f -y --purge remove $PKG
+done
+
+#########################
+# install webgui
+
+apt-get  --yes --force-yes  install lighttpd php5-cgi sudo subversion
+
+sed -i -e "s/;session.save_path/session.save_path/" /etc/php5/cgi/php.ini
+
+lighttpd-enable-mod fastcgi
+
+echo "%www-data ALL=NOPASSWD: ALL" >> /etc/sudoers
+
+cat <<EOF >>/etc/lighttpd/lighttpd.conf
+fastcgi.server = ( ".php" => ((
+"bin-path" => "/usr/lib/cgi-bin/php",
+"socket" => "/tmp/php.socket",
+"max-procs" => "1",
+)))
+EOF
+
+echo "%www-data ALL=NOPASSWD: /var/www/meshlium/bin/"
+
+cd /var/www/
+svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium/. .
+
+chown -R www-data:www-data /var/www/./
+chmod -R ago+x /var/www/./
+
+exit
+
+libsigc++-2.0-0c2a \
+perl \
+perl-modules \
+perl-base \
+
+
