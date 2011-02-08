@@ -1,9 +1,0 @@
-#include <voyage>
-
-atftpd
-#nfs-user-server
-nfs-kernel-server
-bzip2
-sg3-utils
-minicom
-syslinux
