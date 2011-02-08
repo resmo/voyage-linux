@@ -23,8 +23,9 @@ Currently, Voyage Linux has the following editions:
     * Voyage ONE - VoIP, mesh software, networking tools, etc.
     * Voyage MPD - Music Player Daemon
 
-All editions are delivered in distribution tarball and Live CD. We also offers 
-SDK to ease customizing Voyage Linux. 
+All editions are delivered as distribution tarball and Live CD in i386 
+architecture. AMD64 architecture is availble for Voyage Linux only. We also 
+offers SDK to ease customizing Voyage Linux. 
 
 For more information about Voyage Linux, please visit:
 	http://linux.voyage.hk
@@ -578,12 +579,8 @@ Care must be taken to turn off "MFGPT workaround" if you upgrade from 0.4.1 to
 	#ln -s /etc/init.d/webmin /etc/rcS.d/S56webmin
 	#fastreboot
 
-Please find the community wiki (wike.voyage.hk) for more information
-
 6. Support
 ======================
-
-Wiki Documentation - http://wiki.voyage.hk
 
 6.1 Mailing Lists
 ======================
@@ -617,58 +614,7 @@ Getting start to build Voyage Linux under Debian r5.0(lenny) or Voyage SDK:
 # ./build.sh tar 	<= this will build .tar.bz2 distro
 # ./build.sh sdk 	<= this will build sdk Live CD
 
-6.3 Development (0.5 or before)
-======================
-Voyage Linux is completely buildable through customization framework. You can 
-access the CVS Web Repository at: 
-	http://cvs.voyage.hk/cgi-bin/viewcvs.cgi/
-	
-Currently, only voyage-custom project is under development.
-
-There is no plan to provide public access for the CVS repository.  Only 
-Web access is available in this moment. However, to encourage development 
-nightly tarball is accessible to everyone at:
-	http://www.voyage.hk/download/nightly/
-	
-If you have made chanages to Voyage Linux and the supporting scripts, you 
-are encouraged to send all patches to voyage-linux@list.voyage.hk
-
-Voyage includes customization script to allow customizing voyage distro. 
-It allows system integrator or interest parties to customize voyage linux 
-to roll out their own version based on voyage.
-
-*** customization script only works for Voyage 0.3-0.5 versions.  Support for
-0.6 is not yet verified and tested.
-
-voyage-custom.sh syntax:
-
-	voyage-custom.sh <voyage distro dir> <customize profile dir>
-
-For example,
-
-	voyage-custom.sh <voyage_path> <somewhere>/myproj
-
-This will generate the customization distro called voyage-myproj in the 
-current directory .
-
-To build the sample "voyage-mesh" distro using customization script:
-
-	<voyage path>/usr/share/voyage-custom/voyage-custom.sh \
-		<voyage_path> \
-		<voyage_path>/usr/share/voyage-custom/src/mesh
-
-Please note that the script is very experimental and is not tested heavily.  
-It is also assumed that you run the script under Debian.  So, it may not work 
-under other Linux distribution.  Use it at your own risk!
-
-For more on how to make a customization disto, please read:
-	<voyage path>/usr/share/voyage-custom/src/README
-or
-	http://wiki.voyage.hk/dokuwiki/doku.php?id=customization
-	
-The customization scripts can also be found in CVS and nightly tarball as well.
-
-6.4 Known Issues
+6.3 Known Issues
 ======================
 - when running madwifi driver with AP mode, stuck beacon problem may occur:
     wifi0: ath_bstuck_tasklet: Stuck beacon; resetting (beacon miss )
@@ -677,6 +623,14 @@ The customization scripts can also be found in CVS and nightly tarball as well.
  # wget http://www.voyage.hk/dists/experimental/madwifi/madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
  # apt-get install madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
   
+- When installing from Voyage Linux amd64 Live CD to disk, grub installation may
+  not work properly.  Please use lilo as bootloader instead.
+
+- Older generation of VIA C3 processor may not be booted properly.
+
+- Timezone files are removed to save space.  To restore it, run:
+    apt-get install --reinstall tzdata
+
 - If Voyage cannot boot complaining rootfs can't be located, tty to added the 
 following to the kernel boot parameters:
 	"ide=nodma all_generic_ide"
@@ -701,7 +655,7 @@ of the error message:
 kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1
 of the target platform.  
 
-6.5 Live CD and PXE boot
+6.4 Live CD and PXE boot
 ======================
 Voyage Live CD is now available for every stable voyage release:
 	http://www.voyage.hk/download/ISO/
@@ -714,7 +668,7 @@ can act as a installation CD and PXE boot server as well.
 
 You can find README.live-cd and README.pxe from the root direcory of Live CD.
 	
-6.6 TODOs
+6.5 TODOs
 ======================
 1. light-weighted web server (thttpd + php) for system configuration
 2. further reducing in size
@@ -764,6 +718,57 @@ It is better to un-install NoCatSplash by "apt-get remove nocatsplash" and
 As nocatauth requires perl to run, you are required to have a larger disk space 
 to run (probably 128MB).  Please also make sure that you can only run either 
 NoCatSplash or NoCatAuth, not both.
+
+7.3 Development (0.5 or before)
+======================
+Voyage Linux is completely buildable through customization framework. You can 
+access the CVS Web Repository at: 
+	http://cvs.voyage.hk/cgi-bin/viewcvs.cgi/
+	
+Currently, only voyage-custom project is under development.
+
+There is no plan to provide public access for the CVS repository.  Only 
+Web access is available in this moment. However, to encourage development 
+nightly tarball is accessible to everyone at:
+	http://www.voyage.hk/download/nightly/
+	
+If you have made chanages to Voyage Linux and the supporting scripts, you 
+are encouraged to send all patches to voyage-linux@list.voyage.hk
+
+Voyage includes customization script to allow customizing voyage distro. 
+It allows system integrator or interest parties to customize voyage linux 
+to roll out their own version based on voyage.
+
+*** customization script only works for Voyage 0.3-0.5 versions.  Support for
+0.6 is not yet verified and tested.
+
+voyage-custom.sh syntax:
+
+	voyage-custom.sh <voyage distro dir> <customize profile dir>
+
+For example,
+
+	voyage-custom.sh <voyage_path> <somewhere>/myproj
+
+This will generate the customization distro called voyage-myproj in the 
+current directory .
+
+To build the sample "voyage-mesh" distro using customization script:
+
+	<voyage path>/usr/share/voyage-custom/voyage-custom.sh \
+		<voyage_path> \
+		<voyage_path>/usr/share/voyage-custom/src/mesh
+
+Please note that the script is very experimental and is not tested heavily.  
+It is also assumed that you run the script under Debian.  So, it may not work 
+under other Linux distribution.  Use it at your own risk!
+
+For more on how to make a customization disto, please read:
+	<voyage path>/usr/share/voyage-custom/src/README
+or
+	http://wiki.voyage.hk/dokuwiki/doku.php?id=customization
+	
+The customization scripts can also be found in CVS and nightly tarball as well.
 
 
 8. Appendix
