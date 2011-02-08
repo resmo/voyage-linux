@@ -1,0 +1,15 @@
+alsa-base
+alsa-tools
+alsa-utils
+fuse-utils
+mpc
+ncmpc
+mpd
+usbmount
+usbutils
+nfs-common
+smbfs
+sshfs
+davfs2
+lirc
+

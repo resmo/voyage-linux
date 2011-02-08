@@ -1,0 +1,4 @@
+#!/bin/sh
+
+#apt-get --force-yes -q=2 -y install grub
+apt-get --force-yes -q=2 -y install grub-legacy
