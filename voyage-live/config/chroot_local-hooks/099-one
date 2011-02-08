@@ -112,7 +112,6 @@ RMPKGS="
 aptitude \
 defoma \
 dmidecode \
-gettext-base \
 groff-base \
 install-info \
 libboost-iostreams1.42.0 \
@@ -138,3 +137,6 @@ do
     apt-get -f -y --purge remove $PKG
 done
 
+exit
+
+grub\
