@@ -35,7 +35,6 @@ rsyslog \
 vim-common \
 vim-tiny \
 whiptail \
-libgdbm3 \
 \
 "
 
@@ -61,6 +60,7 @@ hostname \
 libldap-2.4-2 \
 dhcp3-client \
 dhcp3-common \
+libgdbm3 \
 
 # below are already removed
 apt-utils \
