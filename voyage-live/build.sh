@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DISTRO="voyage"
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
