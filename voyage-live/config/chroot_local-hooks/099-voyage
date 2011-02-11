@@ -9,6 +9,12 @@
 
 set -e
 
+echo "($0)"
+
+for K in `ls /lib/modules/ `; do
+	update-initramfs -c -k $K
+done
+
 if [ $(dpkg-query --show | cut -f1 | grep "^gcc$" | wc -l) -gt 0  ] ; then
     echo "($0) Building Voyage SDK.  No purging."
 
@@ -17,12 +23,12 @@ else
     	echo "($0) Building Voyage ONE.  "
 		PURGE_PKGS="man-db manpages info dselect"
 	elif  [ $(dpkg-query --show | cut -f1 | grep "^mpd$" | wc -l) -gt 0 ] ; then
-        echo "($0) Building Voyage MPD.  "
-        PURGE_PKGS="man-db manpages info dselect"
+        	echo "($0) Building Voyage MPD.  "
+        	PURGE_PKGS="man-db manpages info dselect"
 	else
-		#PURGE_PKGS="apt-utils aptitude man-db manpages info dselect"
+        	echo "($0) Building Voyage Linux.  "
 		PURGE_PKGS="aptitude man-db manpages info dselect live-config live-config-sysvinit live-boot live-boot-initramfs-tools"
-		PURGE_PKGS="aptitude man-db manpages info dselect"
+		PURGE_PKGS="aptitude man-db mAnpages info dselect perl perl-modules"
 	fi
 
 	# Removing unused packages
