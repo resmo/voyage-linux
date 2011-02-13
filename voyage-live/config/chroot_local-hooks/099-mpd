@@ -9,6 +9,8 @@
 
 #set -e
 
+echo "($0)"
+
 # Check if build Voyage MPD.  If not, exit
 if [ $(dpkg-query --show | cut -f1 | grep "^mpd$" | wc -l) -eq 0  ] ; then
 	echo "Not Building Voyage MPD. Exit"

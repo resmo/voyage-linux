@@ -2,6 +2,8 @@
 #################################
 #exit
 
+echo "($0)"
+
 export DEBIAN_FRONTEND=noninteractive
 apt-get -q=2 -y install --force-yes lilo
 

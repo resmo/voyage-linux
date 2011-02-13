@@ -9,6 +9,7 @@
 
 set -e
 
+echo "($0)"
 
 # Check if build Voyage ONE.  If not, exit
 if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -eq 0  ] ; then

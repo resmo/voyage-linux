@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "($0)"
+
 echo -n "Removing Timezone in /usr/share/zoneinfo ... "
 rm -rf /usr/share/zoneinfo/posix
 rm -rf /usr/share/zoneinfo/right

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "($0)"
 
 #################################
 # Modifying /etc/init.d/syslogd

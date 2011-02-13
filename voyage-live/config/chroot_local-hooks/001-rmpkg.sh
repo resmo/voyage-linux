@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "($0)"
+
 if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -gt 0  ] ; then
     echo "($0) Building Voyage ONE.  No remove package"
     exit 0

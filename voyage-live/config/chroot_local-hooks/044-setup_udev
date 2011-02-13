@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "($0)"
+
 sed -i -e "s/ath/Ath/" /etc/udev/rules.d/*_persistent-net-generator.rules
 
 # the workaround 

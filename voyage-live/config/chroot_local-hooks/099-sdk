@@ -9,6 +9,8 @@
 
 set -e
 
+echo "($0)"
+
 if [ $(dpkg-query --show | cut -f1 | grep "^gcc$" | wc -l) -gt 0  ] ; then
     echo "($0) Building Voyage SDK.  Install extra packages."
 

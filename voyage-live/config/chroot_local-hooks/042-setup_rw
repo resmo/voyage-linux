@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "($0)"
+
 #################################
 
 /usr/local/sbin/voyage-rwfile.sh create /var/lib/logrotate

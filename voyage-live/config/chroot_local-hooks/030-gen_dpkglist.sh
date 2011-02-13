@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo "($0)"
+
 dpkg -l > /voyage.dpkg-l
 dpkg-query -W --showformat='${Package} ${Version}\n' > /voyage.dpkg.list
 	
