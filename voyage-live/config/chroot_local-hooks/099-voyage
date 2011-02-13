@@ -11,9 +11,15 @@ set -e
 
 echo "($0)"
 
-for K in `ls /lib/modules/ `; do
-	update-initramfs -c -k $K
-done
+export DEBIAN_FRONTEND=noninteractive
+
+if [ ! -f /boot/initrd.img-* ]; then
+    for K in `ls /lib/modules/ `; do
+        update-initramfs -c -k $K
+        ln -s /boot/initrd.img-$K /initrd.img
+        ln -s /boot/vmlinuz-$K /vmlinuz
+    done
+fi
 
 if [ $(dpkg-query --show | cut -f1 | grep "^gcc$" | wc -l) -gt 0  ] ; then
     echo "($0) Building Voyage SDK.  No purging."
