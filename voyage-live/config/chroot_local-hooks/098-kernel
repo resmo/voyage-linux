@@ -9,5 +9,15 @@
 
 
 echo "($0)"
+
+###
+# In squeeze, the kernel-package 12.0.x remove the /initrd.img symlink and
+# the symlink creation is now rely on /etc/kernel/postinst.d hooks
+# the symlink hook script in now put to config/chroot_local-includes
+
 mkdir /boot/grub
-dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst`
+#if [ -f /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook ] ; then
+#	cp /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook /etc/kernel/postinst.d/
+#fi
+dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst` || true
+
