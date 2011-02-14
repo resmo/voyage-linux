@@ -15,7 +15,7 @@ echo "($0)"
 # the symlink creation is now rely on /etc/kernel/postinst.d hooks
 # the symlink hook script in now put to config/chroot_local-includes
 
-mkdir /boot/grub
+#mkdir /boot/grub
 #if [ -f /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook ] ; then
 #	cp /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook /etc/kernel/postinst.d/
 #fi
