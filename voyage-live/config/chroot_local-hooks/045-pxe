@@ -4,7 +4,7 @@ echo "($0)"
 
 
 ############################################################
-if [ $(dpkg-query --show |grep atftp|wc -l) -eq 0 ] ; then 
+if [ $(dpkg-query --show |grep tftp|wc -l) -eq 0 ] ; then 
 	echo "Not Building Voyage Live CD.  Exit"
 	exit
 fi
@@ -72,13 +72,24 @@ EOF
 
 ############################################################
 #  config atftpd
-sed -i -e 's/^tftp/#tftp/' /etc/inetd.conf
-sed -i 's/USE_INETD=true/USE_INETD=false/' /etc/default/atftpd
-
-cat << EOF >> /etc/default/atftpd
+if [ -f /etc/inetd.conf ] ; then
+    sed -i -e 's/^tftp/#tftp/' /etc/inetd.conf
+fi 
+if [ -f /etc/default/atftpd ] ; then
+    sed -i 's/USE_INETD=true/USE_INETD=false/' /etc/default/atftpd
+    cat << EOF >> /etc/default/atftpd
 OPTIONS="-t 300 -r 5 -m 100 --mcast-port 1758 --mcast-addr 239.239.239.0-255 --mcast-ttl 1 --verbose=5 --user=root.root --daemon /tftpboot"
 EOF
+fi 
 
+############################################################
+#  config in.tftpd
+if [ -f /etc/default/tftpd-hpa ] ; then
+    cat << EOF >> /etc/default/tftpd-hpa 
+TFTP_USERNAME="root"
+TFTP_OPTIONS="-p --secure"
+EOF
+fi
 ############################################################
 #  config inittab - enable serial
 sed -i -e "s/^#T0:/T0:/" /etc/inittab
@@ -90,6 +101,10 @@ sed -i -e "s/^#T0:/T0:/" /etc/inittab
 ############################################################
 #  disable atftpd
 update-rc.d -f atftpd remove
+
+############################################################
+#  disable tftpd-hpa
+update-rc.d -f tftpd-hpa remove
 
 ############################################################
 #  disable nfs-user-server

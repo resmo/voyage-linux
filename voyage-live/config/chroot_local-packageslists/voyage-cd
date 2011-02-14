@@ -1,6 +1,7 @@
 #include <voyage>
 
-atftpd
+#atftpd
+tftpd-hpa
 #nfs-user-server
 nfs-kernel-server
 bzip2

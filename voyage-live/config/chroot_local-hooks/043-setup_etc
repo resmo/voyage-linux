@@ -123,7 +123,9 @@ echo "Done"
 # Modifying /root/.bashrc
 #################################
 echo -n "Modifying /root/.bashrc ... "
-echo ". /etc/bash_completion" >> /root/.bashrc
+#echo ". /etc/bash_completion" >> /root/.bashrc
+echo "alias bc='. /etc/bash_completion' >> /root/.bashrc
+
 echo "Done"
 
 #################################
