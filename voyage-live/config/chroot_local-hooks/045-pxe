@@ -88,6 +88,7 @@ if [ -f /etc/default/tftpd-hpa ] ; then
     cat << EOF >> /etc/default/tftpd-hpa 
 TFTP_USERNAME="root"
 TFTP_OPTIONS="-p --secure"
+TFTP_DIRECTORY="/tftpboot"
 EOF
 fi
 ############################################################
