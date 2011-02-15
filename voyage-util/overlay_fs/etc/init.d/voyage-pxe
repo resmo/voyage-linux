@@ -75,6 +75,7 @@ case $1 in
 		#mount -n -t unionfs -o dirs=/cow=rw:/filesystem.squashfs=ro unionfs /media
 		#echo "Done."
 		
+		rm -f /tftpboot/linux /tftpboot/initrd.img
 		cp /vmlinuz /tftpboot/linux
 		cp /initrd.img /tftpboot/initrd.img
 		
