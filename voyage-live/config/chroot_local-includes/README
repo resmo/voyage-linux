@@ -623,6 +623,16 @@ Getting start to build Voyage Linux under Debian r5.0(lenny) or Voyage SDK:
  # wget http://www.voyage.hk/dists/experimental/madwifi/madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
  # apt-get install madwifi-modules-2.6.32-voyage_0.9.4~rc2-1+8.0-1_i386.deb
   
+- When using CF card for heavy write operation, the following settings on 
+  pdflush should be applied (Recommended by PCEngines). 
+    # echo 500 > /proc/sys/vm/dirty_expire_centisecs
+    # echo 1024000 > /proc/sys/vm/dirty_bytes
+    # echo 100 > /proc/sys/vm/dirty_writeback_centisecs 
+  You can also put these files to /etc/sysctl.conf
+    vm.dirty_expire_centisecs=500
+    vm.dirty_bytes=1024000
+    vm.dirty_writeback_centisecs=100 
+
 - When installing from Voyage Linux amd64 Live CD to disk, grub installation may
   not work properly.  Please use lilo as bootloader instead.
 
@@ -830,6 +840,6 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 	* Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20110204
+Last Updated: 20110225
 ======================
 

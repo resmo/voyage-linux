@@ -117,6 +117,13 @@ echo "net.ipv4.conf.default.rp_filter=1" >> /etc/sysctl.conf
 echo "net.ipv4.conf.all.rp_filter=1" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_syncookies=0" >> /etc/sysctl.conf
 echo "kernel.panic=30" >> /etc/sysctl.conf
+
+echo "" >> /etc/sysctl.conf
+echo "## pdflush settings for heavy write operations on CF" >> /etc/sysctl.conf
+echo "#vm.dirty_expire_centisecs=500" >> /etc/sysctl.conf
+echo "#vm.dirty_bytes=1024000" >> /etc/sysctl.conf
+echo "#vm.dirty_writeback_centisecs=100" >> /etc/sysctl.conf
+
 echo "Done"
 
 #################################
