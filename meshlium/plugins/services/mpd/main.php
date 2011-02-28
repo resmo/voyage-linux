@@ -140,6 +140,11 @@ function mpc_random()
 	simple_ajax_call(\'random\',\'\',\'now_playing\',\''.$section.'\',\''.$plugin.'\');
 }
 
+function mpc_update()
+{
+	simple_ajax_call(\'update\',\'\',\'now_playing\',\''.$section.'\',\''.$plugin.'\');
+}
+
 </script>
 <div class="plugin_content">
 <pre><div id="now_playing"></div></pre>
@@ -175,8 +180,10 @@ function mpc_random()
 <td class="media_button" onclick="mpc_louder()">
 <img src="'.$url_plugin.'images/audio-volume-high.png" title="Volume +"/>
 </td>
-
-</tr> </table>
+<td class="media_button_long" onclick="mpc_update()">
+Update Database
+</td>
+</table>
 </div>
 <div class="title2">Version</div>
 <div class="plugin_content"><pre>

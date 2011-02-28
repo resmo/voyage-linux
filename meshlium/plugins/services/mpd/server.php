@@ -112,6 +112,11 @@ else
 	exec ('mpc volume -2', $cur_play);    
 	$html=implode("<br/>",$cur_play);
     }
+    else if ($_POST['cmd']=="update")
+    {
+	exec ('mpc update', $cur_play);    
+	$html=implode("<br/>",$cur_play);
+    }
     else
     {
 	$html="<pre>".print_r($_POST,true)."</pre>";
