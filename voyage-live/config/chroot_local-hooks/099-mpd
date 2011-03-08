@@ -54,15 +54,19 @@ echo "@audio - rtprio 85" >> /etc/security/limits.d/mpd
 echo "@audio - memlock 250000" >> /etc/security/limits.d/mpd
 echo "@audio - nice -10" >>  /etc/security/limits.d/mpd
 
+sed -i -e "s/^bind_to_address/#bind_to_address/" /etc/mpd.conf 
 cat <<EOF >> /etc/mpd.conf
 
 follow_outside_symlinks "yes"
 follow_inside_symlinks "yes"
 zeroconf_enabled "yes"
 zeroconf_name "Voyage Music Player"
-mixer_type "software"
+mixer_type "hardware"
+bind_to_address "0.0.0.0"
 
 EOF
+
+rm -f /media/usb
 
 ##
 # httpd configuration
