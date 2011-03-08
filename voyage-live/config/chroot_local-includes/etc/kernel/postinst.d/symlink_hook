@@ -34,6 +34,7 @@ fi
 version="$1"
 vmlinuz_location="$2"
 vmlinuz_dir="$(dirname "$2")"
+vmlinuz_dir="$(echo $vmlinuz_dir|sed -e 's/^\///')"
 
 cd $SYMLINKDIR || exit 1
 
