@@ -15,6 +15,6 @@ if [ ! -d /usr/lib/hotplug/firmware ] ; then
 fi
 
 wget "$PRISM54_FIRMWARE_URL" -O /usr/lib/hotplug/firmware/isl3890
-wget "$P54PCI_FIRMEARE_URL" -O /lib/firmware/isl3886pci
+wget "$P54PCI_FIRMWARE_URL" -O /lib/firmware/isl3886pci
 
 echo "Done"
