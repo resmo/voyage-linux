@@ -90,6 +90,13 @@ function info_timer()
 }
 addEvent(window, "load", info_timer);
 
+function status_timer()
+{
+	simple_ajax_call(\'status\',\'\',\'status\',\''.$section.'\',\''.$plugin.'\');
+	var t=setTimeout("status_timer()",5000);
+}
+addEvent(window, "load", status_timer);
+
 function mpc_play()
 {
 	simple_ajax_call(\'play\',\'\',\'now_playing\',\''.$section.'\',\''.$plugin.'\');
@@ -145,12 +152,28 @@ function mpc_update()
 	simple_ajax_call(\'update\',\'\',\'now_playing\',\''.$section.'\',\''.$plugin.'\');
 }
 
+function mpd_start()
+{
+	simple_ajax_call(\'mpd_start\',\'\',\'status\',\''.$section.'\',\''.$plugin.'\');
+}
+
+function mpd_stop()
+{
+	simple_ajax_call(\'mpd_stop\',\'\',\'status\',\''.$section.'\',\''.$plugin.'\');
+}
+
+function mpd_restart()
+{
+	simple_ajax_call(\'mpd_restart\',\'\',\'status\',\''.$section.'\',\''.$plugin.'\');
+}
+
+
 </script>
 <div class="plugin_content">
 <pre><div id="now_playing"></div></pre>
 </div>
 <div class="title2">
-<table> <tr>
+<table><tr>
 <td class="media_button" onclick="mpc_prev()">
 <img src="'.$url_plugin.'images/media-skip-backward.png" title="Previous"/>
 </td>
@@ -183,7 +206,21 @@ function mpc_update()
 <td class="media_button_long" onclick="mpc_update()">
 Update Database
 </td>
+</tr>
 </table>
+</div>
+<div class="title2">Service Status</div>
+<div class="plugin_content"><pre>
+<div id="status"></div></pre></div>
+<div class="title2">
+<table></tr>
+<td class="media_button_medium" onclick="mpd_start()">
+Start Service</td>
+<td class="media_button_medium" onclick="mpd_stop()">
+Stop Service</td>
+<td class="media_button_medium" onclick="mpd_restart()">
+Restart Service</td>
+</tr></table>
 </div>
 <div class="title2">Version</div>
 <div class="plugin_content"><pre>

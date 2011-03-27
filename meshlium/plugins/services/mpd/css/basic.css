@@ -104,18 +104,27 @@ td.media_button{
 	//-moz-border-radius:5px;
 }
 
-td.media_button:hover, td.media_button_long:hover{ 
+td.media_button:hover, td.media_button_long:hover, td.media_button_medium:hover{ 
 	background-color:#DDDDDD;
 	-moz-border-radius:6px;
 }
 
-td.media_button:active, td.media_button_long:active{ 
+td.media_button:active, td.media_button_long:active, td.media_button_medim:active{ 
 	background-color:#AAAAAA;
 	-moz-border-radius:6px;
 }
 
 td.media_button_long{
 	width:200;
+	height:50px;
+	text-align:center;
+	font-size:1.2em;
+	font-weight:bold;
+	color:#555555;
+}
+
+td.media_button_medium{
+	width:120;
 	height:50px;
 	text-align:center;
 	font-size:1.2em;

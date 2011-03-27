@@ -117,6 +117,28 @@ else
 	exec ('mpc update', $cur_play);    
 	$html=implode("<br/>",$cur_play);
     }
+    else if ($_POST['cmd']=="status")
+    {
+	exec ('sudo /etc/init.d/mpd status', $cur_play);
+	exec ('mpc outputs', $cur_play2);
+	$html=implode("<br/>", $cur_play );
+	$html=$html . "<br/>" . implode("<br/>", $cur_play2);
+    }
+    else if ($_POST['cmd']=="mpd_start")
+    {
+	exec ('sudo /etc/init.d/mpd start', $cur_play);
+	$html=implode("<br/>", $cur_play );
+    }
+    else if ($_POST['cmd']=="mpd_stop")
+    {
+	exec ('sudo /etc/init.d/mpd stop', $cur_play);
+	$html=implode("<br/>", $cur_play );
+    }
+    else if ($_POST['cmd']=="mpd_restart")
+    {
+	exec ('sudo /etc/init.d/mpd restart', $cur_play);
+	$html=implode("<br/>", $cur_play );
+    }
     else
     {
 	$html="<pre>".print_r($_POST,true)."</pre>";
@@ -124,5 +146,4 @@ else
     }
     echo $html;
 }
-
 ?>
