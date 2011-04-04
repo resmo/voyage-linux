@@ -40,7 +40,9 @@ $_plugin_css=Array("basic.css");
 // Will load files
 // plugins/section_name/plugin_name/javascript/plugin1.js
 // plugins/section_name/plugin_name/javascript/plugin1.js
-$_plugin_javascript=Array("jquery-1.3.2.min.js","ajax.js");
+//$_plugin_javascript=Array("jquery-1.3.2.min.js","ajax.js");
+$_plugin_javascript=Array("jquery-1.3.2.min.js","jquery.json-1.3.min.js","ajax.js","json_encode.js");
+
 
 // Predefined variables:
 // $section contains the section folder name.
@@ -66,6 +68,12 @@ $_plugin_javascript=Array("jquery-1.3.2.min.js","ajax.js");
 
 //exec ('mpc play', $cur_play);
 exec ('mpd --version', $mpd_version);
+exec ('sudo cat /etc/mpd.conf',$mpdconf_file);
+foreach($mpdconf_file as $line)
+{
+    $mpdconf.=$line."\n";
+}
+
 
 $html='
 <div class="title">Music Player Daemon</div>
@@ -222,6 +230,22 @@ Stop Service</td>
 Restart Service</td>
 </tr></table>
 </div>
+
+<div class="title2">MPD Configuration File</div>
+<div class="plugin_content">
+<form name="mpdconf_editor" id="mpdconf_editor" onsubmit="return false;" >
+<table><tbody>
+<tr><td><label>Edit /etc/mpd.conf</label></td></tr>
+<tr><td>
+<textarea id="mpdconf" name="mpdconf" class="editor">' . $mpdconf . '</textarea>
+</td></tr></tbody></table>
+</form>
+<input type="button" 
+	class="bsave" 
+	value="Save and apply" 
+	onclick="complex_ajax_call(\'mpdconf_editor\',\'output\',\''.$section.'\',\''.$plugin.'\')" />
+</div>
+
 <div class="title2">Version</div>
 <div class="plugin_content"><pre>
 '.implode('<br/>', $mpd_version).'</pre></div>

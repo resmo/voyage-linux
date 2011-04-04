@@ -42,17 +42,23 @@
 // Plugin server produced data will returned to the ajax call that made the
 // request.
 include_once $API_core.'complex_ajax_return_functions.php';
+include_once $API_core.'common_validators.php';
+include_once $API_core.'json_api.php';
+
 
 if ($_POST['type']=="complex")
 {
-    // Prepare the response
-    // We will launch a javascript function
-    response_additem("script", 'alert("This is a javascript call.");');
-    // Output some html
-    response_additem("return", "<div> This is html code shown in the default output</div>");
-    // And more html to a div with an id that we specify.
-    response_additem("append", "<div>This is html code shown in a tag with id specified by server.php</div>","direct_assign");
-    // Return the response to javascript
+    //$mpdconf=jsondecode($_POST['form_fields']);
+    $mpdconf_data=str_replace('\n', "\n", $_POST['mpdconf'])."\n";
+    $fp=fopen($base_plugin.'data/mpd.txt','w');
+    fwrite($fp,$mpdconf_data);
+    //fwrite($fp,$mpdconf['mpdconf']);
+    fclose($fp);
+    // Uncomment following two lines on meshlium.
+    exec('sudo cp '.$base_plugin.'data/mpd.txt /etc/mpd.conf');
+    exec('sudo /etc/init.d/mpd restart');
+    $out='alert("Data saved");';
+    response_additem("script", $out);
     response_return();
 }
 else

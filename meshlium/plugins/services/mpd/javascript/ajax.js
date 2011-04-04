@@ -31,6 +31,8 @@ function complex_ajax_call(form_id,output_id,section,plugin)
     // Once the response has arrived it display the response inside the id
     // defined in output_id
     document.body.style.cursor = 'wait';
+    //var json_field=json_encode(form_id);
+    //submit_data="section="+section+"&plugin="+plugin+"&type=complex&"+"form_fields="+json_field;
     submit_data="section="+section+"&plugin="+plugin+"&type=complex&"+$('#'+form_id).serialize();
     //alert (submit_data);
     $.ajax({
