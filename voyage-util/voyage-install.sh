@@ -69,7 +69,7 @@ select_target_disk() {
 		echo "    Label = $(/lib/udev/vol_id -l $TARGET_DISK$a)"
 		echo "    UUID  = $(/lib/udev/vol_id -u $TARGET_DISK$a)"
 		echo ""
-	else [ -f /sbin/blkid ] ; then
+	elif [ -f /sbin/blkid ] ; then
 		echo "Device information for $TARGET_DISK$a"
 		blkid -o list "$TARGET_DISK$a"
 		echo ""
