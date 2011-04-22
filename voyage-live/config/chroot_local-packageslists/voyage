@@ -8,7 +8,7 @@ libatm1
 logrotate
 udev
 ssh
-pptpd
+#pptpd
 module-init-tools
 ebtables
 iptables
@@ -24,7 +24,7 @@ pciutils
 watchdog
 wireless-tools
 madwifi-tools
-parprouted
+#parprouted
 vlan
 rsync
 portmap
@@ -45,7 +45,7 @@ ntpdate
 conntrack
 lsof
 bash-completion
-#nocatsplash
+nocatsplash
 resolvconf
 iw
 makedev
@@ -54,3 +54,5 @@ klogd
 #openbsd-inetd
 dhcp3-client
 #pump
+firmware-realtek
+

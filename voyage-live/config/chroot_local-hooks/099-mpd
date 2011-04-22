@@ -43,6 +43,15 @@ mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
 #
 # Update /etc/default/voyage-util
 echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS var/lib/mpd \"" >> /etc/default/voyage-util
+echo "VOYAGE_SYNC_RECOVER=\"YES\"" >> /etc/default/voyage-util
+echo "VOYAGE_SYNC_RECOVER_DIRS=\"var/lib/mpd\"" >> /etc/default/voyage-util
+
+#
+# Update crontab
+crontab << EOF
+# m h dom mon dow command
+#*/5 * * * * ( /etc/init.d/voyage-sync sync )
+EOF
 
 ##
 #  MPD configuration

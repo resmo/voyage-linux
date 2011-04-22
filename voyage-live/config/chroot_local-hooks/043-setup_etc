@@ -156,3 +156,12 @@ sed -e "s/^.*a href=\"//g" -e "s/\">.*$//g" -e "s/^/#deb /g " -e "s/$/ lenny mai
 >> /etc/apt/sources.list
 
 echo "Done"
+
+#################################
+# Modifying /etc/usbmount/usbmount.conf
+#################################
+echo -n "Modifying /etc/usbmount/usbmount.conf ... "
+
+echo "FS_MOUNTOPTIONS=\"-fstype=vfat,utf8 -fstype=fat,utf8\"" >> /etc/usbmount/usbmount.conf
+
+echo "Done"

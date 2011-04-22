@@ -110,7 +110,9 @@ fi
 #     fi
 # fi
 
-lilo
+if [ -f /etc/lilo.conf ] ; then
+	lilo
+fi
 
 rm -f $outfile 
 if [ -d /tmp/kernel-image-$version-$$ ]; then
