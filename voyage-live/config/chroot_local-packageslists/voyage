@@ -23,7 +23,7 @@ pcmciautils
 pciutils
 watchdog
 wireless-tools
-madwifi-tools
+#madwifi-tools
 #parprouted
 vlan
 rsync
