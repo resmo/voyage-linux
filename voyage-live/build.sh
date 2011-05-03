@@ -7,17 +7,14 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-2.6.32 \
-						madwifi-modules-2.6.32"
+VOYAGE_LINUX_PACKAGES="linux-image-2.6.38 "
 ONE_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 \
 					madwifi-modules-2.6.33.7-rt29 \
 					batman-adv-modules-2.6.33.7-rt29 \
 					batmand-gateway-modules-2.6.33.7-rt29 \
 					dahdi-modules-2.6.33.7-rt29"
-MPD_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 \
-					madwifi-modules-2.6.33.7-rt29 \
-					alsa-modules-2.6.33.7-rt29 \
-					lirc-modules-2.6.33.7-rt29"
+MPD_LINUX_PACKAGES="linux-image-2.6.38 \
+					alsa-modules-2.6.38 "
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
