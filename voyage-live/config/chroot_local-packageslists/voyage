@@ -55,4 +55,6 @@ klogd
 dhcp3-client
 #pump
 firmware-realtek
+crda
+wireless-regdb
 
