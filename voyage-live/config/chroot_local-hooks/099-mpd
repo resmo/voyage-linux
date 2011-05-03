@@ -22,9 +22,11 @@ echo "($0) Building Voyage MPD. "
 #KERNEL_VER=2.6.32-voyage
 #MODULE_IMAGE="alsa-modules-$KERNEL_VER"
 
-KERNEL_VER=2.6.33.7-rt29-voyage
+#KERNEL_VER=2.6.33.7-rt29-voyage
 #MODULE_IMAGE="alsa-modules-$KERNEL_VER madwifi-modules-$KERNEL_VER"
 #KERNEL_IMAGE=linux-image-"$KERNEL_VER"
+
+KERNEL_VER=2.6.38-voyage
 
 if [ ! -z $KERNEL_IMAGE ] ; then
 	mkdir /boot/grub
