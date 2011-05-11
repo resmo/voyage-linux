@@ -1,3 +1,16 @@
+0.7.5 (DD MMM YYYY)
+- [kernel] linux-image-2.6.38-voyage_9.0-1
+	- based on Debian kernel source 2.6.38-3
+- [general]
+	- fix lilo in kernel install symlink hook
+	- remove pptpd, parprouted package
+	- add nocatsplash, firmware-realtek, crda, wireless-regdb package 
+- [mpd] 
+ 	- enable VOYAGE_SYNC_RECOVER
+	- enable 5 min cron job for "voyage-sync sync"
+	- enable utf8 for vfat/fat usb mount
+	- add avahi-daemon package
+
 0.7.0 (08 Feb 2011)
 - [kernel] linux-image-2.6.32-voyage_8.0-1
 	- based on Debian 6.0 "Squeeze" kernel source 2.6.32-30

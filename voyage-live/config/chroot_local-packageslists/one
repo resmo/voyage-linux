@@ -1,29 +1,29 @@
-vtun
-openssl
+#vtun
+#openssl
 less
-quagga
-snmpd
-ethtool
-ethstatus
-arptables
-iptraf
-iperf
-openvpn
-stunnel
-openswan
+#quagga
+#snmpd
+#ethtool
+#ethstatus
+#arptables
+#iptraf
+#iperf
+#openvpn
+#stunnel
+#openswan
 
-gpsd
-gpsd-clients
-ntp
+#gpsd
+#gpsd-clients
+#ntp
 
 #lighttpd
 #php5-cgi
 
-wireless-tools
-tcpdump
-netperf
-wavemon
-aircrack-ng
+#wireless-tools
+#tcpdump
+#netperf
+#wavemon
+#aircrack-ng
 apt-utils
 usbutils
 
@@ -43,9 +43,9 @@ asterisk
 asterisk-h323
 asterisk-gui
 
-flashybrid
+op-panel
 
-madwifi-tools
+#flashybrid
 
 #libmisdnuser0
 #dahdi-modules-2.6.30-voyage

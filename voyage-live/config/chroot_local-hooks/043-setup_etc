@@ -110,11 +110,13 @@ echo -n "Modifying /etc/modules and /etc/modprobe.d/ ... "
 
 cat >> /etc/modprobe.d/madwifi.conf <<EOF
 #options ath_pci autocreate=none ratectl=minstrel
+
 blacklist ath_hal                                                              
 blacklist ath_pci                                                              
 blacklist ath_rate_amrr                                                        
 blacklist ath_rate_onoe                                                        
 blacklist ath_rate_sample                                                      
+blacklist ath_rate_minstrel
 blacklist wlan                                                                 
 blacklist wlan_acl                                                             
 blacklist wlan_ccmp                                                            
@@ -188,3 +190,34 @@ echo -n "Modifying /etc/usbmount/usbmount.conf ... "
 echo "FS_MOUNTOPTIONS=\"-fstype=vfat,utf8 -fstype=fat,utf8\"" >> /etc/usbmount/usbmount.conf
 
 echo "Done"
+
+#################################
+# Modifying /etc/hostapd
+#################################
+echo -n "Modifying /etc/hostapd ... "
+
+cat >> /etc/hostapd/hostapd.wlan0.conf <<EOF
+interface=wlan0
+driver=nl80211
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+debug=4
+#dump_file=/tmp/hostapd.dump
+#ctrl_interface=/var/run/hostapd
+#ctrl_interface_group=0
+channel=6
+macaddr_acl=0
+auth_algs=3
+eapol_key_index_workaround=0
+eap_server=0
+wpa=3
+ssid=voyage-mpd
+wpa_passphrase=voyage-mpd
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+eapol_version=1
+EOF
+
+echo "Done."

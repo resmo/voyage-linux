@@ -8,11 +8,9 @@ export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
 VOYAGE_LINUX_PACKAGES="linux-image-2.6.38 "
-ONE_LINUX_PACKAGES="linux-image-2.6.33.7-rt29 \
-					madwifi-modules-2.6.33.7-rt29 \
-					batman-adv-modules-2.6.33.7-rt29 \
-					batmand-gateway-modules-2.6.33.7-rt29 \
-					dahdi-modules-2.6.33.7-rt29"
+ONE_LINUX_PACKAGES="linux-image-2.6.38 \
+					batmand-gateway-modules-2.6.38 \
+					dahdi-modules-2.6.38 "
 MPD_LINUX_PACKAGES="linux-image-2.6.38 \
 					alsa-modules-2.6.38 "
 

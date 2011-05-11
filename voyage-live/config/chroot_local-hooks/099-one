@@ -73,11 +73,25 @@ secret = voyage
 read = system,call,log,verbose,command,agent,config
 write = system,call,log,verbose,command,agent,config,originate
 
+[user]
+secret = voyage
+read = config,reporting
+write = originate,config,command,call,system
+
 EOF
 
 # Meet Me Conference
 cat <<EOF >>/etc/asterisk/meetme.conf
 conf = 6300,,
+EOF
+
+# Unload modules
+cat <<EOF >>/etc/asterisk/modules.conf
+
+[modules](!)
+; Make sure those two don't mess with the simple dialplan we have: 
+unload => pbx_ael.so
+unload => pbx_lua.so
 EOF
 
 
