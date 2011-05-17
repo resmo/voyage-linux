@@ -44,9 +44,9 @@ mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
 
 #
 # Update /etc/default/voyage-util
-echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS var/lib/mpd \"" >> /etc/default/voyage-util
+echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS var/lib/mpd var/lib/alsa \"" >> /etc/default/voyage-util
 echo "VOYAGE_SYNC_RECOVER=\"YES\"" >> /etc/default/voyage-util
-echo "VOYAGE_SYNC_RECOVER_DIRS=\"var/lib/mpd\"" >> /etc/default/voyage-util
+echo "VOYAGE_SYNC_RECOVER_DIRS=\"var/lib/mpd var/lib/alsa \"" >> /etc/default/voyage-util
 
 #
 # Update crontab
