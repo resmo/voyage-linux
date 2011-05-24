@@ -141,6 +141,13 @@ BuildCD()
 	fi
 }
 
+Banner()
+{
+	echo "########################################################"
+	echo "# Build $1"
+	echo "########################################################"
+}
+
 #
 # $1 - local package list to use by the distro
 #
@@ -158,34 +165,42 @@ PreparePackageList()
 for TYPE in $1; do
 	case "$TYPE" in
 		img)
+			Banner "Voyage Linux Image"
 			PreparePackageList "voyage voyage-cd"
 			BuildImg
 		;;
 		tar)
+			Banner "Voyage Linux Tarball"
 			PreparePackageList "voyage"
 			BuildTar
 		;;
 		iso)
+			Banner "Voyage Linux Live CD"
 			PreparePackageList "voyage voyage-cd"
 			BuildISO
 		;;
 		sdk)
+			Banner "Voyage SDK Live CD"
 			PreparePackageList "voyage voyage-cd voyage-sdk"
 			BuildSDK
 		;;
 		onecd)
+			Banner "Voyage ONE Live CD"
 			PreparePackageList "voyage voyage-cd one"
 			BuildCD voyage-one-cd one "$ONE_LINUX_PACKAGES"
 		;;
 		one)
+			Banner "Voyage ONE Tarball"
 			PreparePackageList "voyage one"
 			BuildDistro voyage-one one "$ONE_LINUX_PACKAGES"
 		;;
 		mpdcd)
+			Banner "Voyage MPD Live CD"
 			PreparePackageList "voyage voyage-cd mpd"
 			BuildCD voyage-mpd-cd mpd "$MPD_LINUX_PACKAGES"
 		;;
 		mpd)
+			Banner "Voyage MPD Tarball"
 			PreparePackageList "voyage voyage mpd"
 			BuildDistro voyage-mpd mpd "$MPD_LINUX_PACKAGES"
 		;;
