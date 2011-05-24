@@ -13,4 +13,5 @@ sshfs
 davfs2
 lirc
 avahi-daemon
+avahi-utils
 
