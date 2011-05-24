@@ -17,4 +17,7 @@ fi
 wget "$PRISM54_FIRMWARE_URL" -O /usr/lib/hotplug/firmware/isl3890
 wget "$P54PCI_FIRMWARE_URL" -O /lib/firmware/isl3886pci
 
+# blacklist prism54 modules as we will use p54pci as default
+echo "blacklist prism54" >> /etc/modprobe.d/blacklist.conf
+
 echo "Done"
