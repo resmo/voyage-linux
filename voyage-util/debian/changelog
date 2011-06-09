@@ -1,3 +1,9 @@
+voyage-util (0.9-1) unstable; urgency=low
+
+  * use blkid since /lib/udev/vol_id no longer available in squeeze
+
+ -- Punky Tse <punkytse@punknix.com>  Wed, 06 Apr 2011 23:04:35 +0800
+
 voyage-util (0.8-2) unstable; urgency=low
 
   * [voyage-pxe] use tftpd-hpa instead of atftpd
