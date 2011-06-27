@@ -1,15 +1,42 @@
-0.7.5 (DD MMM YYYY)
+0.7.5 (28 Jun 2011)
 - [kernel] linux-image-2.6.38-voyage_9.0-1
-	- based on Debian kernel source 2.6.38-3
+	- based on Debian kernel source 2.6.38-5
+	- [general] enable SMP, XZ & LZO compression
+	- [netfilter] enable mark, connmark
+	- [network] enable lstp, 802.15.4, tcp_md5sig
+	- [ata] enable AMD, IXP, cs5535/6, VIA
+	- [md] enable raid 0/1/10/456
+	- [wireless] enable ath9k_htc, carl9170, rt2800, iwlwifi, rtlwifi
+	- [voip] enable mISDN and driver
+	- [sound] disable all sound drivers.  Now rely on external ALSA driver
+	- [ir] enable lirc and drivers
+	- [framebuffer] enable nVidia, i810, Intel, Matrox, Radeon, Geode_GX drivers
+	- [leds] enable net5501 and usbdev trigger
+	- [fs] enable NLS codepages and XZ for squashfs
+	- [crypto] enable geode_aes
+	- [misc] enable batman-adv, cs5535_mfgpt, gpio_cs5535
 - [general]
+	- based on Debian 6.0.2 "Squeeze"
+	- remove madwifi package
+	- add madwifi driver to backlist and make ath5k as default
+	- add prism54 driver to backlist and make p54pci as default
 	- fix lilo in kernel install symlink hook
 	- remove pptpd, parprouted package
 	- add nocatsplash, firmware-realtek, crda, wireless-regdb package 
+	- add hostapd configuration defaults for nl80211-based device
+- [voyage-util]
+	- new version 0.9-1
+	- use blkid since /lib/udev/vol_id no longer available in squeeze
+- [one] 
+	- remove most of network and VPN utils
+	- update to Asterisk 1.8.3 and dahdi 2.4.0
+	- add "voyage" user to asterisk-gui
 - [mpd] 
+	- use alsa-modules-2.6.38-voyage_1.0.24
  	- enable VOYAGE_SYNC_RECOVER
 	- enable 5 min cron job for "voyage-sync sync"
 	- enable utf8 for vfat/fat usb mount
-	- add avahi-daemon package
+	- add avahi-daemon and avahi-utils package
 
 0.7.0 (08 Feb 2011)
 - [kernel] linux-image-2.6.32-voyage_8.0-1

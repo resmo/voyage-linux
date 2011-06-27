@@ -18,7 +18,7 @@ LB_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug nolocales quickreboot 
 
 # $LB_BOOTAPPEND_INSTALL: set boot parameters
 # (Default: empty)
-LB_BOOTAPPEND_INSTALL=""
+LB_BOOTAPPEND_INSTALL="cdrom-detect/try-usb=true"
 
 # $LB_BOOTLOADER: set bootloader
 # (Default: syslinux)

@@ -787,6 +787,7 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 8.1 Release History
 ======================
 	Voyage 0.7
+    * [2011-06-28] voyage-0.7.5
     * [2011-02-08] voyage-0.7.0
 
 	Voyage 0.6
@@ -829,6 +830,7 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 
 8.2 Corresponding Debian and Kernel release
 ======================
+    * Squeeze, 2.6.38 - Voyage 0.7.5 (Linux, ONE and MPD)
     * Squeeze, 2.6.33rt - Voyage 0.7.0 ONE and MPD
     * Squeeze, 2.6.32 - Voyage 0.7.0
     * Lenny, 2.6.30 - Voyage 0.6.5
@@ -840,6 +842,6 @@ The customization scripts can also be found in CVS and nightly tarball as well.
 	* Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20110225
+Last Updated: 20110627
 ======================
 

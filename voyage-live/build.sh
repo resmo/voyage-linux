@@ -76,13 +76,17 @@ BuildImg()
 BuildISO()
 {
 	lb clean
-	lb config -b iso --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b iso-hybrid --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-current$ARCH.iso
 	else
-		echo "binary.iso not found!"
+        if [ -f binary-hybrid.iso ] ; then
+            mv binary-hybrid.iso $DISTRO-current$ARCH.iso
+        else
+            echo "binary.iso not found!"
+        fi
 	fi
 }
 
@@ -120,6 +124,28 @@ BuildDistro()
 		mv binary/live/$DISTRO-$2-current$ARCH binary/live/filesystem.dir
 	else
 		echo "binary/live/filesystem.dir not found!"
+	fi
+}
+
+#
+# $1 - package list name (e.g. voyage-one-cd)
+# $2 - distro name (e.g. one, mpd)
+# $3 - linux packages
+#
+BuildHybrid()
+{
+	lb clean
+	lb config -b iso-hybrid --chroot-filesystem squashfs --packages-lists "$1" --linux-packages="$3"
+	lb build
+	
+	if [ -f binary.iso ] ; then
+		mv binary.iso $DISTRO-$2-current$ARCH.iso
+	else
+		if [ -f binary-hybrid.iso ] ; then
+			mv binary-hybrid.iso $DISTRO-$2-current$ARCH.iso
+		else
+			echo "binary.iso not found!"
+		fi
 	fi
 }
 
@@ -187,7 +213,8 @@ for TYPE in $1; do
 		onecd)
 			Banner "Voyage ONE Live CD"
 			PreparePackageList "voyage voyage-cd one"
-			BuildCD voyage-one-cd one "$ONE_LINUX_PACKAGES"
+			#BuildCD voyage-one-cd one "$ONE_LINUX_PACKAGES"
+			BuildHybrid voyage-one-cd one "$ONE_LINUX_PACKAGES"
 		;;
 		one)
 			Banner "Voyage ONE Tarball"
@@ -197,7 +224,8 @@ for TYPE in $1; do
 		mpdcd)
 			Banner "Voyage MPD Live CD"
 			PreparePackageList "voyage voyage-cd mpd"
-			BuildCD voyage-mpd-cd mpd "$MPD_LINUX_PACKAGES"
+			#BuildCD voyage-mpd-cd mpd "$MPD_LINUX_PACKAGES"
+			BuildHybrid voyage-mpd-cd mpd "$MPD_LINUX_PACKAGES"
 		;;
 		mpd)
 			Banner "Voyage MPD Tarball"
