@@ -1,0 +1,4 @@
+deb http://www.voyage.hk/dists/experimental ./
+deb http://www.voyage.hk/dists/0.7 ./
+
+#deb http://ftp.tw.debian.org/debian/ squeeze non-free

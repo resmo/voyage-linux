@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# /usr/share/live-helper/hooks/stripped - hook list for live-helper(7)
+# Copyright (C) 2006-2008 Daniel Baumann <daniel@debian.org>
+#
+# live-helper comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+# This is free software, and you are welcome to redistribute it
+# under certain conditions; see COPYING for details.
+
+
+echo "($0)"
+
+###
+# In squeeze, the kernel-package 12.0.x remove the /initrd.img symlink and
+# the symlink creation is now rely on /etc/kernel/postinst.d hooks
+# the symlink hook script in now put to config/chroot_local-includes
+
+#mkdir /boot/grub
+#if [ -f /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook ] ; then
+#	cp /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook /etc/kernel/postinst.d/
+#fi
+dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst` || true
+
