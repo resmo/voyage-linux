@@ -25,6 +25,8 @@ if ($_GET['logout']=='true')
     session_start();
 	unset($_SESSION['logged_user']);
 	session_write_close();
+    if (file_exists('/usr/local/sbin/remountro'))
+        system ('sudo /usr/local/sbin/remountro');
     header('Location: login.php');
     flush();
     exit();
