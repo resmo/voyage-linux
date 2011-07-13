@@ -36,7 +36,7 @@ function login($user,$pass)
             session_write_close();
             // mount read-write
             if (file_exists('/usr/local/sbin/remountrw'))
- 	        system ('sudo /usr/local/sbin/remountrw');
+ 	        exec ('sudo /usr/local/sbin/remountrw');
             header('Location:index.php');
             flush();
             exit();
