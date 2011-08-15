@@ -29,6 +29,7 @@ DESC=voyage-sync
 
 TMPFS_ROOT=/lib/init/rw
 SYNC_DIRS="var/log var/tmp"
+SAVED_DATE_FILE=/var/log/voyage.saved-date
 
 NEED_REBOOT=no
 
@@ -101,8 +102,25 @@ mount_dirs()
 	esac
 }
 
+save_system_time() {
+	MSG="Save system time to: `cat $SAVED_DATE_FILE`" ; voyage_log
+	date > $SAVED_DATE_FILE
+}
+
+restore_system_time() {
+	if [ -f $SAVED_DATE_FILE ] ; then
+		CURRENT_DATE=`date`
+		if [ "${CURRENT_DATE:24:4}" -lt "2011" ] ; then
+			# Only if no RTC present 
+			MSG="Restored system time to: `cat $SAVED_DATE_FILE`" ; voyage_log
+			date -s "`cat $SAVED_DATE_FILE`"
+		fi
+	fi
+}
+
 case $1 in
 	'start')
+		restore_system_time
 		MSG="Start tmpfs..." ; voyage_log
 		# check SYNC_DIRS if recovery after a power failure is activated
 		if [ "$VOYAGE_SYNC_RECOVER" = "YES" ] ; then
@@ -145,6 +163,7 @@ case $1 in
 		MSG="Start tmpfs completed" ; voyage_log
 		;;
 	'sync')
+		save_system_time
 		MSG="Synchronizing tmpfs changed files..." ; voyage_log
 		for SYNC_DIR in $SYNC_DIRS ; do
 			if [ ! -d /$SYNC_DIR ] ; then continue; fi
