@@ -33,3 +33,7 @@ VOYAGE_RW_DIRS=""
 # Default is tmpfs
 #VOYAGE_UNIONFS=unionfs
 
+# set VOYAGE_SAVE_DATE_TIME to "YES" to enable saving date time before reboot
+# and restore saved time after reboot.
+#VOYAGE_SAVE_DATE_TIME="YES"
+

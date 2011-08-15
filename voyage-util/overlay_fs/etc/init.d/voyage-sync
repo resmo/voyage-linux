@@ -120,7 +120,9 @@ restore_system_time() {
 
 case $1 in
 	'start')
-		restore_system_time
+		if [ "$VOYAGE_SAVE_DATE_TIME" = "YES" ] ; then 
+			restore_system_time
+		fi 
 		MSG="Start tmpfs..." ; voyage_log
 		# check SYNC_DIRS if recovery after a power failure is activated
 		if [ "$VOYAGE_SYNC_RECOVER" = "YES" ] ; then
@@ -163,7 +165,9 @@ case $1 in
 		MSG="Start tmpfs completed" ; voyage_log
 		;;
 	'sync')
-		save_system_time
+        if [ "$VOYAGE_SAVE_DATE_TIME" = "YES" ] ; then 
+			save_system_time
+        fi
 		MSG="Synchronizing tmpfs changed files..." ; voyage_log
 		for SYNC_DIR in $SYNC_DIRS ; do
 			if [ ! -d /$SYNC_DIR ] ; then continue; fi

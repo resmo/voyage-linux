@@ -1,3 +1,10 @@
+voyage-util (0.10-1) unstable; urgency=low
+
+  * Saving date with voyage-sync (Teco Boot)
+  * change banner to version 0.8
+
+ -- Punky Tse <punkytse@punknix.com>  Tue, 16 Aug 2011 00:57:49 +0800
+
 voyage-util (0.9-1) unstable; urgency=low
 
   * use blkid since /lib/udev/vol_id no longer available in squeeze
