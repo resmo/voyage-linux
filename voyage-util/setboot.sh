@@ -47,13 +47,13 @@ image=/vmlinuz
 	label=Linux
 	initrd=/initrd.img
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios"
+	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
 
 image=/vmlinuz.old
 	label=LinuxOLD
 	initrd=/initrd.img.old
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios"
+	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
 	optional
 EOM
 	sed -e "/disk =/d;/bios =/d" -e "s#${TARGET_DISK}#/dev/hda#" \
@@ -192,7 +192,7 @@ EOM
 
 title voyage-linux-$datestr
 root (hd0,$(($TARGET_PART-1)))
-kernel /vmlinuz root=LABEL=ROOT_FS ${console}
+kernel /vmlinuz root=LABEL=ROOT_FS ${console} ${BOOTARGS}
 ${VOYAGE_INITRD}
 
 EOM
@@ -209,6 +209,10 @@ EOM
 	if [ $SYSTEM_BOOTSTRAP != grub -a \
 	     $SYSTEM_BOOTSTRAP != lilo ]; then
 		select_target_boot
+	fi
+
+	if [ -n "$BOOTARGS" ]; then
+		echo "adding bootargs: $BOOTARGS"
 	fi
 
 	if [ $SYSTEM_BOOTSTRAP == lilo ]; then

@@ -15,6 +15,10 @@ set -a
 
 CONFIGFILE=.voyage-install.conf
 
+if [ "$BOOTARGS" != "" ]; then
+	echo "adding bootargs: $BOOTARGS"
+fi
+
 #
 #	Function select_target_disk
 #	Sets the environment variables TARGET_DISK, TARGET_PART

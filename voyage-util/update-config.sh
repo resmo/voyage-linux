@@ -15,21 +15,37 @@
 #	Params:	$1 - root directory of target
 #
 update_modules() {
-	local saveifs modname buildlist
+	local saveifs modline moduleslist nameonly modopts modoptslist
 	saveifs=$IFS
 	IFS=";"
-	buildlist="
+	moduleslist="
 #
-# These lines generated automatically by `basename $0`
+# These lines generated automatically by `basename $0`,
+# parsing VOYAGE_SYSTEM_MODULES from Profile: $VOYAGE_PROFILE
 # on `date`
 #
 "
-	for modname in $VOYAGE_SYSTEM_MODULES; do
-		rmspace=`echo $modname | sed -e "s/^ *//"`
-		buildlist="$buildlist\n$rmspace"
+	modoptslist=$moduleslist	# copy header
+
+	# echo "Profile: $VOYAGE_PROFILE"
+	# echo "system-modules: $VOYAGE_SYSTEM_MODULES; "
+	for modline in $VOYAGE_SYSTEM_MODULES; do
+		rmspace=`echo $modline | sed -e "s/^ *//"`
+		nameonly=`echo $rmspace | cut -d' ' -f1`
+		modopts=`echo $rmspace | sed -e "s/$nameonly//" \
+		    | sed -e "s/^ *//"`
+		# echo "modline: $modline"
+		# echo "rmspace: $rmspace"
+		# echo "nameonly: $nameonly"
+		moduleslist="$moduleslist\n$nameonly"
+		# modprobe doesnt like empty options
+		[ -n "$modopts" ] && \
+		    modoptslist="$modoptslist\noptions $modopts"
 	done
 	IFS=$saveifs
-	echo -e "$buildlist" >> $1/etc/modules
+
+	echo -e "$moduleslist" >> $1/etc/modules
+	echo -e "$modoptslist" >> $1/etc/modprobe.d/$VOYAGE_PROFILE.conf
 }
 
 #
