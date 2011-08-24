@@ -1,10 +1,12 @@
 voyage-util (0.10-1) unstable; urgency=low
-
+  
+  * add BOOTARGS to grub and lilo configs (Jim Cromie)
+  * teach installer to write /etc/modprobe.d/profile.conf (Jim Cromie)
   * Saving date with voyage-sync (Teco Boot)
   * change banner to version 0.8
   * add VOYAGE_SAVE_DATE_TIME in /etc/defaults/voyage-util
 
- -- Punky Tse <punkytse@punknix.com>  Tue, 16 Aug 2011 00:57:49 +0800
+ -- Punky Tse <punkytse@punknix.com>  Tue, 24 Aug 2011 00:57:49 +0800
 
 voyage-util (0.9-1) unstable; urgency=low
 
