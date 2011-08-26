@@ -1,7 +1,8 @@
 voyage-util (0.10-1) unstable; urgency=low
   
-  * add BOOTARGS to grub and lilo configs (Jim Cromie)
-  * teach installer to write /etc/modprobe.d/profile.conf (Jim Cromie)
+  * [PATCH 06/11] voyage-update.sh: setspeed doesnt exist (Jim Cromie)
+  * [PATCH 02/3] add BOOTARGS to grub and lilo configs (Jim Cromie)
+  * [PATCH 01/11] teach installer to write /etc/modprobe.d/profile.conf (Jim Cromie)
   * Saving date with voyage-sync (Teco Boot)
   * change banner to version 0.8
   * add VOYAGE_SAVE_DATE_TIME in /etc/defaults/voyage-util
