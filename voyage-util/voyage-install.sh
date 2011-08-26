@@ -100,7 +100,7 @@ select_target_disk() {
 
 #
 #	Function select_target_boot()
-#	Selects which bootstrap loader to us
+#	Selects which bootstrap loader to use
 #	Sets the environment variable SYSTEM_BOOTSTRAP
 #	with the result
 #
