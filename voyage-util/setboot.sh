@@ -12,7 +12,7 @@ fi
 #	(/etc/lilo.conf).  Uses the VOYAGE_SYSTEM_xxxx and TARGET_xxxx
 #	environment variables to control the generation
 make_lilo_conf() {
-	local liloconf newlilo sercmd serapp
+	local liloconf newlilo sercmd serapp version
 	
 	# First decide whether console is normal or serial
 	if [ $VOYAGE_SYSTEM_CONSOLE == serial ]; then
@@ -24,6 +24,9 @@ make_lilo_conf() {
 		sercmd=""
 		serapp=""
 	fi
+
+	# dist version is more useful than date of CF-install
+	version=`grep Version: etc/motd.tail | cut -d: -f3-`
 	#
 	# Generate our lilo config file
 	# Note that the 'boot', 'disk' and 'bios' params allow us
@@ -44,7 +47,7 @@ vga=normal
 default=Linux
 
 image=/vmlinuz
-	label=Linux
+	label=Linux $version
 	initrd=/initrd.img
 	read-only
 	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
@@ -94,7 +97,7 @@ update_lilo()
 #
 update_grub()
 {
-	local console datestr fname gp prolog res
+	local console datestr fname gp prolog res version
 
 	# if the boot partition is separate from the main one,
 	# mount it on $TARGET_MOUNT/rw, otherwise it will be
@@ -188,9 +191,11 @@ EOM
 	# generate a label with today's date
 	# and append to menu.lst
 	datestr=`date +%d%b%y`
+	# dist version is more useful than date of CF-install
+	version=`grep Version: etc/motd.tail | cut -d: -f3-`
 	cat <<EOM >> ${gp}/grub/menu.lst
 
-title voyage-linux-$datestr
+title voyage-linux-$version
 root (hd0,$(($TARGET_PART-1)))
 kernel /vmlinuz root=LABEL=ROOT_FS ${console} ${BOOTARGS}
 ${VOYAGE_INITRD}
