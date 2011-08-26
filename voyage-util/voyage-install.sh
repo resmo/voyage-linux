@@ -141,27 +141,7 @@ select_target_boot() {
 #	If serial is chosen, also selects the baud rate
 #	Sets environment vars VOYAGE_SYSTEM_CONSOLE and VOYAGE_SYSTEM_SERIAL
 #
-select_target_console() {
-	if [ "$VOYAGE_SYSTEM_CONSOLE" == "standard" ]; then
-		VOYAGE_SYSTEM_CONSOLE_DEFAULT=2
-	else
-		VOYAGE_SYSTEM_CONSOLE_DEFAULT=1
-	fi
-	local a opts="1:Serial Terminal:%2:Console Interface:"
-	ask_setting "Select terminal type:" "$opts" $VOYAGE_SYSTEM_CONSOLE_DEFAULT
-	case $v in
-		1) VOYAGE_SYSTEM_CONSOLE="serial";;
-		2) VOYAGE_SYSTEM_CONSOLE="standard";;
-		*) err_quit "Unrecognized response from ask_setting";;
-	esac
-	if [ "$VOYAGE_SYSTEM_CONSOLE" == "serial" ]; then
-		get_serial_speed $VOYAGE_SYSTEM_SERIAL
-		save_config_var VOYAGE_SYSTEM_SERIAL VOYAGE_CONF_LIST
-		save_config_var VOYAGE_SYSTEM_SERIAL CONFIGLIST
-	fi
-	save_config_var VOYAGE_SYSTEM_CONSOLE VOYAGE_CONF_LIST
-	save_config_var VOYAGE_SYSTEM_CONSOLE CONFIGLIST
-}
+. $EXECDIR/console.shrc
 
 #
 #	Function select_fs_creation()

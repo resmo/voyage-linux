@@ -47,7 +47,9 @@ do
 		   if [ -z $w ]; then
 		   	err_msg "Check Target Directory setting!\n\n";
 		   fi;;
-		3) $EXECDIR/setspeed.sh;;
+		3) . $EXECDIR/console.shrc
+		   select_target_console
+		   ;;
 		4) $EXECDIR/do-update.sh;;
 		5) break;;
 		*) err_quit "Invalid return code from ask_setting";;

@@ -3,6 +3,7 @@
 install:
 	# Installing main scripts
 	install -m 755 ./*.sh ${DESTDIR}/usr/local/sbin
+	install -m 755 ./*.shrc ${DESTDIR}/usr/local/sbin
 
 	install -m 755 voyage.update ${DESTDIR}/usr/local/sbin
 
