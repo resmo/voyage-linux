@@ -49,6 +49,9 @@ Compact Flash device on /dev/sda.
 	mkfs.ext2 /dev/sda1
 	tune2fs -c 0 /dev/sda1
 
+To save more spaces for not having reserved filesystem block, you may also run:
+    tune2fs -r 0 -c 0 /dev/sda1
+
 There is a helper script in ./usr/local/sbin/format-cf.sh to ease formatting
 and creation of ext2 file system.  Use it at your own risk!
 	./usr/local/sbin/format-cf.sh /dev/sda
