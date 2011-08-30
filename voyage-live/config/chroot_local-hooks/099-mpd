@@ -26,7 +26,8 @@ echo "($0) Building Voyage MPD. "
 #MODULE_IMAGE="alsa-modules-$KERNEL_VER madwifi-modules-$KERNEL_VER"
 #KERNEL_IMAGE=linux-image-"$KERNEL_VER"
 
-KERNEL_VER=2.6.38-voyage
+#KERNEL_VER=2.6.38-voyage
+KERNEL_VER=3.0.0-voyage
 
 if [ ! -z $KERNEL_IMAGE ] ; then
 	mkdir /boot/grub
@@ -37,10 +38,10 @@ for IMAGE in $MODULE_IMAGE; do
 	apt-get --yes --force-yes install "$IMAGE"
 done
 
-mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko \
-	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko.bak
-mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
-	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko.bak
+#mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko \
+#	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-audio.ko.bak
+#mv 	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko \
+#	/lib/modules/$KERNEL_VER/kernel/sound/usb/snd-usb-lib.ko.bak
 
 #
 # Update /etc/default/voyage-util

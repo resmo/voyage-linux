@@ -19,5 +19,5 @@ echo "($0)"
 #if [ -f /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook ] ; then
 #	cp /usr/share/kernel-package/examples/etc/kernel/postinst.d/symlink_hook /etc/kernel/postinst.d/
 #fi
-dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-2.6.*-voyage.postinst .postinst` || true
+dpkg-reconfigure `basename /var/lib/dpkg/info/linux-image-[23].[06].*-voyage.postinst .postinst` || true
 
