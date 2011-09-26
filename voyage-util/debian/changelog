@@ -8,6 +8,7 @@ voyage-util (0.10-1) unstable; urgency=low
   * Saving date with voyage-sync (Teco Boot)
   * change banner to version 0.8
   * add VOYAGE_SAVE_DATE_TIME in /etc/defaults/voyage-util
+  * parallelize sync back to disk device
 
  -- Punky Tse <punkytse@punknix.com>  Tue, 24 Aug 2011 00:57:49 +0800
 

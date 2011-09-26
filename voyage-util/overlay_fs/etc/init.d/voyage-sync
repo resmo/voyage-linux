@@ -179,9 +179,11 @@ case $1 in
 		
 			MSG="  Sync'ing /$SYNC_DIR to `dirname /.sync/$SYNC_DIR`" ; voyage_log
 			if [ "$(ls -A /$SYNC_DIR)" ]; then
-				rsync -a -q --delete-after /$SYNC_DIR/. /.sync/$SYNC_DIR
+				rsync -a -q --delete-after /$SYNC_DIR/. /.sync/$SYNC_DIR &
 			fi
 		done
+		MSG="Wait until all sync complete." ; voyage_log
+		wait
 		sync
 		MSG="Synchronization tmpfs completed" ; voyage_log
 		;;
@@ -208,13 +210,15 @@ case $1 in
 			umount /$SYNC_DIR		
 			
 			MSG="  Sync'ing /.sync/$SYNC_DIR to `dirname /$SYNC_DIR`" ; voyage_log
-			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR`			
-			#PERM=$(stat --format=%U:%G /$SYNC_DIR)
-			#echo "owner $PERM /$SYNC_DIR"
+			rsync -a -q --delete-after /.sync/$SYNC_DIR `dirname /$SYNC_DIR` &
 		done
+		# wait until all sync complete.
+		MSG="Wait until all sync complete." ; voyage_log
+		wait
 		
 		# at last remove /.sync
 		rm -rf /.sync
+		sync
 		MSG="Stop tmpfs completed" ; voyage_log
 		;;
   	force-reload|restart)
