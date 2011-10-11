@@ -54,10 +54,10 @@ if [ $exitflag -ne 0 ]; then
 	exit
 fi
 # All looks ok - we can now mount the target directory
-mount -t ext2 $TARGET_DISK$TARGET_PART $TARGET_MOUNT || \
-  err_quit "Failed to mount $TARGET_DISK$TARGET_PART on $TARGET_MOUNT as an ext2 partition"
+mount $TARGET_DISK$TARGET_PART $TARGET_MOUNT || \
+  err_quit "Failed to mount $TARGET_DISK$TARGET_PART on $TARGET_MOUNT. "
 
-# Mount Ok - Parition correct now set ext2 label to ROOT_FS
+# Mount Ok - Parition correct now set label to ROOT_FS
 e2label $TARGET_DISK$TARGET_PART ROOT_FS
 
 # We are going to use rsync to copy files from the distribution to the
