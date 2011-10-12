@@ -26,7 +26,7 @@ make_lilo_conf() {
 	fi
 
 	# dist version is more useful than date of CF-install
-	version=`grep Version: etc/motd.tail | cut -d: -f3-`
+	version=`grep Version: "$TARGET_MOUNT/etc/motd.tail"|sed "s/^.*Version: //"`
 	#
 	# Generate our lilo config file
 	# Note that the 'boot', 'disk' and 'bios' params allow us
@@ -192,10 +192,10 @@ EOM
 	# and append to menu.lst
 	datestr=`date +%d%b%y`
 	# dist version is more useful than date of CF-install
-	version=`grep Version: etc/motd.tail | cut -d: -f3-`
+	version=`grep Version: "$TARGET_MOUNT/etc/motd.tail"|sed "s/^.*Version: //"`
 	cat <<EOM >> ${gp}/grub/menu.lst
 
-title voyage-linux-$version
+title Voyage Linux $version
 root (hd0,$(($TARGET_PART-1)))
 kernel /vmlinuz root=LABEL=ROOT_FS ${console} ${BOOTARGS}
 ${VOYAGE_INITRD}
