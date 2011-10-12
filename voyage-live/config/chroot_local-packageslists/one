@@ -37,7 +37,7 @@ batctl
 
 dahdi
 dahdi-linux
-dahdi-firmware
+dahdi-firmware-nonfree
 
 asterisk
 asterisk-h323
