@@ -44,8 +44,8 @@ update_modules() {
 	done
 	IFS=$saveifs
 
-	echo -e "$moduleslist" >> $1/etc/modules
-	echo -e "$modoptslist" >> $1/etc/modprobe.d/$VOYAGE_PROFILE.conf
+	echo -e "$moduleslist" >> "$1/etc/modules"
+	echo -e "$modoptslist" >> "$1/etc/modprobe.d/$VOYAGE_PROFILE.conf"
 }
 
 #
