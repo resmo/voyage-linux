@@ -6,6 +6,7 @@ echo "($0)"
 #PRISM54_FIRMWARE_URL="http://prism54.org/~mcgrof/firmware/1.0.4.3.arm"
 #PRISM54_FIRMWARE_URL="http://ruslug.rutgers.edu/~mcgrof/802.11g/firmware/1.0.4.3.arm"
 PRISM54_FIRMWARE_URL="http://lekernel.net/prism54/firmware/1.0.4.3.arm"
+PRISM54_FIRMWARE_URL="http://daemonizer.de/prism54/prism54-fw/fw-fullmac/1.0.4.3.arm"
 P54PCI_FIRMWARE_URL=http://daemonizer.de/prism54/prism54-fw/fw-softmac/2.13.25.0.arm
 
 echo -n "Downloading Firmware from Prism54.org ... "
