@@ -59,4 +59,13 @@ crda
 wireless-regdb
 sudo
 
+ppp
+pppoe
+bzip2
+psmisc
+usbutils
+libdaemon0
+ifplugd
+live-initramfs
+live-boot-initramfs-tools
 
