@@ -1,3 +1,47 @@
+0.8.0 (xx Oct 2011)
+- [kernel] linux-image-3.0.0-voyage_10.0-1
+	- based on Debian kernel source 3.0.0-5
+	- [general] enable IRQ force threading
+	- [netfilter] add conntrack broadcast & SNMP
+	- [netfilter] add xt target checksum, ct, tee
+	- [netfilter] add ipset
+	- [wireless] enable WiMAX and i2400
+	- [wireless] add rt2800, rtl8192
+	- [framebuffer] add riva, matrox, via, udl
+	- [sound] enable alsa sound driver instead of using out-of-tree kernel modules
+	- [amd64] enable IA32 emulation
+- [general]
+	- based on Debian 6.0.3 "Squeeze"
+	- add sudo to voyage linux
+	- add support of ath9k 11n in hostapd.conf
+	- add ppp, pppoe, bzip2, psmisc, usbutils, libdaemon0, ifplugd, live-initramfs & live-boot-initramfs-tools packages
+	- change to use 0.8 apt repository
+	- change to use JP debian mirror as apt source as it is faster
+	- rewrite README
+	- hostapd 0.7.3-2
+	- wpasupplicant 0.7.3-4
+	- iw 3.1-1
+- [voyage-util]
+	- new version 0.10-1
+	- Saving date with voyage-sync (Teco Boot)
+	- add VOYAGE_SAVE_DATE_TIME in /etc/defaults/voyage-util
+	- change banner version to 0.8
+	- teach installer to write /etc/modprobe.d/profile.conf
+	- add BOOTARGS to grub and lilo configs (Jim Cromie)
+	- [PATCH 06/11] voyage-update.sh: setspeed doesnt exist (Jim Cromie)
+	- [PATCH 07/11] spelling (Jim Cromie)
+	- [PATCH 09/11] grub titles should have version, not date-of-install (Jim Cromie)
+	- parallelize sync back to disk device
+	- support non-ext2 filesystem for installation
+- [one]
+	- change to use dahdi-firmware-nonfree
+	- asterisk 1.8.4.2
+	- asterisk-gui 2.1.0~rc1
+	- dahdi 2.5.0
+- [mpd]
+	- disable sndfile plugin for mpd
+	- mpd 0.16.5
+
 0.7.5 (28 Jun 2011)
 - [kernel] linux-image-2.6.38-voyage_9.0-1
 	- based on Debian kernel source 2.6.38-5
