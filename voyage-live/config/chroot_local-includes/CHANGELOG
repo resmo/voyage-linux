@@ -1,4 +1,4 @@
-0.8.0 (xx Oct 2011)
+0.8.0 (29 Oct 2011)
 - [kernel] linux-image-3.0.0-voyage_10.0-1
 	- based on Debian kernel source 3.0.0-5
 	- [general] enable IRQ force threading
