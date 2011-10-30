@@ -32,6 +32,7 @@
 	- [PATCH 07/11] spelling (Jim Cromie)
 	- [PATCH 09/11] grub titles should have version, not date-of-install (Jim Cromie)
 	- parallelize sync back to disk device
+	- update /etc/hosts after copy files
 	- support non-ext2 filesystem for installation
 - [one]
 	- change to use dahdi-firmware-nonfree
