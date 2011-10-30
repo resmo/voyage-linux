@@ -108,3 +108,14 @@ reconfig_resolvconf() {
 
 }
 
+#
+#	Function update_hosts
+#   update /etc/hosts file
+#   Params: $1 - root directory of target
+#
+update_hosts() {
+	echo "Updating /etc/hosts"
+
+	echo "127.0.0.1 localhost voyage" >> $1/etc/hosts
+    echo "127.0.1.1 voyage" >> $1/etc/hosts
+}
