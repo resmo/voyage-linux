@@ -1,0 +1,682 @@
+ __  __
+ \ \/ /___ __  __ ___  ___  ___    Useful Commands:
+  \  // _ \\ \/ /,-_ |/ _ |/ -_)     remountrw - mount disk as read-write
+   \/ \___/ \  / \___,\_  |\___|     remountro - mount disk as read-only
+           _/_/        _'_|          remove.docs - remove all docs and manpages
+     { V o y a g e } - L i n u x
+      < http://linux.voyage.hk >   Version: 0.8
+
+1. Introduction
+======================
+Voyage Linux is Debian derived distribution that is best run on a x86 embedded 
+platforms such as PC Engines ALIX/WRAP, Soekris 45xx/48xx and Atom-based boards.
+
+It can also run on low-end x86 PC platforms. Typical installation requires 
+128MB disk space, although larger storage allows more packages to be installed.
+Voyage Linux is so small that it is best suitable for running a full-feature 
+firewall, wireless access point, Asterisk/VoIP gateway, music player or network 
+storage device. 
+
+Currently, Voyage Linux has the following editions:
+
+    * Voyage Linux - the basic version
+    * Voyage MPD - Music Player Daemon
+    * Voyage ONE - VoIP software - Asterisk, dahdi etc
+
+All editions are delivered as distribution tarball and Live CD in i386 
+architecture. AMD64 architecture is available for Voyage Linux only. We also 
+offer SDK to ease customizing Voyage Linux. 
+
+For more information about Voyage Linux, please visit:
+	http://linux.voyage.hk
+	
+2. Installation
+======================
+Download the Voyage Linux software package from 
+	http://www.voyage.hk/download/voyage/ 
+to a Linux machine.
+
+extract the software tarball:
+	tar --numeric-owner -jxf voyage-<version>.tar.bz2
+	
+as root, run the installation script:
+	cd voyage-<version>
+	./usr/local/sbin/voyage.update
+	
+Before you run the installer you may have to format the disk device.  Assuming 
+Compact Flash device on /dev/sda.
+	fdisk /dev/sda
+	mkfs.ext2 /dev/sda1
+	tune2fs -c 0 /dev/sda1
+
+To save more spaces for not having reserved filesystem block, you may also run:
+    tune2fs -r 0 -c 0 /dev/sda1
+
+There is a helper script in ./usr/local/sbin/format-cf.sh to ease formatting
+and creation of ext2 file system.  Use it at your own risk!
+	./usr/local/sbin/format-cf.sh /dev/sda
+	
+Voyage Linux now requires at least 128MB storage to run.  However, more disk 
+space is recommended if you want to add more software and be able to run 
+"apt-get upgrade".
+
+voyage.update scripts will ask you a couple of questions to complete the 
+installation:
+
+	1 - Create new Voyage Linux disk
+	2 - Update existing Voyage configuration
+	3 - Exit
+
+Press 1 to install voyage to disk device.  After all, you will be prompted to 
+the main installation menu.  You should go through the menu item 1 - 6 in 
+sequence.
+
+	1 - Specify Distribution Directory
+	2 - Select Target Profile
+	3 - Select Target Disk
+	4 - Select Target Bootstrap Loader
+	5 - Configure Target Console
+	6 - Copy Distribution to Target
+	7 - Exit
+  
+It will take a short while (1-5 min.) to copy all files from software package to 
+disk device.  The above configuration will be saved to .voyage.config.  If you 
+run voyage.update next time, it will use same configuration as default.
+
+Once Voyage Linux is booted up, you will be prompted for login.  The default
+root password is "voyage", please change the root password after first login.
+
+	# remountrw
+	# passwd
+
+3. Configuration
+======================
+
+3.1 Network Interface
+======================
+By default, eth0 requests IP address using DHCP. 
+
+In /etc/network/interfaces,
+
+auto eth0
+iface eth0 inet dhcp
+
+auto br0
+iface br0 inet dhcp
+        bridge_ports eth0 eth1
+
+This will create a bridge interface br0 with eth0 and eth1 as slave.
+
+For wireless device configuration, edit /etc/network/interface and have
+the follow interface configuration section:
+
+# for nl80211 driver (e.g. ath5k, ath9k, p54pci)
+auto wlan0
+iface wlan0 inet static
+       address 10.1.10.1
+       netmask 255.255.255.0
+       broadcast 10.1.10.255
+       hostapd /etc/hostapd/hostapd.wlan0.conf
+       up nat.sh wlan0 eth0 "10.1.10.0/24"
+
+Also see below for hostapd configuration:
+
+# for hostap driver (Prism 2.5)
+auto wlan0
+iface wlan0 inet static
+        address 10.1.10.1
+        netmask 255.255.255.0
+        broadcast 10.1.10.255
+        up iwconfig wlan0 essid voyage mode Master
+        up nat.sh wlan0 eth0 "10.1.10.0/24"
+        
+Both enable wlan0 device as wireless interface in a separate network and the
+wireless interface runs in NAT mode.
+
+A friendly script, nat.sh, is located in /usr/local/sbin/, generates all 
+necessary iptables rules for NAT'ing interface. nat.sh is now integrated to 
+work with nocat.  Syntax:
+	nat.sh <nat device> <output device> <network address>
+	
+	<nat device> - a tag to identify the NAT interface, no need to be a real 
+		device name, but should be unqiue if multiple NAT devices are 
+		configured
+	<output device> - the outbound device name for NAT
+	<network address> - the IP network with mask for NAT
+
+3.2 Hostapd
+======================
+Assume you have nl80211 compatible wireless driver, e.g. ath5k, ath9k, p54pci, 
+and want to setup a wireless access points where wireless client are in a NAT 
+network.  Add the following lines in /etc/network/interfaces:
+
+auto wlan0
+iface wlan0 inet static
+        address 10.1.10.1
+        netmask 255.255.255.0
+        broadcast 10.1.10.255
+        hostapd /etc/hostapd/hostapd.wlan0.conf
+        up nat.sh wlan0 eth0 "10.1.10.0/24"
+        
+This assumes you wireless device is wlan0 and the above will setup wlan0 
+interface with IP address 10.1.10.1 assigned and all traffics are NAT'd to eth0.
+All wireless clients connected to this access point will be assigned with IP 
+range 10.1.10.0/24.
+
+Then create a file /etc/hostapd/hostapd.wlan0.conf:
+
+interface=wlan0
+driver=nl80211
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+debug=4
+#dump_file=/tmp/hostapd.dump
+#ctrl_interface=/var/run/hostapd
+#ctrl_interface_group=0
+channel=6
+hw_mode=g
+macaddr_acl=0
+auth_algs=3
+eapol_key_index_workaround=0
+eap_server=0
+wpa=3
+ssid=voyage-wpa
+wpa_passphrase=voyage-wpa
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+eapol_version=1
+
+The above configuration will setup both WPA and WPA2.  To setup WPA2 only, 
+set "wpa=2".  The wireless AP service name (ESSID) will be "voyage-wpa" with 
+passphrase "voyage-wpa".  Change ssid, wpa_passphrase and channel values if 
+desirable.
+
+Then run: 
+# ifup wlan0
+
+to activate the wireless access point now.  The above setting also 
+automatically enables wireless access point after reboot.
+
+3.3 wpa-supplicant
+======================
+
+If you run nl80211 compatible wireless driver, e.g. ath5k, ath9k, p54pci, 
+and want to connect to an existing wireless access point or router in your 
+network, update with the following lines in /etc/network/interfaces:
+
+auto wlan0
+iface wlan0 inet dhcp
+        wpa-driver wext
+        wpa-ssid <your ssid>
+        wpa-psk <your WPA shared key>
+        wpa-key-mgmt WPA-PSK
+        wpa-pairwise TKIP
+        wpa-group TKIP
+        wpa-proto WPA
+        wireless-mode Managed
+
+Replace <your ssid> to the SSID and <your WPA shared key> to WPA shared key of 
+your wireless access point / router. If you use WPA2 in your wireless network, 
+you need to change wpa-proto to "RSN".  You also need to change 
+wpa-pairwise and wpa-group to "CCMP TKIP" as well.
+Then run: 
+# ifup wlan0
+
+to connect to the wireless access point / router now.  The above settings also
+automatically connect to wireless access point / router after reboot.
+
+3.4 Bridging
+======================
+To setup a bridge br0 with slave device eth0 and wlan0, add the following in
+/etc/network/interface
+
+auto br0
+iface br0 inet dhcp
+        bridge_ports eth0 wlan0
+
+The wlan0 device (for AP functionality) setup will be slightly different:
+
+auto eth0
+    iface eth0 inet manual
+
+auto wlan0
+iface wlan0 inet manual
+    hostapd /etc/hostapd/hostapd.wlan0.conf
+
+Then run:
+
+# ifup br0 
+
+to activate the wireless bridge device.
+
+3.5 DHCP/DNS - dnsmasq
+======================
+DHCP support from dnsmasq is now enabled by default. 
+
+Edit /etc/dnsmasq.more.conf and there are following lines:
+
+dhcp-leasefile=/var/tmp/dnsmasq.leases
+dhcp-range=wlan0,10.1.10.10,10.1.10.250,24h
+dhcp-range=eth1,10.1.20.10,10.1.20.250,24h
+dhcp-range=eth2,10.1.30.10,10.1.30.250,24h
+dhcp-range=eth3,10.1.40.10,10.1.40.250,24h
+
+dnsmasq will provide IP address lease 10.1.10.10-250, 10.1.20.10-250, 
+10.1.30.10-250, 10.1.40.10-250.
+
+Comment out all the lines in /etc/dnsmasq.more.conf to disable DHCP in dnsmasq.
+
+3.6 LED Support
+======================
+Voyage kernel >= 2.6.23 (from Voyage 0.5) comes with LED driver for WRAP, ALIX 
+and Soekris 48xx boards.
+
+To enable LED control, simply load the corresponding kernel module
+	# modprobe leds-alix (for ALIX)
+	# modprobe leds-wrap (for WRAP)
+	# modprobe leds-net48xx (for Soekris 48xx)
+
+LED could then be controlled in /sys/class/leds/<device>:#. For example,
+
+To turn on LED on ALIX:
+	# echo 1 > /sys/class/leds/alix\:1/brightness
+	# echo 1 > /sys/class/leds/alix\:2/brightness
+	# echo 1 > /sys/class/leds/alix\:3/brightness
+
+To turn off LED:
+	# echo 0 > /sys/class/leds/alix\:1/brightness
+	# echo 0 > /sys/class/leds/alix\:2/brightness
+	# echo 0 > /sys/class/leds/alix\:3/brightness
+
+There are more interesting feature for LED control, first load the following 
+LED trigger modules:
+	# modprobe ledtrig-heartbeat
+	# modprobe ledtrig-timer
+
+1. enable LED1 for heartbeat trigger - higher the load, faster it blinks
+	# echo heartbeat > /sys/class/leds/alix\:1/trigger
+
+2. enable LED2 to show ide disk activity
+	# echo ide-disk > /sys/class/leds/alix\:2/trigger
+
+3. enable LED3 for net device, on eth0 for link, send and receive
+	echo netdev > /sys/class/leds/alix\:3/trigger
+	echo eth0 > /sys/class/leds/alix\:3/device_name
+   	echo "link tx rx" > /sys/class/leds/alix\:3/mode
+
+4. enable LED3 for timer-based control, 1 sec on, 5 sec off
+	# echo timer > /sys/class/leds/alix\:3/trigger
+	# echo 1000 >  /sys/class/leds/alix\:3/delay_on
+	# echo 5000 >  /sys/class/leds/alix\:3/delay_off
+
+to turn off trigger
+	# echo none > /sys/class/leds/alix\:1/trigger
+	# echo none > /sys/class/leds/alix\:2/trigger
+	# echo none > /sys/class/leds/alix\:3/trigger 
+	
+From 0.5.1, if ALIX and WRAP install profile is selected, heartbeat and ide-disk 
+driver will be automatically enabled at boot. To disable this feature, edit
+/etc/default/voyage-util and update VOYAGE_LED variable to "NO":
+	VOYAGE_LEDS="NO"
+	
+3.7 voyage-sync script
+=======================
+
+Starting from 0.6, the legacy /ro and /rw directories will be replaced by
+voyage-sync script, which is located under /etc/init.d/.  At boot, /var/tmp
+and /var/log are by default mounted under tmpfs.  All the changes will be 
+synchronized back to disk at shutdown. To sync back to disk manually while 
+running, run:
+
+# remountrw
+# /etc/init.d/voyage-sync sync
+# remountro
+
+If you want to add more directories to tmpfs, modify VOYAGE_SYNC_DIRS in 
+/etc/default/voyage-util.  
+
+For more information on the usage, please read /etc/default/voyage-util.
+
+
+4. Board-specific Notes
+=======================
+Please note that some of the information in this section are obsoleted (FIXME).
+
+4.1 ALIX support
+======================
+
+4.1.1 Temperature sensors for ALIX.1 and ALIX2/3
+================================================
+When running Voyage Linux with ALIX, choose ALIX profile in voyage update,
+the required modules would be added to /etc/modules.  It adds the following 
+modules in /etc/modules:
+	w83627hf 
+	lm90
+	geodewdt
+	
+ALIX.1 board uses w83627hf driver while ALIX.2/3 uses lm90.  You can get the 
+temperature reading from sensors program, or get the values from sysfs:
+
+(for ALIX.1)
+	cat /sys/devices/platform/w83627hf.656/temp1_input
+	cat /sys/devices/platform/w83627hf.656/temp2_input
+	cat /sys/devices/platform/w83627hf.656/temp3_input
+
+
+You may also use sensors utility to get the temperature reading.  If temp1 
+reading may not be ready at boot up, you need to modify w83627hf section in 
+/etc/sensors.conf:
+
+chip "w83782d-*" "w83627hf-*"
+...
+	set sensor1 1
+	
+Known Issue: the readings returned from w83627hf is not very accurate.  temp1 
+reading is too low (~30C) and some offset should be applied.  But temp1 reading 
+can move down to 20C if you apply cooling agent on the Geode processor.  temp2 
+and temp3 do not move up or down too much at idle or under high low.
+
+(for ALIX.2/3)
+	cat /sys/class/i2c-adapter/i2c-0/0-004c/temp1_input
+	cat /sys/class/i2c-adapter/i2c-0/0-004c/temp2_input
+	
+
+4.2 WRAP support
+======================
+
+4.2.1 Watchdog for WRAP
+=======================
+For WRAP board, wd1100 has been ported to kernel 2.6.  If you choose WRAP
+option in voyage.update, wd1100 driver will be added to /etc/module.  
+
+To load wd1100 to kernel, run the following commands:
+
+	modprobe wd1100
+	echo 0 > /proc/sys/dev/wd/graceful
+	echo 30 > /proc/sys/dev/wd/timeout
+or
+	modprobe wd1100 sysctl_wd_graceful=0 sysctl_wd_timeout=30
+
+This will set timeout value to 30 seconds.  
+
+You will have to restart watchdog userland program to activate watchdog timer
+	/etc/init.d/watchdog restart
+
+In addition, you will need to make sure that /etc/watchdog.conf is properly 
+configured.  For above watchdog module configuration for WRAP, the following 
+settings should do:
+
+watchdog-device = /dev/watchdog
+interval	    = 15
+
+And make sure the watchdog device is available:
+	
+	mknod -m 600 /dev/watchdog c 10 130
+
+You may also add the following line to /etc/modules to enable loading wd1100 
+driver at startup: 
+	
+	wd1100 sysctl_wd_graceful=0 sysctl_wd_timeout=30
+
+To test watchdog module, you can try to stop the watchdog userland program.
+	/etc/init.d/watchdog stop
+The hardware will restart after 30 seconds at most.
+
+4.2.2 Temperature sensors for WRAP
+==================================
+If you choose WRAP in voyage.update, the required modules would be added
+to /etc/modules.  It adds the following modules in /etc/modules:
+	scx200_acb base=0x810,0x820
+	lm77
+
+You will find a new driver in /sys/bus/i2c/drivers/lm77/.  To read the 
+temperature, 
+	cat /sys/class/i2c-adapter/i2c-1/1-0048/temp1_input
+
+Divide the temps by 1000 you will get the temperature reading in Celcius.  
+Unfortunately, the temperature reading can not be retrieved using "sensors" util.
+
+Please note that latest WRAP2D/E does not host lm77 sensor anymore.
+------------------------------------------
+If you are using commodity hardware other than WRAP, the easiest way would be 
+installing lm-sensors package by
+	
+	apt-get install lm-sensors
+	
+and then run sensors-detect
+
+5. General Issues
+======================
+
+  How can I add a program:
+	- use "apt-get install <program>" of course
+
+  How can I add a file or install a program from sources (without using apt-get)
+  so it comes up every time I boot:
+	- /usr/local/sbin/remountrw to allow Read-Write
+	- Move the file or the program to it's location in /ro
+	- Symlink the file's original location to /rw
+	- fastreboot
+
+	EXAMPLE:
+	You install "webmin" from sources, the miniserver is in /var/webmin 
+	directory, configuration files are in /etc/webmin directory and the start on
+	is in /etc/init.d/webmin :
+
+	- move /var/webmin directory to /ro/var/webmin
+	- symlink in the original /var to /rw//var/webmin
+	- create a symlink in /etc/rcS.d/ to start automagically as last one at boot time
+
+	#remountrw
+	#mv /var/webmin /ro/var/webmin
+	#ln -s /rw//var/webmin /var/webmin
+	#ln -s /etc/init.d/webmin /etc/rcS.d/S56webmin
+	#fastreboot
+
+6. Support
+======================
+
+6.1 Mailing Lists
+======================
+A mailing list is setup for discussing supporting and development issues for 
+Voyage Linux:
+
+To subscribe, send an empty message to :
+	voyage-linux-subscribe@list.voyage.hk 
+	
+To unsubscribe, send an empty message to :
+	voyage-linux-unsubscribe@list.voyage.hk 
+	
+To post a message, send mail to :
+	voyage-linux@list.voyage.hk 
+	
+The list archives can be viewed and searched at :
+	http://list.voyage.hk/pipermail/voyage-linux/
+
+6.2 Development
+======================
+Starting from 0.6.0, Voyage Linux is built by Debian Live.  You can find
+the subversion repository for Debian Live config in:
+
+http://svn.voyage.hk/repos/voyage/trunk/voyage-live
+
+Getting start to build Voyage Linux under Debian r6.0 (squeeze) or Voyage SDK:
+# apt-get install live-helper
+# svn co http://svn.voyage.hk/repos/voyage/trunk/voyage-live voyage-live
+# cd voyage-live
+# ./build.sh iso 	<= this will build the Live CD
+# ./build.sh tar 	<= this will build .tar.bz2 distro
+# ./build.sh sdk 	<= this will build sdk Live CD
+
+6.3 Known Issues
+======================
+- When using CF card for heavy write operation, the following settings on 
+  pdflush should be applied (Recommended by PCEngines). 
+    # echo 500 > /proc/sys/vm/dirty_expire_centisecs
+    # echo 1024000 > /proc/sys/vm/dirty_bytes
+    # echo 100 > /proc/sys/vm/dirty_writeback_centisecs 
+  You can also put these files to /etc/sysctl.conf
+    vm.dirty_expire_centisecs=500
+    vm.dirty_bytes=1024000
+    vm.dirty_writeback_centisecs=100 
+
+- When installing from Voyage Linux amd64 Live CD to disk, grub installation may
+  not work properly.  Please use lilo as bootloader instead.
+
+- Older generation of VIA C3 processor may not be booted properly.
+
+- Timezone files are removed to save space.  To restore it, run:
+    apt-get install --reinstall tzdata
+
+- If Voyage cannot boot complaining rootfs can't be located, tty to added the 
+following to the kernel boot parameters:
+	"ide=nodma all_generic_ide"
+or try (on or after 0.6.5):
+	"ide_core.nodma=0.0"
+
+- Sometimes, grub boot screen may not appear after BIOS post if the boot
+partition is too large (~4GB).  Creating a smaller boot partition (512MB) and 
+install Voyage to it may solve this issue.
+
+- There have been repeatedly reported problem for lilo installation problem
+while voyage.update is installing lilo bootloader to the flash media.  This
+problem should have be fixed in Voyage 0.5.  If you encounter a similar 
+problem again, please report to voyage-linux mailing list.
+
+- In case you encountered locale and dialog complain when installing package
+via "apt-get install", you can carry out the following commands to get rid
+of the error message:
+	apt-get install dialog apt-utils
+
+- There is a problem reported when installing voyage over usb device using ub 
+kernel module.  Moreover, it is assumed that voyage is installed in /dev/hda1
+of the target platform.  
+
+6.4 Live CD and PXE boot
+======================
+Voyage Live CD is now available for every stable voyage release:
+	http://www.voyage.hk/download/ISO/
+	
+Daily build Live CD is also available at:
+	http://www.voyage.hk/download/ISO/voyage-current.iso
+
+You can run the Live CD under VMWare for testing purpose.  In addition, it
+can act as a installation CD and PXE boot server as well.
+
+You can find README.live-cd and README.pxe from the root direcory of Live CD.
+
+7.0 Unsupport or Deprecated Documentation
+======================
+This section documents deprecated documentation which is no longer supported.
+
+7.1 NoCatSplash 
+======================
+NoCatSplash is included in Voyage Linux, but it is disabled by default.  Edit 
+/etc/default/nocatsplash and set ENABLE="true" to enable it.  You will can start 
+or stop NoCatSplash by 
+	/etc/init.d/nocatsplash [start|stop]
+	
+Next, you will also need to edit /etc/nocat.conf to setup NoCatSplash properly.  
+The most common way is to add the following lines at the end of /etc/nocat.conf:
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+
+Make sure that wlan0 matches the LocalNetwork IP address, you should double-
+check that from ifconfig.
+
+7.2 NoCatAuth
+======================
+NoCatAuth is not included in Voyage Linux.  However, it can be installed by 
+running:
+	apt-get install nocatauth-gateway
+	
+Same as NoCatSplash, set ENABLE="true" in /etc/default/nocatauth-gateway to 
+enable it in boot up.   Note that nocat.conf is located in 
+/etc/nocatauth/gateway and the most common to configure nocatauth-gateway is 
+appending the following to nocat.conf:
+
+ExternalDevice  eth0  
+InternalDevice  wlan0
+LocalNetwork    10.1.10.0/24
+
+You may also want to touch GatewayMode (default=Passive):
+GatewayMode [Passive|Captive|Open]
+
+It is better to un-install NoCatSplash by "apt-get remove nocatsplash" and 
+"rm /etc/nocat.conf" explicitly to avoid confusion.
+
+As nocatauth requires perl to run, you are required to have a larger disk space 
+to run (probably 128MB).  Please also make sure that you can only run either 
+NoCatSplash or NoCatAuth, not both.
+
+8. Appendix
+======================
+
+8.1 Release History
+======================
+	Voyage 0.8
+    * [2011-10-29] voyage-0.8.0
+
+	Voyage 0.7
+    * [2011-06-28] voyage-0.7.5
+    * [2011-02-08] voyage-0.7.0
+
+	Voyage 0.6
+    * [2010-02-17] voyage-0.6.5
+    * [2009-07-07] voyage-0.6.2
+    * [2009-02-17] voyage-0.6.1
+    * [2008-12-30] voyage-0.6.0
+    
+	Voyage 0.5
+    * [2008-06-29] voyage-0.5.2
+    * [2008-06-23] voyage-0.5.1
+    * [2008-02-29] voyage-0.5.0
+    
+    Voyage 0.4
+    * [2007-07-23] voyage-0.4.1
+    * [2007-06-23] voyage-0.4.0
+    
+    Voyage 0.3
+    * [2007-04-14] voyage-0.3.1
+    * [2007-03-20] voyage-0.3
+    * [2007-01-28] voyage-0.3pre3
+    * [2006-12-05] voyage-0.3pre2
+    * [2006-11-17] voyage-0.3pre1
+    
+    Voyage 0.2
+    * [2006-04-05] voyage-0.2
+    * [2006-02-25] voyage-0.2pre4
+    * [2006-02-05] voyage-0.2pre3
+    * [2006-01-06] voyage-0.2pre2
+    * [2005-07-21] voyage-0.2pre1
+    
+    Voyage 0.1
+    * [2005-07-07] voyage-0.1sarge
+    * [2005-02-14] voyage-0.1
+    * [2005-02-01] voyage-0.1pre5
+    * [2005-01-19] voyage-0.1pre4
+    * [2005-01-13] voyage-0.1pre3
+    * [2005-01-06] voyage-0.1pre2
+    * [2005-01-02] voyage-0.1pre1
+
+8.2 Corresponding Debian and Kernel release
+======================
+    * Squeeze 6.0.3, 3.0.0 - Voyage 0.8.0 (Linux, ONE and MPD)
+    * Squeeze 6.0.2, 2.6.38 - Voyage 0.7.5 (Linux, ONE and MPD)
+    * Squeeze, 2.6.33rt - Voyage 0.7.0 ONE and MPD
+    * Squeeze, 2.6.32 - Voyage 0.7.0
+    * Lenny, 2.6.30 - Voyage 0.6.5
+	* Lenny, 2.6.26 - Voyage 0.6
+	* Etch,  2.6.23 - Voyage 0.5
+	* Etch,  2.6.20 - Voyage 0.4
+	* Etch,  2.6.17 - Voyage 0.3
+	* Sarge, 2.6.15 - Voyage 0.2
+	* Sarge, 2.6.8 - Voyage 0.1
+	
+======================
+Last Updated: 20111024
+======================
+
