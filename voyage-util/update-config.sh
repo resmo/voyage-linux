@@ -40,7 +40,7 @@ update_modules() {
 		moduleslist="$moduleslist\n$nameonly"
 		# modprobe doesnt like empty options
 		[ -n "$modopts" ] && \
-		    modoptslist="$modoptslist\noptions $modopts"
+		    modoptslist="$modoptslist\noptions $nameonly $modopts"
 	done
 	IFS=$saveifs
 
