@@ -161,6 +161,9 @@ svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium/. .
 chown -R www-data:www-data /var/www/./
 chmod -R ago+x /var/www/./
 
+# create Music folder for cover MPod/MPad cover art
+ln -s /var/lib/mpd/music /var/www/Music  
+
 exit
 
 libsigc++-2.0-0c2a \
