@@ -103,16 +103,16 @@ mount_dirs()
 }
 
 save_system_time() {
-	MSG="Save system time to: `cat $SAVED_DATE_FILE`" ; voyage_log
 	date > $SAVED_DATE_FILE
+	MSG="Saved system time: `cat $SAVED_DATE_FILE`" ; voyage_log
 }
 
 restore_system_time() {
 	if [ -f $SAVED_DATE_FILE ] ; then
 		CURRENT_DATE=`date`
 		if [ "${CURRENT_DATE:24:4}" -lt "2011" ] ; then
-			# Only if no RTC present 
-			MSG="Restored system time to: `cat $SAVED_DATE_FILE`" ; voyage_log
+			# Only if no RTC present, or no battery 
+			MSG="Restore system time to: `cat $SAVED_DATE_FILE`" ; voyage_log
 			date -s "`cat $SAVED_DATE_FILE`"
 		fi
 	fi
