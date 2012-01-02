@@ -8,20 +8,20 @@ iface eth0 inet dhcp
 
 # mac80211-based drivers
 #auto wlan0
-iface wlan0 inet static
-        address 10.1.10.1
-        netmask 255.255.255.0
-        broadcast 10.1.10.255
-		hostapd /etc/hostapd/hostapd.wlan0.conf
-        up nat.sh wlan0 eth0 "10.1.10.0/24"
+#iface wlan0 inet static
+#        address 10.1.10.1
+#        netmask 255.255.255.0
+#        broadcast 10.1.10.255
+#		hostapd /etc/hostapd/hostapd.wlan0.conf
+#        up nat.sh wlan0 eth0 "10.1.10.0/24"
 
 #auto wlan1
-iface wlan1 inet static
-        address 10.1.20.1
-        netmask 255.255.255.0
-        broadcast 10.1.20.255
-		hostapd /etc/hostapd/hostapd.wlan1.conf
-        up nat.sh wlan1 eth0 "10.1.20.0/24"
+#iface wlan1 inet static
+#        address 10.1.20.1
+#        netmask 255.255.255.0
+#        broadcast 10.1.20.255
+#		hostapd /etc/hostapd/hostapd.wlan1.conf
+#        up nat.sh wlan1 eth0 "10.1.20.0/24"
 
 #auto wlan0
 #iface wlan0 inet static
