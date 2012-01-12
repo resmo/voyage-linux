@@ -5,8 +5,8 @@
 LB_BINARY_FILESYSTEM="fat16"
 
 # $LB_BINARY_IMAGES: set image type
-# (Default: tar)
-LB_BINARY_IMAGES="tar"
+# (Default: iso-hybrid)
+LB_BINARY_IMAGES="iso-hybrid"
 
 # $LB_BINARY_INDICES: set apt/aptitude generic indices
 # (Default: false)
@@ -74,8 +74,8 @@ LB_ISO_PREPARER="live-build 2.0.6-1; http://packages.qa.debian.org/live-build"
 LB_ISO_PUBLISHER="Voyage Linux project; http://linux.voyage.hk/; voyage-linux@list.voyage.hk"
 
 # $LB_ISO_VOLUME: set iso volume (max 32 chars)
-# (Default: Voyage Linux Live CD 0.7)
-LB_ISO_VOLUME="Voyage Linux Live CD 0.7"
+# (Default: Voyage Linux 0.8)
+LB_ISO_VOLUME="Voyage Linux 0.8"
 
 # $LB_JFFS2_ERASEBLOCK: set jffs2 eraseblock size
 # (Default: unset)

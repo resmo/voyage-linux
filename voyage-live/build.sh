@@ -235,6 +235,9 @@ for TYPE in $1; do
 			Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove busybox live-initramfs"
 			Chroot_MountProc binary/live/filesystem.dir "apt-get -y autoremove"
 		;;
+		clean)
+			lb clean --purge
+		;;
 		*)
 			echo "unknown build type $TYPE"
 		;;
