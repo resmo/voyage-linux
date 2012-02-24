@@ -27,7 +27,7 @@ echo "($0) Building Voyage MPD. "
 #KERNEL_IMAGE=linux-image-"$KERNEL_VER"
 
 #KERNEL_VER=2.6.38-voyage
-KERNEL_VER=3.0.0-voyage
+#KERNEL_VER=3.0.0-voyage
 
 if [ ! -z $KERNEL_IMAGE ] ; then
 	mkdir /boot/grub
@@ -103,6 +103,14 @@ fi
 ##
 if [ -d /media/ ] ; then
 	ln -s /media /var/lib/mpd/music/usbmount
+fi
+
+
+##
+# djmount and upnp
+##
+if [-d /media/ ] ; then
+	mkdir /media/upnp
 fi
 
 ##
