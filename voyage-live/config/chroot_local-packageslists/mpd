@@ -1,18 +1,19 @@
-alsa-base
-alsa-tools
-alsa-utils
-fuse-utils
-mpc
-ncmpc
 mpd
+nano
 usbmount
 usbutils
 nfs-common
 smbfs
 sshfs
 davfs2
-lirc
+alsa-base
+alsa-tools
+alsa-utils
+fuse-utils
+mpc
+ncmpc
 avahi-daemon
 avahi-utils
-nano
+lirc
+djmount
 
