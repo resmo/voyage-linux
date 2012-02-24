@@ -145,13 +145,17 @@ done
 #########################
 # install webgui
 
-apt-get  --yes --force-yes  install lighttpd php5-cgi sudo subversion
+#apt-get  --yes --force-yes  install lighttpd
+apt-get  --yes --force-yes  install nginx-light
+apt-get  --yes --force-yes  install php5-cgi sudo subversion
 
+###
+# for lighttpd
+##
+if [ -f /etc/init.d/lighttpd ] ; then
 sed -i -e "s/;session.save_path/session.save_path/" /etc/php5/cgi/php.ini
 
 lighttpd-enable-mod fastcgi
-
-echo "%www-data ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 cat <<EOF >>/etc/lighttpd/lighttpd.conf
 fastcgi.server = ( ".php" => ((
@@ -161,8 +165,31 @@ fastcgi.server = ( ".php" => ((
 )))
 EOF
 
-echo "%www-data ALL=NOPASSWD: /var/www/meshlium/bin/"
+fi
 
+###
+# for nginx
+###
+if [ -f /etc/init.d/nginx ] ; then
+	rm -f /etc/nginx/sites-enabled/default
+	ln -s /etc/nginx/sites-available/voyage.local /etc/nginx/sites-enabled/voyage.local
+
+	update-rc.d php-fastcgi defaults
+
+	sed -i -e "s/^worker_processes.*$/worker_processes 1;/" >> /etc/nginx/nginx.conf
+
+fi
+
+# create /var/www if not created
+if [ ! -d /var/www ] ; then
+	mkdir /var/www 
+	chown -R www-data:www-data /var/www
+fi
+
+# setup sudoers
+echo "%www-data ALL=NOPASSWD: ALL" >> /etc/sudoers
+
+# setup meshlium
 cd /var/www/
 svn co http://svn.voyage.hk/repos/voyage/trunk/meshlium/. .
 
