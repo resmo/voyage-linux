@@ -39,9 +39,17 @@ dahdi
 dahdi-linux
 dahdi-firmware-nonfree
 
+asterisk-modules
 asterisk
-asterisk-h323
+asterisk-ooh323
+asterisk-dahdi
 asterisk-gui
+asterisk-doc
+asterisk-mobile
+asterisk-mp3
+asterisk-voicemail
+asterisk-moh-opsound-gsm
+make
 
 #op-panel
 
