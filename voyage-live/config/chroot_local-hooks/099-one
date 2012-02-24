@@ -134,12 +134,8 @@ libcwidget3 \
 libept1 \
 libsigc++-2.0-0c2a \
 libxapian22 \
-nano \
 netcat-traditional \
 rsyslog \
-perl \
-perl-modules \
-perl-base \
 tasksel \
 tasksel-data \
 vim-common \
@@ -152,6 +148,16 @@ do
     apt-get -f -y --purge remove $PKG
 done
 
+# at last getting firmware
+/usr/share/dahdi/get-digium-firmware
+cd /var/lib/dahdi/digium-firm 
+make dist-clean
+
 exit
 
 grub\
+nano \
+perl-base \
+perl \
+perl-modules \
+
