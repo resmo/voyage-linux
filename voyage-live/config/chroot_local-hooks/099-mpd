@@ -176,7 +176,7 @@ if [ -f /etc/init.d/nginx ] ; then
 
 	update-rc.d php-fastcgi defaults
 
-	sed -i -e "s/^worker_processes.*$/worker_processes 1;/" >> /etc/nginx/nginx.conf
+	sed -i -e "s/^worker_processes.*$/worker_processes 1;/" /etc/nginx/nginx.conf
 
 fi
 
