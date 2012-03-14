@@ -53,6 +53,8 @@ start_leds()
 			echo netdev > /sys/class/leds/alix\:3/trigger
 		   	echo eth0 > /sys/class/leds/alix\:3/device_name
    			echo "link tx rx" > /sys/class/leds/alix\:3/mode
+
+			echo "tsc" > /sys/devices/system/clocksource/clocksource0/current_clocksource
 			;;
 		*)
 			;;

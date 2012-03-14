@@ -2,6 +2,7 @@ voyage-util (0.11-1) unstable; urgency=low
 
   * [PATCH] fix /etc/modprobe.d/$profile.conf writer (Jim Cromie)
   * [PATCH] Patch syslog info saved system time in voyage-sync (Teco Boot)
+  * force tsc clocksource for ALIX
 
  -- Punky Tse <punkytse@punknix.com>  Wed, 23 Nov 2011 16:38:21 +0800
 
