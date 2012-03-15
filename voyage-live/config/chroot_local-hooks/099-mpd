@@ -109,7 +109,7 @@ fi
 ##
 # djmount and upnp
 ##
-if [-d /media/ ] ; then
+if [ -d /media/ ] ; then
 	mkdir /media/upnp
 fi
 
