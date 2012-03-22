@@ -35,11 +35,17 @@
 - [one]
 	- fix voyage one build failure on squeeze
 	- add asterisk related package for ONE (ooh323, dahdi, mobile, mp3, voicemail, moh-opsound-gsm, modules)
+	- add digium firmware to ONE and do not remove perl and nano package
 	- asterisk 1.8.9.0
 	- dahdi 2.6.0
 - [mpd]
 	- add nano package
 	- make http://voyage_ip/Music for MPod/MPad cover art
+	- add php-fastcgi init.d script, to be used with nginx
+	- add djmount to mpd
+	- fix PATH in fastcgi
+	- add voyage.local as site conf for nginx 
+	- replace lighttpd with nginx for MPD
 	- mpd 0.16.7
 
 0.8.0 (31 Oct 2011)
