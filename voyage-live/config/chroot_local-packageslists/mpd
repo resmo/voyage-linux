@@ -16,4 +16,5 @@ avahi-daemon
 avahi-utils
 lirc
 djmount
+ntfs-3g
 
