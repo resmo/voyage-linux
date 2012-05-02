@@ -7,9 +7,9 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-3.2.14 "
-ONE_LINUX_PACKAGES="linux-image-3.2.14 dahdi-modules-3.2.14"
-MPD_LINUX_PACKAGES="linux-image-3.2.14"
+VOYAGE_LINUX_PACKAGES="linux-image-3.2.16 "
+ONE_LINUX_PACKAGES="linux-image-3.2.16 dahdi-modules-3.2.16"
+MPD_LINUX_PACKAGES="linux-image-3.2.16"
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
