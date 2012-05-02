@@ -2,7 +2,8 @@ server {
         listen          80;
         server_name     voyage.local;
 
-        access_log      /var/log/nginx/voyage.local.access_log;
+        #access_log      /var/log/nginx/voyage.local.access_log;
+        access_log      off;
         error_log       /var/log/nginx/voyage.local.error_log warn;
 
         root            /var/www;
