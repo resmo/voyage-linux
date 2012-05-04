@@ -68,4 +68,5 @@ libdaemon0
 ifplugd
 live-initramfs
 live-boot-initramfs-tools
+firmware-linux-nonfree
 
