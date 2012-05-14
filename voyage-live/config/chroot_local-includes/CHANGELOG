@@ -1,5 +1,5 @@
-0.8.5 (xx Mar 2012)
-- [kernel] linux-image-3.2.x-voyage_11.0-1
+0.8.5 (22 May 2012)
+- [kernel] linux-image-3.2.17-voyage_11.0-1
 	- [general] enable in-kernel alix
 	- [general] enable sparse IRQ
 	- [general] remove Moorestown platform support
@@ -10,6 +10,7 @@
 	- [netfilter] add ipvs, enable all helpers and load balancing support
 	- [netfilter] add clusterip package mangling
 	- [net] enable DCB
+	- [net] add phy drivers
 	- [misc] add altera firmware download module
 	- [i2c] add Intel eg20t, remove scx200_i2c (deprecated)
 	- [gpio] enable in-kernel gpio_cs5535, enable gpio_pch
@@ -20,12 +21,12 @@
 	- [input] enable uinput and ati_remote2
 	- [sound] enable CA0132 codec, static quirks for realtek codec
 	- [ir] enable ITE CIR, fintek, redrat3
-
 - [general]
 	- based on Debian 6.0.5 "Squeeze"
 	- Debian Live conf: workaround static IP configuration in webgui by disable wlan0 and wlan1 entries in /etc/network/interfaces
 	- Debian Live conf: add clean target
 	- Debian Live conf: fix to support 3.x.y kernel
+	- add firmware-linux-nonfree
 - [voyage-util]
 	- new version 0.11-1
 	- [PATCH] fix /etc/modprobe.d/.conf writer (Jim Cromie)
@@ -40,13 +41,15 @@
 	- dahdi 2.6.0
 - [mpd]
 	- add nano package
-	- make http://voyage_ip/Music for MPod/MPad cover art
+	- make http://voyage.local/Music for MPod/MPad cover art
 	- add php-fastcgi init.d script, to be used with nginx
 	- add djmount to mpd
 	- fix PATH in fastcgi
 	- add voyage.local as site conf for nginx 
 	- replace lighttpd with nginx for MPD
 	- mpd 0.16.7
+	- add ntfs-3g
+	- do not log access.log in nginx
 
 0.8.0 (31 Oct 2011)
 - [kernel] linux-image-3.0.0-voyage_10.0-1
