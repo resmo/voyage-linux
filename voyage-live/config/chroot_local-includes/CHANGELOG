@@ -37,8 +37,8 @@
 	- fix voyage one build failure on squeeze
 	- add asterisk related package for ONE (ooh323, dahdi, mobile, mp3, voicemail, moh-opsound-gsm, modules)
 	- add digium firmware to ONE and do not remove perl and nano package
-	- asterisk 1.8.9.0
-	- dahdi 2.6.0
+	- asterisk 1.8.12.0~rc3
+	- dahdi 2.6.1
 - [mpd]
 	- add nano package
 	- make http://voyage.local/Music for MPod/MPad cover art
