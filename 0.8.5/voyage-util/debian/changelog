@@ -1,0 +1,148 @@
+voyage-util (0.11-1) unstable; urgency=low
+
+  * [PATCH] fix /etc/modprobe.d/$profile.conf writer (Jim Cromie)
+  * [PATCH] Patch syslog info saved system time in voyage-sync (Teco Boot)
+  * force tsc clocksource for ALIX
+
+ -- Punky Tse <punkytse@punknix.com>  Wed, 23 Nov 2011 16:38:21 +0800
+
+voyage-util (0.10-1) unstable; urgency=low
+  
+  * [PATCH 09/11] grub titles should have version, not date-of-install (Jim Cromie)
+  * [PATCH 07/11] spelling (Jim Cromie)
+  * [PATCH 06/11] voyage-update.sh: setspeed doesnt exist (Jim Cromie)
+  * [PATCH 02/3] add BOOTARGS to grub and lilo configs (Jim Cromie)
+  * [PATCH 01/11] teach installer to write /etc/modprobe.d/profile.conf (Jim Cromie)
+  * Saving date with voyage-sync (Teco Boot)
+  * change banner to version 0.8
+  * add VOYAGE_SAVE_DATE_TIME in /etc/defaults/voyage-util
+  * parallelize sync back to disk device
+  * update /etc/hosts after copy files
+
+ -- Punky Tse <punkytse@punknix.com>  Tue, 24 Aug 2011 00:57:49 +0800
+
+voyage-util (0.9-1) unstable; urgency=low
+
+  * use blkid since /lib/udev/vol_id no longer available in squeeze
+
+ -- Punky Tse <punkytse@punknix.com>  Wed, 06 Apr 2011 23:04:35 +0800
+
+voyage-util (0.8-2) unstable; urgency=low
+
+  * [voyage-pxe] use tftpd-hpa instead of atftpd
+  * [voyage-pxe] use bash instead of sh
+  * [voyage-pxe] copy initrd.img and vmlinuz to /tftpboot
+
+ -- Punky Tse <punkytse@punknix.com>  Thu, 15 Feb 2011 09:48:45 +0800
+
+voyage-util (0.8-1) unstable; urgency=low
+
+  * change voyage (motd) banner to version 0.7
+  * [voyage-sync] write log to syslog
+
+ -- Punky Tse <punkytse@punknix.com>  Thu, 11 Nov 2010 09:48:45 +0800
+
+voyage-util (0.7-2) unstable; urgency=low
+
+  * insserv compatible for init.d scripts
+  * add debug info when setting bootloader
+  * use bash in format-cf.sh
+  * [voyage-sync] detect /ro before copying to rw
+  * [voyage-sync] check sync dir before sync
+
+ -- Punky Tse <punkytse@punknix.com>  Thu, 13 Jul 2010 09:48:45 +0800
+
+voyage-util (0.7-1) unstable; urgency=low
+
+  * new upstream release
+  * better debhelper support for initscripts
+  * reconfigure resolvconf at installation
+  * fix profile and serial menu items without numbers
+  * add new voyage-rwfile script to support /ro /rw style read-only mode
+  * [voyage-sync] add empty directory checking 
+  * [voyage-sync] fix .* hidden files not sync'ing
+  * [voyage-sync] add VOYAGE_RW_DIRS for non-sync read-write directories
+  * [voyage-sync] run sync command after finish synchronization to disk 
+  * [voyage-sync] corrected some typos and preserve ownership and permissions on copied directories to ramdisk. Killing running processes got also some changes. (Hermann Hofer)
+  * [voyage-sync] detect a reboot with data remaining in '/.sync/...' from a previously sync and copy this data over to the correct place before syncing and mounting to ramdisk. (Hermann Hofer)
+  * PATCH[3/3]: command line processing for voyage.update (Christian Recktenwald)
+  * PATCH: command line processing for format-cf.sh (Christian Recktenwald)
+  * PATCH: prevent /sys /proc /dev and /tmp/cf from	being copied by	copyfiles.sh / alternate network installation procedure (Christian Recktenwald)
+  * PATCH: Add -U flag to use flash media as-is (Darshaka Pathirana)
+
+ -- Punky Tse <punkytse@punknix.com>  Fri, 10 Jul 2009 23:29:14 +0800
+
+voyage-util (0.6-3) unstable; urgency=low
+
+  * new upstream release
+  * add VOYAGE_UNIONFS to /etc/default/voyage-util
+  * patch to fix selecting console for Generic PC not persist [Sean Lazar]
+  * voyage-sync: add 'sync' command argument 
+  * voyage-sync: kill process before unmount
+
+ -- Punky Tse <punkytse@punknix.com>  Sun, 25 Jun 2009 00:03:42 +0800
+
+voyage-util (0.6-2) unstable; urgency=low
+
+  * new upstream release
+  * support for amd64
+  * fix for grub
+  * move voyage-sync and voyage-pxe from voyage-live
+
+ -- Punky Tse <punkytse@punknix.com>  Mon,  2 Feb 2009 22:25:36 +0800
+
+voyage-util (0.6-1) unstable; urgency=low
+
+  * new upstream release
+  * remove fstab, kernel-img.conf
+
+ -- Punky Tse <punkytse@punknix.com>  Fri, 11 Jul 2008 22:53:46 +0800
+
+voyage-util (0.5-2) unstable; urgency=low
+
+  * add led support in /etc/init.d/voyage-utils
+
+ -- Punky Tse <punkytse@punknix.com>  Mon, 24 Mar 2008 20:37:30 +0800
+
+voyage-util (0.5-1) unstable; urgency=low
+
+  * file system lable patch (by Mike O'Connor)
+  * fix lilo at installation (by William Brack)
+  * fix bootloader config not load correctly
+  * add support LED modules for ALIX and WRAP
+
+ -- Punky Tse <punkytse@punknix.com>  Tue, 22 Jan 2008 23:07:29 +0800
+
+voyage-util (0.4-2) unstable; urgency=low
+
+  * add ALIX and 5501 installation profile
+
+ -- root <root@punknix.com>  Sun, 24 Jun 2007 18:02:34 +0800
+
+voyage-util (0.4-1) unstable; urgency=low
+
+  * new upstream 0.4 release
+  * change banner to 0.4 version
+  * update setboot.sh for grub install for FC6 (William M. Brack)
+
+ -- root <root@punknix.com>  Wed, 21 Mar 2007 01:00:11 +0800
+
+voyage-util (0.3-3) unstable; urgency=low
+
+  * add auto-install.sh
+  * change default settings in voyage-profiles
+
+ -- root <root@punknix.com>  Mon,  5 Feb 2007 11:22:44 +0800
+
+voyage-util (0.3-2) unstable; urgency=low
+
+  * Remove unnecessary files
+
+ -- root <root@punknix.com>  Tue,  5 Dec 2006 23:36:51 +0800
+
+voyage-util (0.3-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- root <root@punknix.com>  Tue,  5 Dec 2006 23:36:48 +0800
+

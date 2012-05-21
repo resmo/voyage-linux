@@ -1,0 +1,56 @@
+#!/bin/sh
+
+cd $TARGET_DIR
+
+DIST_DIR=$TARGET_DIR
+
+echo "Generation Live CD at $DIST_DIR"
+
+LIVE_DIR="`dirname $DIST_DIR`/`basename $DIST_DIR`-live"
+
+if [ -d "$LIVE_DIR" ] ; then rm -rf "$LIVE_DIR" ; fi
+
+# Create directory
+mkdir -p "${LIVE_DIR}"/casper
+mkdir -p "${LIVE_DIR}"/isolinux
+
+# Creating rootfs
+mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs
+#mksquashfs "${DIST_DIR}" "${LIVE_DIR}"/casper/filesystem.squashfs -b 1048576
+
+# Copying kernel
+rm "${DIST_DIR}"/boot/initrd.img-*.bak
+cp "${DIST_DIR}"/boot/vmlinuz-* "${LIVE_DIR}"/vmlinuz
+cp "${DIST_DIR}"/boot/initrd.img-* "${LIVE_DIR}"/initrd.gz
+
+# Install syslinux
+cp /usr/lib/syslinux/isolinux.bin "${LIVE_DIR}"/isolinux
+
+# Configure syslinux
+cat > "${LIVE_DIR}"/isolinux/isolinux.cfg << EOF
+DISPLAY splash.msg
+DEFAULT linux
+label linux
+	KERNEL /vmlinuz
+	APPEND initrd=/initrd.gz boot=casper console=ttyS0,9600 console=tty0
+timeout 50
+prompt 1
+EOF
+
+cp -rp "${DIST_DIR}"/isolinux/* "${LIVE_DIR}"/isolinux/
+
+cat > "${LIVE_DIR}"/isolinux/splash.msg << EOF
+voyage.lss
+Welcome to Voyage Linux 
+This Live CD will boot automatically in 5 seconds
+EOF
+
+# Creating image
+mkisofs -o $RUN_DIR/`basename ${DIST_DIR}`.iso -r -J -l \
+	-A "Voyage Linux"  \
+	-p "Voyage Linux - http://linux.voyage.hk " \
+	-publisher "Voyage Linux - http://linux.voyage.hk " \
+	-V "Voyage Linux `date +%Y%m%d`" \
+	-b isolinux/isolinux.bin -c isolinux/boot.cat \
+	-no-emul-boot -boot-load-size 4 -boot-info-table "${LIVE_DIR}"
+	
