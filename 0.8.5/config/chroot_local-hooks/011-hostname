@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo "($0)"
-
-HOST_NAME="voyage"
-echo "Setting hostname to voyage ..."
-echo "$HOST_NAME" > /etc/hostname
