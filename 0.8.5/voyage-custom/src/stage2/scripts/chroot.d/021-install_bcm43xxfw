@@ -1,8 +1,0 @@
-#!/bin/sh
-
-BCM43XX_FIRMWARE_URL="http://openwrt.inf.fh-brs.de/~nbd/wl_apsta.o"
-
-#echo -n "Downloading Firmware for bcm43xx ... "
-#wget "$BCM43XX_FIRMWARE_URL" \
-#    -O /usr/lib/hotplug/firmware/`basename $BCM43XX_FIRMWARE_URL`   
-#echo "Done"

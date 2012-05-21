@@ -1,9 +1,0 @@
-#!/bin/sh
-
-echo "($0)"
-
-echo -n "Generating root password ... "
-sed -i -e 's/^root::/root:$1$hsP9n7K4$s3iE.gIlAKTmTykPH3Byt1:/' /etc/shadow
-sed -i -e 's/^root:\*:/root:$1$hsP9n7K4$s3iE.gIlAKTmTykPH3Byt1:/' /etc/shadow
-echo " Done"
-

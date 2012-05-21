@@ -1,1 +1,0 @@
-gcc -O2 set_xbee.c -o ../../set_xbee -lpthread
