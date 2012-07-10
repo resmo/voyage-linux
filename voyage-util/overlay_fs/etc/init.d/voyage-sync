@@ -60,8 +60,10 @@ voyage_log() {
 copy_ro_to_rw() {
 	if [ -d /ro ] ; then
 		MSG="  Copying /ro to /rw" ; voyage_log
-		#tar -C /ro -cf - . | tar -C /lib/init/rw -xf -  > /dev/null 2>&1
-		tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
+
+		if [ -f /lib/init/rw ] ; then
+			tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
+		fi
 	fi
 }
 
@@ -188,6 +190,10 @@ case $1 in
 		MSG="Synchronization tmpfs completed" ; voyage_log
 		;;
 	'stop')
+		if [ $(cat /proc/cmdline|grep "boot=live"|wc -l) -gt 0 ] ; then
+			exit 0
+		fi
+
 		MSG="Stop tmpfs..." ; voyage_log
 		[ -f /usr/local/sbin/remountrw ] && /usr/local/sbin/remountrw
 
