@@ -2,6 +2,7 @@ voyage-util (0.12-1) unstable; urgency=low
 
   * voyage-sync: skip sync at stop when running live cd
   * voyage-sync: detect /lib/init/rw (for squeeze) 
+  * voyage-util: change version to 0.9
 
  -- Punky Tse <punkytse@punknix.com>  Tue, 10 Jul 2012 23:43:42 +0800
 
