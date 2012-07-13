@@ -69,6 +69,7 @@ $_plugin_javascript=Array("jquery-1.3.2.min.js","jquery.json-1.3.min.js","ajax.j
 //exec ('mpc play', $cur_play);
 exec ('mpd --version', $mpd_version);
 exec ('sudo cat /etc/mpd.conf',$mpdconf_file);
+$mpdconf="";
 foreach($mpdconf_file as $line)
 {
     $mpdconf.=$line."\n";

@@ -67,6 +67,7 @@ if ((!$initial_index_page)&&(is_section($base_section)))
     <div id="plugin_navbar_menu">
             <ul>';
 
+	$i=0;
     foreach (list_plugins($base_section) as $itm)
     {
         /*
