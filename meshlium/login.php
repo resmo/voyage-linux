@@ -30,7 +30,7 @@ function login($user,$pass)
     {
         if ((crypt($pass, $authorized_users[$user]) == $authorized_users[$user]))
         {
-            session_register('logged_user');
+            //session_register('logged_user');
             session_start();
             $_SESSION['logged_user']=$user;
             session_write_close();
