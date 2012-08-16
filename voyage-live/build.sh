@@ -7,9 +7,9 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-3.2.17 "
-ONE_LINUX_PACKAGES="linux-image-3.2.17 dahdi-modules-3.2.17"
-MPD_LINUX_PACKAGES="linux-image-3.2.17"
+VOYAGE_LINUX_PACKAGES="linux-image-3.4.4 "
+ONE_LINUX_PACKAGES="linux-image-3.4.4 dahdi-modules-3.2.4"
+MPD_LINUX_PACKAGES="linux-image-3.4.4"
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
@@ -41,7 +41,7 @@ Chroot_MountProc ()
 BuildTar()
 {
 	lb clean
-	lb config -b tar --chroot-filesystem plain --packages-lists "voyage" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b tar --chroot-filesystem plain --package-lists "voyage" --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
@@ -60,7 +60,7 @@ BuildTar()
 BuildImg()
 {
 	lb clean
-	lb config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs --package-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 
 	if [ -f binary.img ] ; then
@@ -73,14 +73,14 @@ BuildImg()
 BuildISO()
 {
 	lb clean
-	lb config -b iso-hybrid --chroot-filesystem squashfs --packages-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b iso-hybrid --chroot-filesystem squashfs --package-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-current$ARCH.iso
 	else
-        if [ -f binary-hybrid.iso ] ; then
-            mv binary-hybrid.iso $DISTRO-current$ARCH.iso
+        if [ -f binary.hybrid.iso ] ; then
+            mv binary.hybrid.iso $DISTRO-current$ARCH.iso
         else
             echo "binary.iso not found!"
         fi
@@ -90,7 +90,7 @@ BuildISO()
 BuildSDK()
 {
 	lb clean
-	lb config -b iso --chroot-filesystem squashfs --packages-lists "voyage-sdk" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b iso --chroot-filesystem squashfs --package-lists "voyage-sdk" --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 	
 	if [ -f binary.iso ] ; then
@@ -108,7 +108,7 @@ BuildSDK()
 BuildDistro()
 {
 	lb clean
-	lb config -b tar --chroot-filesystem plain --packages-lists "$1" --linux-packages="$3"
+	lb config -b tar --chroot-filesystem plain --package-lists "$1" --linux-packages="$3"
 	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
@@ -132,14 +132,14 @@ BuildDistro()
 BuildHybrid()
 {
 	lb clean
-	lb config -b iso-hybrid --chroot-filesystem squashfs --packages-lists "$1" --linux-packages="$3"
+	lb config -b iso-hybrid --chroot-filesystem squashfs --package-lists "$1" --linux-packages="$3"
 	lb build
 	
 	if [ -f binary.iso ] ; then
 		mv binary.iso $DISTRO-$2-current$ARCH.iso
 	else
-		if [ -f binary-hybrid.iso ] ; then
-			mv binary-hybrid.iso $DISTRO-$2-current$ARCH.iso
+		if [ -f binary.hybrid.iso ] ; then
+			mv binary.hybrid.iso $DISTRO-$2-current$ARCH.iso
 		else
 			echo "binary.iso not found!"
 		fi
@@ -154,7 +154,7 @@ BuildHybrid()
 BuildCD()
 {
 	lb clean
-	lb config -b iso --chroot-filesystem squashfs --packages-lists "$1" --linux-packages="$3"
+	lb config -b iso --chroot-filesystem squashfs --package-lists "$1" --linux-packages="$3"
 	lb build
 	
 	if [ -f binary.iso ] ; then
@@ -177,10 +177,15 @@ Banner()
 PreparePackageList()
 {
 	rm -f config/chroot_local-packageslists/*.list
+	rm -f config/package-lists/*.list.chroot
+
 	LISTS=`echo "$1" | sed -e "s/ /\n/g"`
 	for LIST in $LISTS ; do
-		echo "cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list"
-		cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list
+		#echo "cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list"
+		#cp -p config/chroot_local-packageslists/$LIST config/chroot_local-packageslists/$LIST.list
+
+		echo "cp -p config/package-lists/$LIST config/package-lists/$LIST.list.chroot"
+		cp -p config/package-lists/$LIST config/package-lists/$LIST.list.chroot
 	done
 	
 }
