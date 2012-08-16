@@ -5,20 +5,24 @@
 LB_BINARY_FILESYSTEM="fat16"
 
 # $LB_BINARY_IMAGES: set image type
-# (Default: iso-hybrid)
-LB_BINARY_IMAGES="iso-hybrid"
+# (Default: tar)
+LB_BINARY_IMAGES="tar"
 
-# $LB_BINARY_INDICES: set apt/aptitude generic indices
+# $LB_APT_INDICES: set apt/aptitude generic indices
 # (Default: false)
-LB_BINARY_INDICES="false"
+LB_APT_INDICES="false"
 
 # $LB_BOOTAPPEND_LIVE: set boot parameters
 # (Default: empty)
-LB_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug nolocales quickreboot ide_core.nodma=0.0 all_generic_ide"
+LB_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug=1 nolocales quickreboot ide_core.nodma=0.0 all_generic_ide"
 
 # $LB_BOOTAPPEND_INSTALL: set boot parameters
 # (Default: empty)
-LB_BOOTAPPEND_INSTALL="cdrom-detect/try-usb=true"
+LB_BOOTAPPEND_INSTALL=""
+
+# $LB_BOOTAPPEND_FAILSAFE: set boot parameters
+# (Default: empty)
+LB_BOOTAPPEND_FAILSAFE="memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal"
 
 # $LB_BOOTLOADER: set bootloader
 # (Default: syslinux)
@@ -27,6 +31,10 @@ LB_BOOTLOADER="syslinux"
 # $LB_CHECKSUMS: set checksums
 # (Default: md5)
 LB_CHECKSUMS="md5"
+
+# $LB_COMPRESSION: set compression
+# (Default: gzip)
+LB_COMPRESSION="gzip"
 
 # ${LB_BUILD_WITH_CHROOT: control if we build binary images chrooted
 # (Default: true)
@@ -39,43 +47,43 @@ LB_DEBIAN_INSTALLER="false"
 
 # $LB_DEBIAN_INSTALLER_DISTRIBUTION: set debian-installer suite
 # (Default: empty)
-LB_DEBIAN_INSTALLER_DISTRIBUTION="squeeze"
+LB_DEBIAN_INSTALLER_DISTRIBUTION="wheezy"
 
 # $LB_DEBIAN_INSTALLER_PRESEEDFILE: set debian-installer preseed filename/url
 # (Default: )
 LB_DEBIAN_INSTALLER_PRESEEDFILE=""
 
 # $LB_DEBIAN_INSTALLER_GUI: toggle use of GUI debian-installer
-# (Default: false)
-LB_DEBIAN_INSTALLER_GUI="false"
-
-# $LB_ENCRYPTION: set encryption
-# (Default: false)
-LB_ENCRYPTION="false"
+# (Default: true)
+LB_DEBIAN_INSTALLER_GUI="true"
 
 # $LB_GRUB_SPLASH: set custom grub splash
 # (Default: empty)
 LB_GRUB_SPLASH=""
 
-# $LB_HOSTNAME: set hostname
-# (Default: voyage)
-LB_HOSTNAME="voyage"
+# $LB_HDD_LABEL: set hdd label
+# (Default: VOYAGE_LIVE)
+LB_HDD_LABEL="VOYAGE_LIVE"
+
+# $LB_HDD_SIZE: set hdd filesystem size
+# (Default: 10000)
+LB_HDD_SIZE="10000"
 
 # $LB_ISO_APPLICATION: set iso author
 # (Default: Voyage Linux Live CD)
 LB_ISO_APPLICATION="Voyage Linux Live CD"
 
 # $LB_ISO_PREPARER: set iso preparer
-# (Default: live-build 2.0.6-1; http://packages.qa.debian.org/live-build)
-LB_ISO_PREPARER="live-build 2.0.6-1; http://packages.qa.debian.org/live-build"
+# (Default: live-build 3.0~a48-1; http://packages.qa.debian.org/live-build)
+LB_ISO_PREPARER="live-build 3.0~a48-1; http://packages.qa.debian.org/live-build"
 
 # $LB_ISO_PUBLISHER: set iso publisher
 # (Default: Voyage Linux project; http://linux.voyage.hk/; voyage-linux@list.voyage.hk)
 LB_ISO_PUBLISHER="Voyage Linux project; http://linux.voyage.hk/; voyage-linux@list.voyage.hk"
 
 # $LB_ISO_VOLUME: set iso volume (max 32 chars)
-# (Default: Voyage Linux 0.8)
-LB_ISO_VOLUME="Voyage Linux 0.8"
+# (Default: Voyage Linux 0.9.0 (2012-06-27))
+LB_ISO_VOLUME="Voyage Linux 0.9.0 (2012-06-27)"
 
 # $LB_JFFS2_ERASEBLOCK: set jffs2 eraseblock size
 # (Default: unset)
@@ -122,37 +130,25 @@ LB_NET_COW_PATH=""
 LB_NET_COW_SERVER=""
 
 # $LB_NET_TARBALL: set net tarball
-# (Default: bzip2)
-LB_NET_TARBALL="bzip2"
-
-# $LB_SYSLINUX_SPLASH: set custom syslinux splash
-# (Default: empty)
-LB_SYSLINUX_SPLASH="config/binary_syslinux/splash.rle"
-
-# $LB_SYSLINUX_TIMEOUT: set custom syslinux timeout in seconds
-# (Default: 0)
-LB_SYSLINUX_TIMEOUT="5"
-
-# $LB_SYSLINUX_CFG: set custom syslinux configuration file
-# (Default: empty)
-LB_SYSLINUX_CFG=""
-
-# $LB_SYSLINUX_MENU: set syslinux menu
 # (Default: true)
-LB_SYSLINUX_MENU="true"
+LB_NET_TARBALL="true"
 
-# $LB_SYSLINUX_MENU_LIVE_ENTRY: set text to be used on the menu for live entries
-# (Default: Voyage Linux)
-LB_SYSLINUX_MENU_LIVE_ENTRY="Voyage Linux"
+# $LB_FIRMWARE_BINARY: include firmware packages in debian-installer
+# (Default: false)
+LB_FIRMWARE_BINARY="false"
 
-# $LB_SYSLINUX_MENU_LIVE_FAILSAFE_ENTRY: set text to be used on the menu for live entries (failsafe ones)
-# (Default: Voyage Linux (failsafe))
-LB_SYSLINUX_MENU_LIVE_FAILSAFE_ENTRY="Voyage Linux (failsafe)"
+# $LB_FIRMWARE_CHROOT: include firmware packages in debian-installer
+# (Default: false)
+LB_FIRMWARE_CHROOT="false"
 
-# $LB_SYSLINUX_MENU_MEMTEST_ENTRY: set text to be used on the menu for memtest entry
-# (Default: Memory test)
-LB_SYSLINUX_MENU_MEMTEST_ENTRY="Memory test"
+# $LB_SWAP_FILE_PATH: set swap file path
+# (Default: )
+LB_SWAP_FILE_PATH=""
 
-# $LB_USERNAME: set username
-# (Default: root)
-LB_USERNAME="root"
+# $LB_SWAP_FILE_SIZE: set swap file size
+# (Default: 512)
+LB_SWAP_FILE_SIZE="512"
+
+# $LB_SYSLINUX_THEME: set syslinux theme package
+# (Default: live-build)
+LB_SYSLINUX_THEME="live-build"
