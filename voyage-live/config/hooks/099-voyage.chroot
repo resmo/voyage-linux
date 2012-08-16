@@ -7,7 +7,7 @@
 # This is free software, and you are welcome to redistribute it
 # under certain conditions; see COPYING for details.
 
-set -e
+#set -e
 
 echo "($0)"
 
@@ -71,3 +71,4 @@ done
 
 # at last, remove .svn
 find / -name ".svn" -exec rm -rf '{}' '+'
+
