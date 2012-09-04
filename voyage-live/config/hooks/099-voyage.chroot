@@ -70,5 +70,5 @@ do
 done
 
 # at last, remove .svn
-find / -name ".svn" -exec rm -rf '{}' '+'
+find / -name ".svn" -exec rm -rf '{}' '+' || echo "**** Remove .svn done ****"
 
