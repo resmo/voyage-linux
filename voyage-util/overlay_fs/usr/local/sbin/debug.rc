@@ -1,0 +1,51 @@
+# -*- sh -*-
+
+# Defines dbg_echo (and others?) as either noops or useful functions
+# if DBG_ALL or DBG_$script are defined as non-empty strings.  
+
+# shell resource for debugging, must be sourced (dotted) into user
+# scripts.
+
+# convert $path-to/foo-bar.* into foo_bar
+script=`basename $0 | sed -e 's/\.\w*//' | sed -e 's/-/_/g' `
+
+# auto-export DBG_* vars passed on cmdline
+export ${!DBG_*}
+if [ -n $VDBG ] ; then
+    for n in ${!DBG_*}; do
+	echo "exported $n=${!n}"
+    done
+fi
+
+# and get envar name which would enable $script debugging
+DBG_ME=DBG_$script
+
+# define shell functions accordingly
+if [ -z "$DBG_ALL" -a -z "${!DBG_ME}" ] ; then
+
+    # noop shell functions
+
+    function dbg_echo() {
+	: NO-OP
+    }
+    function dbg_echo_v() {
+	: NO-OP
+    }
+    # insert other noop funcs here
+
+    return;	# only allowed in func or sourced scripts
+fi
+
+# define useful shell functions
+
+dbg_echo() {
+    echo "$script: $*"
+}
+
+dbg_echo_v() {
+    let lvl=$1
+    shift 1
+    if (( $DBG_ME >= $lvl )) ; then
+    echo "$script: $*"
+    fi
+}
