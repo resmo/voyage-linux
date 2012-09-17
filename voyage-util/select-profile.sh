@@ -42,6 +42,10 @@ for filename in *; do
 	fi
 done
 
+# prepend an early escape option
+prolist="Keep existing settings%$prolist"
+filelist="none%$filelist"
+
 # restore our directory
 cd $RUNDIR
 # Get current setting of $VOYAGE_PROFILE to use as user's default
@@ -55,6 +59,13 @@ if [ "$2" != "run" ] ; then
     ask_setting "Please select Voyage profile:" "$prolist" $v
 fi
 
+# maybe quit early without loading profile and overwriting current settings
+if [ $v = 1 ] ; then
+    echo "keeping existing settings"
+    echo
+    w=none # expected non-null by caller: voyage-install
+    return
+fi
 # save the user's choice - we'll need it when we fetch the file contents
 proix=$v
 list_str "$prolist" "$VOYAGE_PROFILE"
