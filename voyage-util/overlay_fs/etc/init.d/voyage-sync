@@ -27,7 +27,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 NAME=voyage-sync
 DESC=voyage-sync
 
-TMPFS_ROOT=/lib/init/rw
+#TMPFS_ROOT=/lib/init/rw
+TMPFS_ROOT=/tmp
 SYNC_DIRS="var/log var/tmp"
 SAVED_DATE_FILE=/var/log/voyage.saved-date
 
