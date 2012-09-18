@@ -3,8 +3,10 @@ voyage-util (0.12-1) unstable; urgency=low
   * voyage-sync: skip sync at stop when running live cd
   * voyage-sync: detect /lib/init/rw (for squeeze) 
   * voyage-util: change version to 0.9
+  * voyage-util: [PATCH] debug: add debug.rc and demo script mydbg.sh (Jim Cromie)
+  * voyage-util: [PATCH] voyage-install: allow "Select Target Profile" to keep current settings (Jim Cromie)
 
- -- Punky Tse <punkytse@punknix.com>  Tue, 10 Jul 2012 23:43:42 +0800
+ -- Punky Tse <punkytse@punknix.com>  Tue, 17 Sep 2012 23:43:42 +0800
 
 voyage-util (0.11-1) unstable; urgency=low
 
