@@ -1,3 +1,24 @@
+0.9.0rc1 (28 Sep 2012)
+- [kernel] linux-image-3.4.4-voyage_12.0-1
+	- [netfilter] add netlink acct, conntrack procfs and timeout
+	- [netfilter] add ecn and nfacct matach
+	- [netfilter] remove rtsp nat support [not available in openwrt patch]
+	- [fs] enable gfs2, hfs+
+- [general/live]
+	- new debian live config: change live-conf files and directory structure 
+	- fix removing .svn in rootfs
+- [voyage-util]
+	- voyage-sync: skip sync at stop when running live cd
+	- voyage-sync: detect /lib/init/rw (for squeeze)
+	- voyage-sync: change tmpfs to /tmp
+	- voyage-util: change version to 0.9
+	- voyage-util: [PATCH] debug: add debug.rc and demo script mydbg.sh (Jim Cromie)
+	- voyage-util: [PATCH] voyage-install: allow "Select Target Profile" to keep current settings (Jim Cromie)
+- [mpd]
+	- update to 0.18git as of 20120913
+	- [PATCH] support of dsf file sample rate of up to 5644800
+	- enable sndfile plug-in all time
+
 0.8.5 (22 May 2012)
 - [kernel] linux-image-3.2.17-voyage_11.0-1
 	- [general] enable in-kernel alix
