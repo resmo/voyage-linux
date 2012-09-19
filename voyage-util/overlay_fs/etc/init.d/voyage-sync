@@ -62,8 +62,8 @@ copy_ro_to_rw() {
 	if [ -d /ro ] ; then
 		MSG="  Copying /ro to /rw" ; voyage_log
 
-		if [ -f /lib/init/rw ] ; then
-			tar -C /ro -cf - . | tar -C /lib/init/rw -xf - 
+		if [ -f $TMPFS_ROOT ] ; then
+			tar -C /ro -cf - . | tar -C $TMPFS_ROOT -xf - 
 		fi
 	fi
 }
