@@ -69,10 +69,10 @@ echo "@audio - nice -10" >>  /etc/security/limits.d/mpd
 sed -i -e "s/^bind_to_address/#bind_to_address/" /etc/mpd.conf 
 cat <<EOF >> /etc/mpd.conf
 
-decoder {
-	plugin "sndfile"
-	enabled "no"
-}
+#decoder {
+#	plugin "sndfile"
+#	enabled "no"
+#}
 
 follow_outside_symlinks "yes"
 follow_inside_symlinks "yes"
