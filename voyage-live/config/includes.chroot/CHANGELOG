@@ -1,4 +1,4 @@
-0.9.0rc1 (28 Sep 2012)
+0.9-rc1 (30 Sep 2012)
 - [kernel] linux-image-3.4.4-voyage_12.0-1
 	- [netfilter] add netlink acct, conntrack procfs and timeout
 	- [netfilter] add ecn and nfacct matach

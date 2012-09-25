@@ -631,7 +631,7 @@ NoCatSplash or NoCatAuth, not both.
 8.1 Release History
 ======================
   Voyage 0.9
-    * [2012-09-30] voyage-0.9.0rc1
+    * [2012-09-30] voyage-0.9-rc1
 
   Voyage 0.8
     * [2012-05-22] voyage-0.8.5
@@ -681,7 +681,7 @@ NoCatSplash or NoCatAuth, not both.
 
 8.2 Corresponding Debian and Kernel release
 ======================
-    * Wheezy, 3.4.4 - Voyage 0.9.0rc1 (Linux and MPD)
+    * Wheezy, 3.4.4 - Voyage 0.9-rc1 (Linux and MPD)
     * Squeeze 6.0.5, 3.2.17 - Voyage 0.8.5 (Linux, ONE and MPD)
     * Squeeze 6.0.3, 3.0.0 - Voyage 0.8.0 (Linux, ONE and MPD)
     * Squeeze 6.0.2, 2.6.38 - Voyage 0.7.5 (Linux, ONE and MPD)
