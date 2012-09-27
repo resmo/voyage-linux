@@ -23,8 +23,9 @@ else
         	PURGE_PKGS="man-db manpages info dselect"
 	else
         	echo "($0) Building Voyage Linux.  "
-		PURGE_PKGS="aptitude man-db manpages info dselect live-config live-config-sysvinit live-boot live-boot-initramfs-tools"
-		PURGE_PKGS="aptitude man-db mAnpages info dselect perl perl-modules"
+		#PURGE_PKGS="aptitude man-db manpages info dselect live-config live-config-sysvinit live-boot live-boot-initramfs-tools"
+		#PURGE_PKGS="aptitude man-db manpages info dselect perl perl-modules"
+		PURGE_PKGS="aptitude man-db manpages info dselect "
 	fi
 
 	# Removing unused packages
