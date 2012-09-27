@@ -23,6 +23,8 @@ sed -i -e :a -e "/Version: 0.[0-9]$/N; s/\n/ /; ta" /etc/motd.tail
 
 echo "Done"
 
+cat /etc/motd.tail >> /etc/motd
+
 touch voyage.1st
 
 wget http://www.voyage.hk/dists/experimental/archive.key -O - | apt-key add - 
