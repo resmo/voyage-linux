@@ -20,7 +20,7 @@ make_lilo_conf() {
 		sercmd="serial=0,${VOYAGE_SYSTEM_SERIAL}n8"
 		serapp="console=ttyS0,${VOYAGE_SYSTEM_SERIAL}n8 "
 	else
-		delay="delay=1"
+		delay="delay=20"
 		sercmd=""
 		serapp=""
 	fi
