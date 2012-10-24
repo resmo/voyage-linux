@@ -47,7 +47,7 @@ vga=normal
 default=Linux
 
 image=/vmlinuz
-	label=Linux $version
+	label=Linux
 	initrd=/initrd.img
 	read-only
 	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
