@@ -50,13 +50,13 @@ image=/vmlinuz
 	label=Linux
 	initrd=/initrd.img
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
+	append="root=LABEL=ROOT_FS ${serapp}reboot=bios ${BOOTARGS}"
 
 image=/vmlinuz.old
 	label=LinuxOLD
 	initrd=/initrd.img.old
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios" ${BOOTARGS}"
+	append="root=LABEL=ROOT_FS ${serapp}reboot=bios ${BOOTARGS}"
 	optional
 EOM
 	sed -e "/disk =/d;/bios =/d" -e "s#${TARGET_DISK}#/dev/hda#" \
