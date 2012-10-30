@@ -32,6 +32,15 @@ if [ -f /etc/default/voyage-util ] ; then
     . /etc/default/voyage-util
 fi
 
+alsa_unmute
+{
+	if [ -f /usr/bin/amixer ] ; then
+		amixer scontrols | sed -e 's/^Simple mixer control//' | while read line; do 
+			amixer sset "$line" unmute;
+		done
+	fi
+}
+
 start_leds()
 {
 	if [ $VOYAGE_LEDS = "NO" ] ; then return ; fi
@@ -92,6 +101,7 @@ case $1 in
 		/usr/local/sbin/remountro
 		echo "Done."		
 		start_leds
+		alsa_unmute
 		;;
 	'stop')
 		#if [ -f /etc/voyage.conf ] ; then
