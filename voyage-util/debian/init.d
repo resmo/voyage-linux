@@ -32,7 +32,7 @@ if [ -f /etc/default/voyage-util ] ; then
     . /etc/default/voyage-util
 fi
 
-alsa_unmute
+alsa_unmute()
 {
 	if [ -f /usr/bin/amixer ] ; then
 		amixer scontrols | sed -e 's/^Simple mixer control//' | while read line; do 
