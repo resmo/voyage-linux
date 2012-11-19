@@ -41,7 +41,7 @@ wget
 iputils-ping
 ntpdate
 #inetutils-inetd
-#inetutils-syslogd
+inetutils-syslogd
 conntrack
 lsof
 bash-completion
@@ -49,8 +49,8 @@ nocatsplash
 resolvconf
 iw
 makedev
-sysklogd
-klogd
+#sysklogd
+#klogd
 #openbsd-inetd
 dhcp3-client
 #pump
