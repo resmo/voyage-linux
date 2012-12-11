@@ -1,8 +1,8 @@
 # config/chroot - options for live-build(7), chroot stage
 
 # $LB_CHROOT_FILESYSTEM: set chroot filesystem
-# (Default: plain)
-LB_CHROOT_FILESYSTEM="plain"
+# (Default: squashfs)
+LB_CHROOT_FILESYSTEM="squashfs"
 
 # $LB_UNION_FILESYSTEM: set union filesystem
 # (Default: aufs)
@@ -30,11 +30,11 @@ LB_LINUX_FLAVOURS="voyage"
 
 # $LB_LINUX_PACKAGES: set kernel packages to use
 # (Default: autodetected)
-LB_LINUX_PACKAGES="linux-image-3.6.6"
+LB_LINUX_PACKAGES="linux-image-3.6.8"
 
 # $LB_PACKAGE_LISTS: set package list to install
-# (Default: voyage-mpd)
-LB_PACKAGE_LISTS="voyage-mpd"
+# (Default: voyage-cd)
+LB_PACKAGE_LISTS="voyage-cd"
 
 # $LB_SECURITY: enable security updates
 # (Default: true)
