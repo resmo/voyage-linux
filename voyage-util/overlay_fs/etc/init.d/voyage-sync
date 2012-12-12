@@ -60,9 +60,8 @@ voyage_log() {
 
 copy_ro_to_rw() {
 	if [ -d /ro ] ; then
-		MSG="  Copying /ro to $TMPFS_ROOT" ; voyage_log
-
-		if [ -f $TMPFS_ROOT ] ; then
+		if [ -d $TMPFS_ROOT ] ; then
+			MSG="  Copying /ro to $TMPFS_ROOT" ; voyage_log
 			tar -C /ro -cf - . | tar -C $TMPFS_ROOT -xf - 
 		fi
 	fi
