@@ -6,7 +6,8 @@ SYSTEM_BOOT="1"
 DONT_ASK="0"
 
 if [ -z $ROOT_LBL ] ; then
-    err_quit "ROOT_LBL not set, in $0, quitting"
+#    err_quit "ROOT_LBL not set, in $0, quitting"
+	ROOT_LBL=VOYAGE_FS
 fi
 
 # no here-document here. 
