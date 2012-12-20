@@ -42,6 +42,22 @@ select_target_disk() {
 		echo
 	fi
 	
+	#print existing device with ROOT_LBL
+	guessdisk=`mount | grep $ROOT_LBL | cut -d\  -f1-5`
+	if [ -n "$guessdisk" ] ; then
+	    echo "guessing target: $guessdisk"
+	    MOUNTPT=`echo $guessdisk | cut -d\  -f3`
+	    guessdisk=`echo $guessdisk | cut -d\  -f1`
+	    guessdisk=`echo $guessdisk | sed -e 's/[0-9][0-9]*/ &/g'`
+	    TARGET_DISK=`echo $guessdisk | cut -d\  -f1`
+	    TARGET_PART=`echo $guessdisk | cut -d\  -f2`
+	    echo "ie:"
+	    printf "\tTARGET_DISK:\t$TARGET_DISK\n"
+	    printf "\tTARGET_PART:\t$TARGET_PART\n"
+	    printf "\tMOUNT_POINT:\t$MOUNTPT\n"
+	    echo ""
+	fi
+
 	while true
 	do
 		read_response "Which device accesses the target disk [$TARGET_DISK]? " a

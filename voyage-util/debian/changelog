@@ -7,6 +7,7 @@ voyage-util (0.12-2) unstable; urgency=low
   * voyage-util: 0001-voyage-installer-prep-to-change-ROOT_FS-label-to-VOY.patch (Jim Cromie)
   * voyage-util: 0002-voyage-install-set-ROOT_LBL-VOYAGE_FS.patch (Jim Cromie)
   * voyage-util: 0003-copyfiles.sh-add-sync-may-not-be-needed-useful.patch (Jim Cromie)
+  * voyage-util: 0004-voyage-install-guess-target-disk-from-partition-labe.patch (Jim Cromie)
 
  -- Punky Tse <punkytse@punknix.com>  Wed, 24 Oct 2012 10:59:12 +0800
 
