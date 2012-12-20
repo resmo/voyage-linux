@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Info/Progress
+I()
+{
+        echo "... $1"
+}
+
+# Warning/Error
 W()
 {
 	echo "*** $1"
@@ -45,14 +52,14 @@ create()
 
 	DIR="$RO_DIR"`dirname $FILE`
     if [ ! -d "$DIR" ] ; then 
-		echo "creating new directory $DIR"
+		I "creating new directory $DIR"
 		mkdir -p $DIR 
 	fi
 
-	echo "Relocate $FILE to "$RO_DIR""$FILE""
+	I "Relocate $FILE to "$RO_DIR""$FILE""
     mv "$FILE" "$DIR"/ 
 
-    echo "Making symlink $FILE to "$RW_DIR""$FILE""
+    I "Making symlink $FILE to "$RW_DIR""$FILE""
     ln -sf "$RW_DIR""$FILE" "$FILE"
 
 }
@@ -66,12 +73,35 @@ destroy()
 		return
 	fi
 
-	echo "Removing $FILE."
+	if [ ! -e "$RO_DIR""$FILE" ]; then
+                W "Cannot found "$RO_DIR""$FILE"."
+                return
+        fi
+
+	I "Removing $FILE."
 	rm "$FILE"
 
-	echo "Restoring "$RO_DIR""$FILE" to "$FILE"."
+	I "Restoring "$RO_DIR""$FILE" to "$FILE"."
 	mv "$RO_DIR""$FILE" `dirname "$FILE"`
 }
+
+status()
+{
+        FILE=$1
+
+        if [ -L $FILE ]; then
+                I "$FILE is a symlink."
+        else
+                I "$FILE is not a symlink."
+        fi
+
+        if [ -e "$RO_DIR""$FILE" ]; then
+                I ""$RO_DIR""$FILE" exist."
+        else
+                I "Cannot found "$RO_DIR""$FILE"."
+        fi
+}
+
 
 case "$1" in
 	create)
