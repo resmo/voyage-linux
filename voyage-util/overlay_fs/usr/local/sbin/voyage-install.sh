@@ -19,6 +19,11 @@ if [ "$BOOTARGS" != "" ]; then
 	echo "adding bootargs: $BOOTARGS"
 fi
 
+# use distinctive label for partition
+ROOT_LBL=${ROOT_LBL:=VOYAGE_FS}
+export ROOT_LBL
+MOUNTPT=
+
 #
 #	Function select_target_disk
 #	Sets the environment variables TARGET_DISK, TARGET_PART

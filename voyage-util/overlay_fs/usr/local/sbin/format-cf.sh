@@ -5,6 +5,10 @@ TARGET_PART=""
 SYSTEM_BOOT="1"
 DONT_ASK="0"
 
+if [ -z $ROOT_LBL ] ; then
+    err_quit "ROOT_LBL not set, in $0, quitting"
+fi
+
 # no here-document here. 
 # this may be called from a read-only (live) file system
 # where the mandatory tmp file for here-douments can't be 
@@ -90,5 +94,5 @@ esac
 sleep 1
 [ -b "$TARGET_PART" ] && { 
 	mkfs.ext2 $TARGET_PART
-	tune2fs -i 0 -c 0 $TARGET_PART -L ROOT_FS
+	tune2fs -i 0 -c 0 $TARGET_PART -L $ROOT_LBL
 }

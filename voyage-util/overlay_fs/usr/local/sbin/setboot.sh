@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ -z $ROOT_LBL ] ; then
+    err_quit "ROOT_LBL not set, in $0, quitting"
+fi
+
 if [ ! "${HAVESCRIPTUTILS:+present}" ]; then
 	echo "This script must be run under voyage.update" >&2
 	exit
@@ -50,13 +54,13 @@ image=/vmlinuz
 	label=Linux
 	initrd=/initrd.img
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios ${BOOTARGS}"
+	append="root=LABEL=$ROOT_LBL ${serapp}reboot=bios ${BOOTARGS}"
 
 image=/vmlinuz.old
 	label=LinuxOLD
 	initrd=/initrd.img.old
 	read-only
-	append="root=LABEL=ROOT_FS ${serapp}reboot=bios ${BOOTARGS}"
+	append="root=LABEL=$ROOT_LBL ${serapp}reboot=bios ${BOOTARGS}"
 	optional
 EOM
 	sed -e "/disk =/d;/bios =/d" -e "s#${TARGET_DISK}#/dev/hda#" \
@@ -197,7 +201,7 @@ EOM
 
 title Voyage Linux $version
 root (hd0,$(($TARGET_PART-1)))
-kernel /vmlinuz root=LABEL=ROOT_FS ${console} ${BOOTARGS}
+kernel /vmlinuz root=LABEL=$ROOT_LBL ${console} ${BOOTARGS}
 ${VOYAGE_INITRD}
 
 EOM

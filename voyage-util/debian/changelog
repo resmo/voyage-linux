@@ -4,6 +4,8 @@ voyage-util (0.12-2) unstable; urgency=low
   * voyage-util: fix lilo installation error
   * voyage-util: fix lilo delay to 2s
   * voyage-util: unmute alsa at start-up
+  * voyage-util: 0001-voyage-installer-prep-to-change-ROOT_FS-label-to-VOY.patch (Jim Cromie)
+  * voyage-util: 0002-voyage-install-set-ROOT_LBL-VOYAGE_FS.patch (Jim Cromie)
 
  -- Punky Tse <punkytse@punknix.com>  Wed, 24 Oct 2012 10:59:12 +0800
 

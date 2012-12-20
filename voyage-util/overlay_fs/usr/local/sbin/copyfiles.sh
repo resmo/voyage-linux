@@ -32,6 +32,10 @@ fi
 
 source $EXECDIR/update-config.sh
 
+if [ -z $ROOT_LBL ] ; then
+    err_quit "ROOT_LBL not set, in $0, quitting"
+fi
+
 # We assume that none of the target files are currently mounted.  Just to
 # make sure, we check and force the user to restart if this isn't true.
 exitflag=0
@@ -57,8 +61,8 @@ fi
 mount $TARGET_DISK$TARGET_PART $TARGET_MOUNT || \
   err_quit "Failed to mount $TARGET_DISK$TARGET_PART on $TARGET_MOUNT. "
 
-# Mount Ok - Parition correct now set label to ROOT_FS
-e2label $TARGET_DISK$TARGET_PART ROOT_FS
+# Mount Ok - Partition correct, now set ext2 label to VOYAGE_FS
+e2label $TARGET_DISK$TARGET_PART $ROOT_LBL
 
 # We are going to use rsync to copy files from the distribution to the
 # target.  In order to minimise any flash writing, we first figure out
