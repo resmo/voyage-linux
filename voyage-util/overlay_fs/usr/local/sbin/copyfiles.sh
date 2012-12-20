@@ -101,5 +101,6 @@ reconfig_resolvconf "$TARGET_MOUNT"
 update_hosts "$TARGET_MOUNT"
 ${EXECDIR}/setboot.sh
 write_config "$TARGET_MOUNT/etc/voyage.conf" "$VOYAGE_CONF_LIST"
+sync
 umount $TARGET_MOUNT
 echo "copyfiles.sh script completed" >&2
