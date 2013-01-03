@@ -79,7 +79,7 @@ save_config_var VOYAGE_SYSTEM_CONSOLE VOYAGE_CONF_LIST
 
 ########################################################################
 
-$ROOT_LBL $EXECDIR/copyfiles.sh
+ROOT_LBL=$ROOT_LBL $EXECDIR/copyfiles.sh
 
 ########################################################################
 
