@@ -1,0 +1,163 @@
+#!/bin/sh
+
+# /usr/share/live-helper/hooks/stripped - hook list for live-helper(7)
+# Copyright (C) 2006-2008 Daniel Baumann <daniel@debian.org>
+#
+# live-helper comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+# This is free software, and you are welcome to redistribute it
+# under certain conditions; see COPYING for details.
+
+#set -e
+
+echo "($0)"
+
+# Check if build Voyage ONE.  If not, exit
+if [ $(dpkg-query --show | cut -f1 | grep "^asterisk$" | wc -l) -eq 0  ] ; then
+    echo "Not Building Voyage ONE. Exit"
+	exit 0
+fi
+
+echo "($0) Building Voyage ONE. "
+
+#KERNEL_VER=2.6.30-voyage
+#KERNEL_VER=2.6.32-voyage
+
+#MODULE_IMAGE="batman-adv-modules-$KERNEL_VER batmand-gateway-modules-$KERNEL_VER dahdi-modules-$KERNEL_VER lirc-modules-$KERNEL_VER"
+#MODULE_IMAGE="batman-adv-modules-$KERNEL_VER batmand-gateway-modules-$KERNEL_VER dahdi-modules-$KERNEL_VER"
+#MODULE_IMAGE="dahdi-modules-$KERNEL_VER lirc-modules-$KERNEL_VER"
+
+#KERNEL_IMAGE=linux-image-"$KERNEL_VER"
+
+    
+    for IMAGE in $MODULE_IMAGE; do
+        apt-get --yes --force-yes install "$IMAGE"
+    done
+
+##
+#  Asterisk configuration
+##
+
+# A temporary hook to fix permissions in the package asterisk.
+# Fixes will be later moved to the package asterisk itself.
+chmod g+w /var/lib/asterisk
+
+# change permission
+chown -R asterisk:asterisk /etc/asterisk/*
+chown -R asterisk:asterisk /var/log/asterisk
+#chown -R asterisk:asterisk /var/run/asterisk
+chown -R asterisk:asterisk /var/spool/asterisk
+chown -R asterisk:asterisk /usr/share/asterisk/static-http/*
+chown -R asterisk:asterisk /usr/share/asterisk/scripts/*
+
+
+## /etc/asterisk/http.conf
+sed -i \
+  -e '/^;enabled\>/s/^;//' \
+  -e '/^;enablestatic\>/s/^;//' \
+  -e '/^;redirect\>/s/^;//' \
+  /etc/asterisk/http.conf
+  
+cat <<EOF >>/etc/asterisk/http.conf
+bindaddr=0.0.0.0
+bindport=8088
+
+EOF
+
+## /etc/asterisk/manager.conf
+cat <<EOF >>/etc/asterisk/manager.conf
+
+webenabled = yes
+
+[admin]
+secret = voyage
+read = system,call,log,verbose,command,agent,config
+write = system,call,log,verbose,command,agent,config,originate
+
+[user]
+secret = voyage
+read = config,reporting
+write = originate,config,command,call,system
+
+EOF
+
+# Meet Me Conference
+cat <<EOF >>/etc/asterisk/meetme.conf
+conf = 6300,,
+EOF
+
+# Unload modules
+cat <<EOF >>/etc/asterisk/modules.conf
+
+[modules](!)
+; Make sure those two don't mess with the simple dialplan we have: 
+unload => pbx_ael.so
+unload => pbx_lua.so
+EOF
+
+
+# Sanity check:
+sh /usr/share/asterisk/scripts/checkconfig
+
+#
+# Update /etc/default/voyage-util
+echo "VOYAGE_SYNC_DIRS=\"\$VOYAGE_SYNC_DIRS etc/asterisk var/lib/asterisk var/spool/asterisk var/lib/nfs\"" >> /etc/default/voyage-util
+
+#
+# Change logo for asterisk-gui
+#
+cp /usr/share/voyage-artworks/digiumlogo.gif \
+	/usr/share/voyage-artworks/panel.png \
+	/usr/share/voyage-artworks/favicon.ico \
+	/usr/share/asterisk/static-http/config/images/
+
+if [ -d /usr/share/asterisk/static-http/setup/images/ ] ; then
+	cp /usr/share/voyage-artworks/digiumlogo.gif \
+		/usr/share/asterisk/static-http/setup/images/
+fi
+
+if [ -d /usr/share/asterisk/static-http/config/setup/ ] ; then
+	cp /usr/share/voyage-artworks/digiumlogo.gif \
+		/usr/share/asterisk/static-http/config/setup/
+fi
+
+##
+# remove packages
+##
+RMPKGS="
+aptitude \
+defoma \
+dmidecode \
+groff-base \
+install-info \
+libboost-iostreams1.42.0 \
+libcwidget3 \
+libept1 \
+libsigc++-2.0-0c2a \
+libxapian22 \
+netcat-traditional \
+rsyslog \
+tasksel \
+tasksel-data \
+vim-common \
+vim-tiny \
+"
+
+for PKG in $RMPKGS
+do
+    echo "*** RMPKG Removing $PKG"
+    apt-get -f -y --purge remove $PKG
+done
+
+# at last getting firmware
+/usr/share/dahdi/get-digium-firmware
+cd /var/lib/dahdi/digium-firm 
+make dist-clean
+
+exit
+
+grub\
+nano \
+perl-base \
+perl \
+perl-modules \
+
