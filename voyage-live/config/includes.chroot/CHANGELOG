@@ -1,3 +1,36 @@
+0.9-rc2 (31 Dec 2012)
+- [kernel] linux-image-3.6.9-voyage_12.2-1
+	- [generic] change from preempt to voluntary preemption
+	- [netfilter] enable net team
+	- [wireless] add ath6kl
+	- [wireless] add broadcom 11n fullmac driver
+	- [wireless] add Marvel WiFi-Ex driver for USB8797
+	- [wireless] add rt2800 and rt3290 driver
+	- [leds] add one-shot led triggers
+	- [sound] enable SoC sound drivers
+- [general/live]
+	- fix motd with voyage banner: motd.tail no longer works on squeeze
+	- add 6501 autoinstall for PXE and add ethdevice=eth0 for PXEboot
+	- add wpa conf in /etc/network/interfaces
+	- use inetutils-syslogd instead of klogd and sysklogd
+	- remove all_generic_ide for pxeboot
+	- Fix pxeboot to set inittab correctly
+- [voyage-util]
+	- voyage-util: change /rw to TMPFS_ROOT
+	- voyage-util: add voyage-rwfile.sh and change /lib/init to /tmp
+	- voyage-util: fix lilo installation error
+	- voyage-util: set lilo prompt delay to 2s
+	- voyage-util: unmute alsa at start-up
+	- voyage-util: fix alsa_unmute function
+	- voyage-util: fix /ro not copying to 
+	- voyage-util: fix /tmp (TMPFS_ROOT) permission after copy from /ro
+	- voyage-util: 0001-voyage-installer-prep-to-change-ROOT_FS-label-to-VOY.patch (Jim Cromie)
+	- voyage-util: 0002-voyage-install-set-ROOT_LBL-VOYAGE_FS.patch (Jim Cromie)
+	- voyage-util: 0003-copyfiles.sh-add-sync-may-not-be-needed-useful.patch (Jim Cromie)
+	- voyage-util: 0004-voyage-install-guess-target-disk-from-partition-labe.patch
+ (Jim Cromie)
+	- voyage-util: assign VOYAGE_FS label to format-cf.sh
+
 0.9-rc1 (30 Sep 2012)
 - [kernel] linux-image-3.4.4-voyage_12.0-1
 	- [netfilter] add netlink acct, conntrack procfs and timeout
