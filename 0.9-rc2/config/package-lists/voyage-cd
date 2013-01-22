@@ -1,0 +1,11 @@
+#include <voyage>
+
+#atftpd
+tftpd-hpa
+#nfs-user-server
+nfs-kernel-server
+bzip2
+sg3-utils
+minicom
+syslinux
+live-boot
