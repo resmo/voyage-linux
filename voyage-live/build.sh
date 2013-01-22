@@ -94,7 +94,7 @@ BuildSDK()
 	lb build
 	
 	if [ -f binary.iso ] ; then
-		mv binary.iso $DISTRO-sdk$ARCH.iso
+		mv binary.iso $DISTRO-sdk-current$ARCH.iso
 	else
 		echo "binary.iso not found!"
 	fi
