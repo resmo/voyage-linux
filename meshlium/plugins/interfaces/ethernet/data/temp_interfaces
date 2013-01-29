@@ -4,10 +4,17 @@ auto lo
 auto eth0
 	allow-hotplug eth0
 	iface eth0 inet static
-	address 192.168.1.20
+	address 192.168.1.99
 	netmask 255.255.255.0
 	gateway 192.168.1.1
-	dns-nameservers 192.168.1.1
+	dns-nameservers 127.0.0.1
 	broadcast 192.168.1.255
-	network 192.168.1.0  
+
+auto wlan0
+	iface wlan0 inet static
+	address 10.1.10.1
+	netmask 255.255.255.0
+	broadcast 10.1.10.255
+	up nat.sh wlan0 eth0 "10.1.10.0/24"
+	hostapd /etc/hostapd/hostapd.wlan0.conf  
 

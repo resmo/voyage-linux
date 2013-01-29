@@ -101,17 +101,17 @@ td.media_button{
 	height:50px;
 	text-align:center;
 	//border:#CCCCCC solid 1px;
-	//-moz-border-radius:5px;
+	border-radius:10px;
 }
 
 td.media_button:hover, td.media_button_long:hover, td.media_button_medium:hover{ 
 	background-color:#DDDDDD;
-	-moz-border-radius:6px;
+	border-radius:10px;
 }
 
 td.media_button:active, td.media_button_long:active, td.media_button_medim:active{ 
 	background-color:#AAAAAA;
-	-moz-border-radius:6px;
+	border-radius:10px;
 }
 
 td.media_button_long{
@@ -121,6 +121,7 @@ td.media_button_long{
 	font-size:1.2em;
 	font-weight:bold;
 	color:#555555;
+	border-radius:10px;
 }
 
 td.media_button_medium{
