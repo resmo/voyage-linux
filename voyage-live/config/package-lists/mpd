@@ -18,4 +18,7 @@ djmount
 ntfs-3g
 cifs-utils
 
+firmware-atheros
+
 #smbfs
+
