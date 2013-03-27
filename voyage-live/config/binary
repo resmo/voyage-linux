@@ -20,9 +20,9 @@ LB_BOOTAPPEND_LIVE="noautologin noxautologin nouser debug=1 nolocales quickreboo
 # (Default: empty)
 LB_BOOTAPPEND_INSTALL=""
 
-# $LB_BOOTAPPEND_FAILSAFE: set boot parameters
+# $LB_BOOTAPPEND_LIVE_FAILSAFE: set boot parameters
 # (Default: empty)
-LB_BOOTAPPEND_FAILSAFE="memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal"
+LB_BOOTAPPEND_LIVE_FAILSAFE="boot=live config memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal"
 
 # $LB_BOOTLOADER: set bootloader
 # (Default: syslinux)
@@ -35,6 +35,10 @@ LB_CHECKSUMS="md5"
 # $LB_COMPRESSION: set compression
 # (Default: gzip)
 LB_COMPRESSION="gzip"
+
+# $LB_ZSYNC: set zsync
+# (Default: true)
+LB_ZSYNC="false"
 
 # ${LB_BUILD_WITH_CHROOT: control if we build binary images chrooted
 # (Default: true)
@@ -93,6 +97,10 @@ LB_JFFS2_ERASEBLOCK=""
 # (Default: memtest86+)
 LB_MEMTEST="memtest86+"
 
+# $LB_LOADLIN: set loadlin
+# (Default: false)
+LB_LOADLIN="false"
+
 # $LB_WIN32_LOADER: set win32-loader
 # (Default: false)
 LB_WIN32_LOADER="false"
@@ -148,7 +156,3 @@ LB_SWAP_FILE_PATH=""
 # $LB_SWAP_FILE_SIZE: set swap file size
 # (Default: 512)
 LB_SWAP_FILE_SIZE="512"
-
-# $LB_SYSLINUX_THEME: set syslinux theme package
-# (Default: live-build)
-LB_SYSLINUX_THEME="live-build"
