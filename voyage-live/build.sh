@@ -41,7 +41,7 @@ Chroot_MountProc ()
 BuildTar()
 {
 	lb clean
-	lb config -b tar --chroot-filesystem plain --package-lists "voyage" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b tar --chroot-filesystem plain --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
@@ -60,7 +60,7 @@ BuildTar()
 BuildImg()
 {
 	lb clean
-	lb config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs --package-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b usb-hdd --binary-filesystem fat16 --chroot-filesystem squashfs --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 
 	if [ -f binary.img ] ; then
@@ -73,7 +73,8 @@ BuildImg()
 BuildISO()
 {
 	lb clean
-	lb config -b iso-hybrid --chroot-filesystem squashfs --package-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	#lb config -b iso-hybrid --chroot-filesystem squashfs --package-lists "voyage-cd" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b iso-hybrid --chroot-filesystem squashfs --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 	
 	if [ -f binary.iso ] ; then
@@ -90,7 +91,7 @@ BuildISO()
 BuildSDK()
 {
 	lb clean
-	lb config -b iso --chroot-filesystem squashfs --package-lists "voyage-sdk" --linux-packages="$VOYAGE_LINUX_PACKAGES"
+	lb config -b iso --chroot-filesystem squashfs --linux-packages="$VOYAGE_LINUX_PACKAGES"
 	lb build
 	
 	if [ -f binary.iso ] ; then
@@ -108,7 +109,7 @@ BuildSDK()
 BuildDistro()
 {
 	lb clean
-	lb config -b tar --chroot-filesystem plain --package-lists "$1" --linux-packages="$3"
+	lb config -b tar --chroot-filesystem plain --linux-packages="$3"
 	lb build
 
 	Chroot_MountProc binary/live/filesystem.dir "apt-get -y remove --purge busybox live-initramfs"
@@ -132,7 +133,7 @@ BuildDistro()
 BuildHybrid()
 {
 	lb clean
-	lb config -b iso-hybrid --chroot-filesystem squashfs --package-lists "$1" --linux-packages="$3"
+	lb config -b iso-hybrid --chroot-filesystem squashfs  --linux-packages="$3"
 	lb build
 	
 	if [ -f binary.iso ] ; then
@@ -154,7 +155,7 @@ BuildHybrid()
 BuildCD()
 {
 	lb clean
-	lb config -b iso --chroot-filesystem squashfs --package-lists "$1" --linux-packages="$3"
+	lb config -b iso --chroot-filesystem squashfs --linux-packages="$3"
 	lb build
 	
 	if [ -f binary.iso ] ; then
