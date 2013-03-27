@@ -25,7 +25,7 @@ LB_APT_RECOMMENDS="false"
 
 # $LB_APT_SECURE: set apt/aptitude security
 # (Default: true)
-LB_APT_SECURE="true"
+LB_APT_SECURE="false"
 
 # $LB_APT_SOURCE_ARCHIVES: set apt/aptitude source entries in sources.list
 # (Default: true)
