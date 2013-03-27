@@ -32,17 +32,13 @@ LB_LINUX_FLAVOURS="voyage"
 # (Default: autodetected)
 LB_LINUX_PACKAGES="linux-image-3.6.9"
 
-# $LB_PACKAGE_LISTS: set package list to install
-# (Default: voyage-mpd)
-LB_PACKAGE_LISTS="voyage-mpd"
-
 # $LB_SECURITY: enable security updates
 # (Default: true)
 LB_SECURITY="true"
 
-# $LB_VOLATILE: enable volatile updates
+# $LB_UPDATES: enable updates updates
 # (Default: false)
-LB_VOLATILE="false"
+LB_UPDATES="false"
 
 # $LB_BACKPORTS: enable backports updates
 # (Default: false)
