@@ -37,7 +37,7 @@ LB_CHECKSUMS="md5"
 LB_COMPRESSION="gzip"
 
 # $LB_ZSYNC: set zsync
-# (Default: true)
+# (Default: false)
 LB_ZSYNC="false"
 
 # ${LB_BUILD_WITH_CHROOT: control if we build binary images chrooted
