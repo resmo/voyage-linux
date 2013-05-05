@@ -1,3 +1,20 @@
+0.9.0 (10 May 2013)
+- [kernel] linux-image-3.8.5-voyage_12.4-1
+	- [wireless] add ar5523 and wil6210
+	- [net] add batman_adv_dat
+	- [drm] add various drivers: Intel GMA, i810, etc.
+	- [io] add paraport support
+	- [misc] add ptp1588 support
+- [general/live]
+	- meshlium : fix button order
+	- live build : add firmware-atheros for atheros USB/ath9k_htc for mpd
+	- live build :add ctrl_interface for wlan0 hostapd
+	- live build : disable APT_SECURE when build live
+	- live build : do not require --package-lists any more
+	- live build : disable zsync in live
+	- live build : update kernel to 3.8.5
+	- live build : change apt repository to cdn.debian.net in chroot stage
+
 0.9-rc2 (31 Dec 2012)
 - [kernel] linux-image-3.6.9-voyage_12.2-1
 	- [generic] change from preempt to voluntary preemption
