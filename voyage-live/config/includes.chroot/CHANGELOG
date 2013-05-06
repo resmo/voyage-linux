@@ -13,7 +13,6 @@
 	- live build : do not require --package-lists any more
 	- live build : disable zsync in live
 	- live build : update kernel to 3.8.5
-	- live build : change apt repository to cdn.debian.net in chroot stage
 - [mpd] 0.18 git 20121124-2 version
 	- support dsd sample rate up to 5644800
 	- fix dsddiff hang issue at end of file
