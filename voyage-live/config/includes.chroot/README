@@ -683,7 +683,7 @@ NoCatSplash or NoCatAuth, not both.
 
 8.2 Corresponding Debian and Kernel release
 ======================
-    * Wheezy, 3.8.5 - Voyage 0.9.0 (Linux and MPD)
+    * Wheezy, 3.8.11 - Voyage 0.9.0 (Linux and MPD)
     * Wheezy, 3.6.9 - Voyage 0.9-rc2 (Linux and MPD)
     * Wheezy, 3.4.4 - Voyage 0.9-rc1 (Linux and MPD)
     * Squeeze 6.0.5, 3.2.17 - Voyage 0.8.5 (Linux, ONE and MPD)
@@ -700,6 +700,6 @@ NoCatSplash or NoCatAuth, not both.
     * Sarge, 2.6.8 - Voyage 0.1
 	
 ======================
-Last Updated: 20130502
+Last Updated: 20130509
 ======================
 
