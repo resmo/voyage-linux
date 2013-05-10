@@ -50,7 +50,7 @@ if [ ! -d $TARGET_MOUNT ] ; then mkdir $TARGET_MOUNT ; fi
 umount $DISTDIR > /dev/null
 umount $TARGET_MOUNT > /dev/null
 
-SQFS=$(find / -name "filesystem.squashfs" | head -n1)
+SQFS=$(find / -type f -name "filesystem.squashfs" | head -n1)
 if [ ! -z $SQFS ] ; then
 	mount -o loop $SQFS $DISTDIR
 else
