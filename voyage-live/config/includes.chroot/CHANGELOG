@@ -12,10 +12,12 @@
 	- live build : disable APT_SECURE when build live
 	- live build : do not require --package-lists any more
 	- live build : disable zsync in live
-	- live build : update kernel to 3.8.5
+	- live build : update kernel to 3.8.11
 - [mpd] 0.18 git 20121124-2 version
 	- support dsd sample rate up to 5644800
 	- fix dsddiff hang issue at end of file
+- [voyage-util] 0.12-3 version
+	- voyage-util: fix autoinstall filesystem.squashfs not mounted
 
 0.9-rc2 (31 Dec 2012)
 - [kernel] linux-image-3.6.9-voyage_12.2-1
