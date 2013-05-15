@@ -7,8 +7,8 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-3.8.11"
-ONE_LINUX_PACKAGES="linux-image-3.8.11 dahdi-modules-3.8.11"
+VOYAGE_LINUX_PACKAGES="linux-image-3.8.12"
+ONE_LINUX_PACKAGES="linux-image-3.8.12 dahdi-modules-3.8.12"
 MPD_LINUX_PACKAGES=$VOYAGE_LINUX_PACKAGES
 
 if [ $(uname -m) == "x86_64" ] ; then
