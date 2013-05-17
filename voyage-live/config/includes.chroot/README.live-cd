@@ -21,11 +21,11 @@ Afte booting the Live CD, login as root (password: voyage)
 1. Create distribution directory for installation
 	
 	# mkdir /tmp/root
-	# mount -o loop /lib/live/mount/medium/live/filesystem.squashfs /tmp/cd
+	# mount -o loop /lib/live/mount/medium/live/filesystem.squashfs /tmp/root
 	# cd /tmp/root
 
 Note: for version < 0.9~rc2, use 
-	mount -o loop /live/image/live/filesystem.squashfs /tmp/cd
+	mount -o loop /live/image/live/filesystem.squashfs /tmp/root
 	
 2. Make a mount point for installation disk
 
