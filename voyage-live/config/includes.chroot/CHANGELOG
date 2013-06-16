@@ -1,3 +1,14 @@
+0.9.1 (20 Jun 2013)
+- [kernel] linux-image-3.8.13-voyage_12.5-1 
+	- [drm] remove GMA500, poulsbo driver
+	- [usb] add USB HCD drivers
+	- [usb] add USB ark3116 serial driver
+	- [usb] add USB storage onetouch and cypress drivers
+- [general/live]
+	- fix README.live-CD and README.pxe for wrong mount path
+	- update initramfs-tools to 0.112 from experimental, to fix USB boot issue from Live CD
+	- disable eapol_version=1 in hostapd
+
 0.9.0 (10 May 2013)
 - [kernel] linux-image-3.8.11-voyage_12.4-1
 	- [wireless] add ar5523 and wil6210
