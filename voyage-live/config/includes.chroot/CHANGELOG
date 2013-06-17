@@ -5,6 +5,7 @@
 	- [usb] add USB ark3116 serial driver
 	- [usb] add USB storage onetouch and cypress drivers
 - [general/live]
+	- update to Debian 7.1
 	- fix README.live-CD and README.pxe for wrong mount path
 	- update initramfs-tools to 0.112 from experimental, to fix USB boot issue from Live CD
 	- disable eapol_version=1 in hostapd
