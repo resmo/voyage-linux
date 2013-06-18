@@ -81,12 +81,15 @@ case $1 in
 		if [ -f /voyage.1st ] ; then
 				echo "First-time installation "
 		        echo -n "Re-generating host ssh keys ... "
-				rm -f /etc/ssh/ssh_host_rsa_key
-				ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' || { echo "Fatal Error: Failed to generate RSA keypair" >&2; exit; }
-				rm -f /etc/ssh/ssh_host_dsa_key
-				ssh-keygen -q -t dsa -f /etc/ssh/ssh_host_dsa_key -N '' || { echo "Fatal Error: Failed to generate DSA keypair" >&2; exit; }
-				
+				#rm -f /etc/ssh/ssh_host_rsa_key
+				#ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' || { echo "Fatal Error: Failed to generate RSA keypair" >&2; exit; }
+				#rm -f /etc/ssh/ssh_host_dsa_key
+				#ssh-keygen -q -t dsa -f /etc/ssh/ssh_host_dsa_key -N '' || { echo "Fatal Error: Failed to generate DSA keypair" >&2; exit; }
 				#depmod -ae
+
+				rm -f /etc/ssh/ssh_host_*_key
+				dpkg-reconfigure openssh-server 
+
 				depmod -a
 				
 				rm -f /voyage.1st

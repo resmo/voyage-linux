@@ -1,3 +1,9 @@
+voyage-util (0.12-4) unstable; urgency=low
+
+  * voyage-util: use dpkg-reconfigure to regenerate host ssh keys
+
+ -- Punky Tse <punkytse@punknix-pluto>  Tue, 18 Jun 2013 22:34:37 +0800
+
 voyage-util (0.12-3) unstable; urgency=low
 
   * voyage-util: fix autoinstall filesystem.squashfs not mounted
