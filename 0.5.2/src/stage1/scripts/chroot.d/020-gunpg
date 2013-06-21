@@ -1,0 +1,15 @@
+#!/bin/sh
+
+apt-get update
+apt-get install --yes --force-yes gnupg
+#wget http://ftp-master.debian.org/ziyi_key_2006.asc
+#wget http://ftp-master.debian.org/archive-key-4.0.asc
+#apt-key add ziyi_key_2006.asc
+#apt-key add archive-key-4.0.asc
+
+#wget http://www.daniel-baumann.ch/daniel-baumann_public-key.asc
+#apt-key add daniel-baumann_public-key.asc
+
+apt-get update
+
+rm *.asc
