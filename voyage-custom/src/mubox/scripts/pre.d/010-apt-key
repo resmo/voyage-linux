@@ -1,0 +1,7 @@
+#!/bin/sh
+#echo "This is a test"
+
+echo "($0)"
+
+wget http://www.voyage.hk/dists/experimental/archive.key -O - | apt-key add -
+

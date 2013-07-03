@@ -1,0 +1,13 @@
+echo ======== Starting boot ========
+usb start
+setenv uimagearg 'uImage'
+setenv options 'console=ttyS0,115200n8 vmalloc=96M coherent_pool=48M'
+
+ext4load ide 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/sda1 rootfstype=ext4 rootwait' && bootm 0x02000000
+ext4load usb 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/sda1 rootfstype=ext4 rootwait usb0Mode=host usb1Mode=host' && bootm 0x02000000
+ext4load mmc 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/mmcblk0p1 rootfstype=ext4 rootwait' && bootm 0x02000000
+
+ext4load ide 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/sda1 rootfstype=ext4 rootwait' && bootm 0x02000000
+ext4load usb 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/sda1 rootfstype=ext4 rootwait usb0Mode=host usb1Mode=host' && bootm 0x02000000
+ext4load mmc 0:1 0x02000000 /boot/${uimagearg} && setenv bootargs ${options} 'root=/dev/mmcblk0p1 rootfstype=ext4 rootwait' && bootm 0x02000000
+

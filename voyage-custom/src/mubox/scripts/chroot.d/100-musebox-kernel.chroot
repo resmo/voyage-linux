@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# /usr/share/live-helper/hooks/stripped - hook list for live-helper(7)
+# Copyright (C) 2006-2008 Daniel Baumann <daniel@debian.org>
+#
+# live-helper comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+# This is free software, and you are welcome to redistribute it
+# under certain conditions; see COPYING for details.
+
+
+echo "($0)"
+
+# Enable serial terminal for cubox
+#
+echo "T0:23:respawn:/sbin/getty -L ttyS0 115200 vt100" >> /etc/inittab
+
+# Download binary uImage and modules
+#
+UIMAGE_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/uImage-3.6.9-00797-g0d7ee41
+MODULES_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/modules-3.6.9-00797-g0d7ee41.tar.xz
+
+wget $UIMAGE_URL -O /boot/`basename $UIMAGE_URL`
+wget $MODULES_URL -O - | tar -Jxf - -C /
+
+cd /boot
+ln -s `basename $UIMAGE_URL` uImage
+
+# Generation boot.src
+#
+echo "Generate boot.src"
+mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n 'Boot Script' -d /boot/boot.txt /boot/boot.scr
+echo "Done."
+

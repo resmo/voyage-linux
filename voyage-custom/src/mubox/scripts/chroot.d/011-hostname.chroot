@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "($0)"
+
+HOST_NAME="voyage-mubox"
+echo "Setting hostname to $HOST_NAME ..."
+echo "$HOST_NAME" > /etc/hostname

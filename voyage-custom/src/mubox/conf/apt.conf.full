@@ -1,0 +1,104 @@
+##########################################################################
+#
+# apt.conf    
+# 	defines multiple apt repository and packages to add
+#
+
+#DEB_PKGS="voyage-util"
+
+#DEB_REPOS=
+#DEB_PKGS="\
+#	vtun openssl less wireless-tools quagga snmpd \
+#	ethstatus arptables iptraf iperf openvpn stunnel openntpd \
+#	tcpdump wondershaper \
+#	"
+
+#DEB_REPOS="deb http://ftp.hk.debian.org/debian/ stable main contrib non-free"
+#DEB_PKGS="\
+#	netperf\
+#	"
+
+#DEB_REPOS="deb http://www.voyage.hk/dists/experimental ./"
+#DEB_REPOS="deb http://www.voyage.hk/dists/0.9 ./"
+
+DEB_PKGS="\
+bridge-utils \
+dnsmasq \
+elvis-tiny \
+iproute \
+libsysfs2 \
+libatm1 \
+logrotate \
+udev \
+ssh \
+module-init-tools \
+ebtables \
+iptables \
+arptables \
+ifenslave-2.6 \
+ifupdown \
+net-tools \
+hostap-utils \
+hostapd \
+wpasupplicant \
+pcmciautils \
+pciutils \
+watchdog \
+wireless-tools \
+vlan \
+rsync \
+portmap \
+less \
+traceroute \
+initramfs-tools \
+tcpdump \
+iptraf \
+iperf \
+wget \
+iputils-ping \
+ntpdate \
+inetutils-syslogd \
+conntrack \
+lsof \
+bash-completion \
+nocatsplash \
+resolvconf \
+iw \
+makedev \
+dhcp3-client \
+firmware-realtek \
+crda \
+wireless-regdb \
+sudo \
+ppp \
+pppoe \
+bzip2 \
+psmisc \
+usbutils \
+libdaemon0 \
+ifplugd \
+live-boot-initramfs-tools \
+firmware-linux-nonfree \
+netcat-traditional \
+\
+mpd \
+nano \
+usbmount \
+usbutils \
+nfs-common \
+sshfs \
+davfs2 \
+alsa-base \
+alsa-tools \
+alsa-utils \
+fuse-utils \
+mpc \
+ncmpc \
+avahi-daemon \
+avahi-utils \
+lirc \
+djmount \
+ntfs-3g \
+cifs-utils \
+firmware-atheros \
+

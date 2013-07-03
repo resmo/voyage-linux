@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 EXEC_DIR=$PWD/`dirname $0`
 RUN_DIR=$PWD
@@ -8,6 +8,11 @@ if [ -z "$1" ] || [ -z "$2" ]; then
 	echo "Usage:"
 	#echo "	`basename $0` <voyage distro dir> <custom profile dir> [distro target directory]"
 	echo "	`basename $0` <voyage distro dir> <custom profile dir> "
+	exit 1
+fi
+
+if [ ! -d "$2" ] ; then
+	echo "Profile directory $2 not found!"
 	exit 1
 fi
 
@@ -35,6 +40,42 @@ cd $TARGET_DIR; TARGET_DIR=$PWD; cd $CURDIR
 
 MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 
+run_policy-rc_install()
+{
+	echo "Configuring file /usr/sbin/policy-rc.d"
+	
+	if [ -e "${TARGET_DIR}"/usr/sbin/policy-rc.d ]
+        then
+        	# Save policy-rc.d file
+        	Chroot dpkg-divert --rename --quiet --add /usr/sbin/policy-rc.d
+        fi
+
+        # Create policy-rc.d file
+cat > "${TARGET_DIR}"/usr/sbin/policy-rc.d << EOF
+#!/bin/sh
+echo "All runlevel operations denied by policy" >&2
+exit 101
+EOF
+
+        chmod 0755 "${TARGET_DIR}"/usr/sbin/policy-rc.d
+}
+
+run_policy-rc_remove()
+{
+	echo "Deconfiguring file /usr/sbin/policy-rc.d"
+
+	# Remove custom policy-rc.d file
+        rm -f "${TARGET_DIR}"/usr/sbin/policy-rc.d
+
+
+	if [ -e "${TARGET_DIR}"/usr/sbin/policy-rc.d.distrib ]
+        then
+        	# Restore policy-rc.d file
+        	Chroot dpkg-divert --rename --quiet --remove /usr/sbin/policy-rc.d
+        fi
+}
+
+
 run_preinstall()
 {
 	echo "### Running pre-install scripts "
@@ -51,8 +92,8 @@ run_postinstall()
 	#cp -rp "$CUSTOM_DIR/scripts/post.d" "$TARGET_DIR/"
 	for CMD in $CUSTOM_DIR/scripts/post.d/*
 	do
-		if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
-		echo "### 	Running chroot command : $CMD"
+	if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
+	    echo "### 	Running chroot command : $CMD"
 	    chmod +x "$CMD"
 	    cd "$TARGET_DIR/../"
 	    export TARGET_DIR
@@ -85,6 +126,24 @@ Chroot_MountProc ()
 		echo "No ${MOUNT_PROC_SH}, call Chroot() instead"
 		Chroot "${1}"
 	fi
+}
+
+run_pre()
+{
+        echo "### Running chroot scripts "
+        echo ""
+        ###################################################################
+        # Running patch-cmd.d
+        cp -rp "$CUSTOM_DIR/scripts/pre.d" "$TARGET_DIR/"
+        for CMD in $TARGET_DIR/pre.d/*
+        do
+                if [ "`basename $CMD`" == "CVS" ] ; then continue; fi
+                echo "###       Running chroot command : $CMD"
+            chmod +x "$CMD"
+            Chroot "/pre.d/`basename $CMD`"
+        done
+
+        rm -rf "$TARGET_DIR/pre.d"
 }
 
 run_chroot()
@@ -223,8 +282,9 @@ run_rm()
 	do
 		LINE=`echo $LINE | sed -e 's/#.*$//g' -e '/^$/d' `
 		
-		if [ ! "$LINE" == "" ] ; then 
-			echo "Removing file(s) $LINE"
+		if [ ! -z "$LINE" ] ; then 
+C
+			echo "Removing file(s) '$LINE'"
 			
 			RM_FILES="$TARGET_DIR"/"$LINE"
 			for RM_FILE in $RM_FILES
@@ -308,9 +368,10 @@ run_kernel_conf()
 	echo ""
 }
 
-run_overlay_fs()
+run_overlay_fs_by_dir()
 {
-	FILE="$CUSTOM_DIR/overlay_fs"
+	#FILE="$CUSTOM_DIR/overlay_fs"
+	FILE="$1"
 	if [ ! -d "$FILE" ] ; then echo "$FILE not found. "; return ; fi
 	
 	echo "### Running overlay_fs"
@@ -325,7 +386,7 @@ run_overlay_fs()
 	find "$TARGET_DIR" -name "CVS" -exec rm -rf '{}' '+'
 	
 	echo ""
-	echo "$COUNT file(s) copied"
+	echo "$COUNT file(s) copied from $FILE"
 	echo ""
 }
 
@@ -374,20 +435,31 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+run_overlay_fs_by_dir "$CUSTOM_DIR/pre_overlay_fs"
+
+run_pre
+
 run_preinstall
 
+run_policy-rc_install
+
 run_apt_conf
+
 run_dpkg_remove
+
 run_dpkg_install
 
 run_rm
+
 run_tmpfs
 
 run_kernel_conf
 
-run_overlay_fs
+run_overlay_fs_by_dir "$CUSTOM_DIR/overlay_fs"
 
 run_chroot
+
+run_policy-rc_remove
 
 run_postinstall
 
@@ -415,12 +487,24 @@ if [ -d "$DIST_DIR" ] ; then rm -rf "$DIST_DIR" ; fi
 mv "$TARGET_DIR" "$DIST_DIR"
 rm -rf "$BUILD_DIR"
 
+echo -n "Preparing $DIST_DIR.tar.xz ... "
+if [ -f "$DIST_DIR".tar.xz ] ; then 
+	rm "$DIST_DIR".tar.xz
+fi
+sync
+sleep 5
+cd $DIST_DIR
+tar -cJf ../`basename $DIST_DIR`.tar.xz .
+echo "done."
+
 ### exit
 exit
 
-##################################################
-# Build Live CD
-#
+run_build_live ()
+{
+	##################################################
+	# Build Live CD
+	#
 	
 	LIVE_DIR="`dirname $DIST_DIR`/`basename $DIST_DIR`-live"
 	
@@ -453,3 +537,4 @@ EOF
 		-b isolinux/isolinux.bin -c isolinux/boot.cat \
 		-no-emul-boot -boot-load-size 4 -boot-info-table "${LIVE_DIR}"
 		
+}

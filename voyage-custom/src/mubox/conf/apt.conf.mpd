@@ -1,0 +1,45 @@
+##########################################################################
+#
+# apt.conf    
+# 	defines multiple apt repository and packages to add
+#
+
+#DEB_PKGS="voyage-util"
+
+#DEB_REPOS=
+#DEB_PKGS="\
+#	vtun openssl less wireless-tools quagga snmpd \
+#	ethstatus arptables iptraf iperf openvpn stunnel openntpd \
+#	tcpdump wondershaper \
+#	"
+
+#DEB_REPOS="deb http://ftp.hk.debian.org/debian/ stable main contrib non-free"
+#DEB_PKGS="\
+#	netperf\
+#	"
+
+#DEB_REPOS="deb http://www.voyage.hk/dists/experimental ./"
+#DEB_REPOS="deb http://www.voyage.hk/dists/0.9 ./"
+
+DEB_PKGS="\
+mpd \
+nano \
+usbmount \
+usbutils \
+nfs-common \
+sshfs \
+davfs2 \
+alsa-base \
+alsa-tools \
+alsa-utils \
+fuse-utils \
+mpc \
+ncmpc \
+avahi-daemon \
+avahi-utils \
+lirc \
+djmount \
+ntfs-3g \
+cifs-utils \
+firmware-atheros \
+

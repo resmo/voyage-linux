@@ -1,0 +1,7 @@
+##########################################################################
+#
+# dpkg-i.lst  
+# 	defines a list of deb packages to be downloaded and installed 
+#	using "wget" and "dpkg -i" 
+#
+
