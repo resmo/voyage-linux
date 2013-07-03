@@ -25,6 +25,10 @@ server {
                 #fastcgi_pass    127.0.0.1:9000;                                
                 fastcgi_pass    unix:/tmp/php.socket;                           
         }                                                                       
+
+        location /Music {
+                autoindex on;
+        }
 }                                                                               
 
 
