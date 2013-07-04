@@ -35,9 +35,12 @@ fi
 alsa_unmute()
 {
 	if [ -f /usr/bin/amixer ] ; then
-		amixer scontrols | sed -e 's/^Simple mixer control//' | while read line; do 
-			amixer sset "$line" unmute;
+	    # fix for multiple cards
+            for ID in `cat /proc/asound/card*/id`; do
+		amixer -c "$ID" scontrols | sed -e 's/^Simple mixer control//' | while read line; do 
+	   	    amixer -c "$ID" sset "$line" unmute;
 		done
+	    done
 	fi
 }
 
