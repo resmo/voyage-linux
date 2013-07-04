@@ -185,8 +185,9 @@ echo -n "Modifying /etc/apt/sources.list ... "
 echo "" >> /etc/apt/sources.list
 echo "# Primary Debian Mirror Sites (http://www.debian.org/mirror/list)" >> /etc/apt/sources.list
 wget http://www.debian.org/mirror/list -O - | \
-sed -n  -e "/td><a href=\"http:\/\/ftp\.[a-z][a-z]/ P" | \
-sed -e "s/^.*a href=\"//g" -e "s/\">.*$//g" -e "s/^/#deb /g " -e "s/$/ lenny main contrib non-free/g" | sort \
+sed -n  -e "/td.*href=\"http:\/\/ftp\.[a-z][a-z]\.debian\.org/ P" | \
+sed -e "s/^.*href=\"//g" -e "s/\">.*$//g" -e "s/^/#deb /g" | \
+sed -e "s/$/ wheezy main contrib non-free/g" | sort -u \
 >> /etc/apt/sources.list
 
 echo "Done"
