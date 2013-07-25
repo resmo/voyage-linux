@@ -2,6 +2,8 @@ voyage-util (0.12-4) unstable; urgency=low
 
   * voyage-util: use dpkg-reconfigure to regenerate host ssh keys
   * voyage-util: fix alsa_unmute() multiple cards don't work
+  * voyage-util: remove w83627hf and leds-alix2 driver for ALIX profile as they are now obsoletted and/or replaced by others
+  * voyage-util: add /lib/voyage-utils and run-parts when start
 
  -- Punky Tse <punkytse@punknix-pluto>  Tue, 18 Jun 2013 22:34:37 +0800
 

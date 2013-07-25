@@ -108,6 +108,7 @@ case $1 in
 		echo "Done."		
 		start_leds
 		alsa_unmute
+		run-parts /lib/voyage-utils
 		;;
 	'stop')
 		#if [ -f /etc/voyage.conf ] ; then
