@@ -16,18 +16,87 @@ echo "T0:23:respawn:/sbin/getty -L ttyS0 115200 vt100" >> /etc/inittab
 
 # Download binary uImage and modules
 #
-UIMAGE_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/uImage-3.6.9-00797-g0d7ee41
-MODULES_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/modules-3.6.9-00797-g0d7ee41.tar.xz
+#UIMAGE_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/uImage-3.6.9-00797-g0d7ee41
+#MODULES_URL=http://download.solid-run.com/pub/solidrun/cubox/kernel/bin/3.6.9-00797-g0d7ee41/modules-3.6.9-00797-g0d7ee41.tar.xz
+
+UIMAGE_URL=http://mirror.voyage.hk/download/voyage-mubox/kernel/3.8.11-1.voyage-rt8/uImage-3.8.11-1.voyage-rt8
+MODULES_URL=http://mirror.voyage.hk/download/voyage-mubox/kernel/3.8.11-1.voyage-rt8/modules-3.8.11-1.voyage-rt8.tar.gz
 
 wget $UIMAGE_URL -O /boot/`basename $UIMAGE_URL`
-wget $MODULES_URL -O - | tar -Jxf - -C /
+#wget $MODULES_URL -O - | tar -Jxf - -C /
+wget $MODULES_URL -O - | tar -zxf - -C /
 
 cd /boot
 ln -s `basename $UIMAGE_URL` uImage
 
 # Generation boot.src
 #
-echo "Generate boot.src"
+echo -n "Generate boot.src ... "
 mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n 'Boot Script' -d /boot/boot.txt /boot/boot.scr
 echo "Done."
+
+
+echo -n "Modifying /etc/sysctl.conf for MPD... "
+cat <<EOF >> /etc/sysctl.conf
+
+net.core.rmem_max=12582912
+net.core.wmem_max=12582912
+net.ipv4.tcp_rmem= 10240 87380 12582912
+net.ipv4.tcp_wmem= 10240 87380 12582912
+net.ipv4.tcp_timestamps = 0
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_sack = 0
+net.ipv4.tcp_no_metrics_save = 1
+net.core.netdev_max_backlog = 5000
+vm.overcommit_memory = 2
+vm.overcommit_ratio = 50
+
+EOF
+echo "Done."
+
+#
+#
+echo -n "Generating /lib/voyage-utils/100-mubox ... "
+cat <<EOF > /lib/voyage-utils/100-mubox
+#!/bin/bash
+
+echo -n "  \$(basename \$0) - tunning realtime for mubox ... "
+
+ifconfig eth0 txqueuelen 10000
+
+chrt -f -p 54 \$(pgrep irq/24-ehci_hcd)
+chrt -f -p 54 \$(pgrep irq/24-ehci_hcd)
+chrt -f -p 49 \$(pgrep irq/29-eth0)
+chrt -f -p 48 \$(pgrep irq/62-sata_mv)
+
+pgrep cifsd && chrt -f -p 49 \$(pgrep cifsd)
+echo "Done."
+
+EOF
+
+chmod +x /lib/voyage-utils/100-mubox
+echo "Done."
+
+
+#
+#
+echo -n "Add realtime option for mpd.conf ... "
+cat <<EOF >> /etc/mpd.conf
+
+# realtime option
+realtime_option {
+    memlock              "yes"
+    stack_reserve        "1024"
+    heap_reserve         "10240"
+
+    main_priority        "OTHER:0"
+    player_priority      "FIFO:32"
+    decoder_priority     "FIFO:31"
+    update_priority      "OTHER:0"
+}
+
+EOF
+
+sed -i -e "/device.*\"hw/a priority        \"FIFO:32\"" /etc/mpd.conf
+
 
