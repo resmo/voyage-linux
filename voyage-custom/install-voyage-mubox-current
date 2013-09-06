@@ -11,7 +11,7 @@ function post {
 }
 
 function download_and_install {
-#	/usr/bin/tar -Jxf /mnt/voyage-mubox.tar.xz -C $ROOTFS_DIR
+#	/usr/bin/tar -Jxf /mnt/voyage-mubox-current.tar.xz -C $ROOTFS_DIR
 	curl http://mirror.voyage.hk/download/voyage-mubox/voyage-mubox-current.tar.xz | /usr/bin/tar -Jx -C $ROOTFS_DIR
 }
 
