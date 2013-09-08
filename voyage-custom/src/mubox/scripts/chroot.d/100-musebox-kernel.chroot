@@ -65,7 +65,7 @@ echo -n "  \$(basename \$0) - tunning realtime for mubox ... "
 ifconfig eth0 txqueuelen 10000
 
 chrt -f -p 54 \$(pgrep irq/24-ehci_hcd)
-chrt -f -p 54 \$(pgrep irq/24-ehci_hcd)
+chrt -f -p 54 \$(pgrep irq/25-ehci_hcd)
 chrt -f -p 49 \$(pgrep irq/29-eth0)
 chrt -f -p 48 \$(pgrep irq/62-sata_mv)
 
