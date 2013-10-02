@@ -56,11 +56,15 @@ echo "Done."
 
 #
 #
-echo -n "Generating /lib/voyage-utils/100-mubox ... "
-cat <<EOF > /lib/voyage-utils/100-mubox
+echo -n "Generating /lib/voyage-utils/100-cubox ... "
+cat <<EOF > /lib/voyage-utils/100-cubox
 #!/bin/bash
 
-echo -n "  \$(basename \$0) - tunning realtime for mubox ... "
+if [ \$(cat /proc/cpuinfo |grep Dove | wc -l) -eq 0 ] ; then 
+	exit
+fi
+
+echo -n "  \$(basename \$0) - tunning realtime for CuBox ... "
 
 ifconfig eth0 txqueuelen 10000
 
@@ -74,9 +78,9 @@ echo "Done."
 
 EOF
 
-chmod +x /lib/voyage-utils/100-mubox
 echo "Done."
 
+chmod +x /lib/voyage-utils/*
 
 #
 #
