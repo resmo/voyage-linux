@@ -73,8 +73,6 @@ start_leds()
 	esac
 }
 
-set -e
-
 case $1 in
 	'start')
 		echo -n "Remounting / as read-write ... "

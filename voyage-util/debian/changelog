@@ -1,3 +1,10 @@
+voyage-util (0.13-1) unstable; urgency=low
+
+  * voyage-util: add APU installation profile
+  * voyage-util: do not set error and quite in /etc/init.d/voyage-util
+
+ -- Punky Tse <punkytse@punknix-pluto>  Wed, 02 Oct 2013 16:00:16 +0800
+
 voyage-util (0.12-4) unstable; urgency=low
 
   * voyage-util: use dpkg-reconfigure to regenerate host ssh keys
