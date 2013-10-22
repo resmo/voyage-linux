@@ -100,13 +100,14 @@ case $1 in
 		echo -n "Removing /etc/nologin ... "
 		/etc/init.d/rmnologin start
 		echo "Done."
-		echo -n "Remounting / as read-only ... "
-		#/bin/mount / -o remount,ro
-		/usr/local/sbin/remountro
-		echo "Done."		
+
 		start_leds
 		alsa_unmute
 		run-parts /lib/voyage-utils
+
+		echo -n "Remounting / as read-only ... "
+		/usr/local/sbin/remountro
+		echo "Done."		
 		;;
 	'stop')
 		#if [ -f /etc/voyage.conf ] ; then
