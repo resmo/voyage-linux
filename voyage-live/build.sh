@@ -7,14 +7,15 @@ MOUNT_PROC_SH=/usr/local/sbin/mount-proc.sh
 export MKSQUASHFS_OPTIONS="-b 1048576"
 
 # define linux packages here for different editions
-VOYAGE_LINUX_PACKAGES="linux-image-3.8.13"
-ONE_LINUX_PACKAGES="linux-image-3.8.13 dahdi-modules-3.8.13"
+VOYAGE_LINUX_PACKAGES="linux-image-3.10.11"
+ONE_LINUX_PACKAGES="linux-image-3.10.11 dahdi-modules-3.10.11"
 MPD_LINUX_PACKAGES=$VOYAGE_LINUX_PACKAGES
 
 if [ $(uname -m) == "x86_64" ] ; then
 	ARCH="_amd64"
 	lb config -a amd64
 fi
+
 
 Chroot ()
 {
@@ -190,6 +191,14 @@ PreparePackageList()
 	done
 	
 }
+
+if [ -n "$http_proxy" ] ; then
+	lb config --apt-http-proxy "$http_proxy"
+	export http_proxy
+	Banner "Setting HTTP_PROXY to $http_proxy"
+else
+	lb config --apt-http-proxy ""
+fi
 
 for TYPE in $1; do
 	case "$TYPE" in
