@@ -45,12 +45,14 @@ Booting a PXE client and starting automated installation
 Start your WRAP/Soekric board or PC to boot from network. When the bootloader 
 is loaded, you have several options:
 	
-	1. PXE Boot Voyage Linux with a login shell
-	2. Start automated install for WRAP (/dev/hda and 38400 serial console)
-	3. Start automated install for ALIX (/dev/hda and 38400 serial console)
-	4. Start automated install for 45/48xx (/dev/hda and 19200 serial console)
-	5. Start automated install for 55xx (/dev/hda and 19200 serial console)
-	6. Start automated install for gerenic PC (/dev/hda and no serial console)
+  1. PXE Boot Voyage Linux with a login shell
+  2. Start automated install for WRAP (/dev/hda and 38400 serial console)
+  3. Start automated install for ALIX (/dev/hda and 38400 serial console)
+  4. Start automated install for APU (/dev/hda and 115200 serial console)
+  5. Start automated install for 45/48xx (/dev/hda and 19200 serial console)
+  6. Start automated install for 55xx (/dev/hda and 19200 serial console)
+  7. Start automated install for 6501 (/dev/hda and 19200 serial console)
+  8. Start automated install for gerenic PC (/dev/hda and no serial console)
 
 The boot prompt will wait for 5 seconds.  After the timeout, option 1 (login
 shell) will be started automatically. 

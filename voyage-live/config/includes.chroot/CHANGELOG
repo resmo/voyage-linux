@@ -1,3 +1,29 @@
+0.9.2 (17 Dec 2013)
+- [kernel] linux-image-3.10.11-voyage-13.0-1
+	- [net] add IP tunnel
+	- [wireless] add iwlwifi
+	- [ide] depricate CONFIG_BLK_DEV_*
+	- [rtc] remove old rtc, use new rtc_lib, rtc_class infrastructure
+	- [usb] add USB touchscreen
+	- [video] add hdmi
+- [general/live]
+	- [general] fix debian mirror list
+	- [general] fix build date location
+	- [general] fix and add new line in login banner
+	- [live] add no-check-certificate when downloading prism firmware
+	- [live] add proxy support
+	- [live] add APU for pxe boot
+	- [ngnix] fix ngnix cannot read /Music
+- [mpd] 0.18.4 git version
+	- Yan's realtime option patch
+- [voyage-util] 0.13-1
+	- change motd version to 0.9.2
+	- add APU installation profile
+	- do not set error and quite in /etc/init.d/voyage-util
+	- run remountro in last step in /etc/init.d/voyage-util start
+	- remove w83627hf and leds-alix2 driver for ALIX profile as they are now obsoletted and/or replaced by others
+	- fix multiple cards don't work in alsa_unmute
+
 0.9.1 (20 Jun 2013)
 - [kernel] linux-image-3.8.13-voyage_12.5-1 
 	- [drm] remove GMA500, poulsbo driver
