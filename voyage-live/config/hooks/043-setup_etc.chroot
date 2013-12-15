@@ -113,33 +113,6 @@ echo "Done"
 #################################
 echo -n "Modifying /etc/modules and /etc/modprobe.d/ ... "
 
-#echo "natsemi" >> /etc/modules
-#echo "hostap_pci" >> /etc/modules
-#echo "options ath_pci autocreate=none ratectl=minstrel" >> /etc/modprobe.d/madwifi.conf
-
-cat >> /etc/modprobe.d/madwifi.conf <<EOF
-#options ath_pci autocreate=none ratectl=minstrel
-
-blacklist ath_hal                                                              
-blacklist ath_pci                                                              
-blacklist ath_rate_amrr                                                        
-blacklist ath_rate_onoe                                                        
-blacklist ath_rate_sample                                                      
-blacklist ath_rate_minstrel
-blacklist wlan                                                                 
-blacklist wlan_acl                                                             
-blacklist wlan_ccmp                                                            
-blacklist wlan_scan_ap                                                         
-blacklist wlan_scan_sta                                                        
-blacklist wlan_tkip                                                            
-blacklist wlan_wep                                                             
-blacklist wlan_xauth                 
-
-#blacklist ath5k
-EOF
-
-sed -i -e "s/^blacklist ath5k/#blacklist ath5k/" /etc/modprobe.d/madwifi
-
 echo "Done"
 
 #################################
