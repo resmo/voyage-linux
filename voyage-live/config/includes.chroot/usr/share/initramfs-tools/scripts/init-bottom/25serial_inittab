@@ -34,11 +34,12 @@ for x in $(cat /proc/cmdline); do
  			export LIVE_GETTY=1 
  			;;
  		console=*)
-			export DEFCONSOLE=$(sed -e 's%.*console=%console=%' /proc/cmdline)
+			export DEFCONSOLE=$(sed -e 's%.*console=%console=%' /proc/cmdline | \
+						cut -d " " -f 1 )
 			;;
 		autoinstall=*)
 			AUTOINSTALL=$(sed -e 's%.*autoinstall=%%' /proc/cmdline | \
-						  cut -d " " -f 1 )
+						cut -d " " -f 1 )
 			;;
   	esac	
 done
