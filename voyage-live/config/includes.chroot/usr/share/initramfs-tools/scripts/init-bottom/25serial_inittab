@@ -48,7 +48,8 @@ echo "DEFCONSOLE=${DEFCONSOLE}"
 echo "LIVE_GETTY=${LIVE_GETTY}"
 echo "AUTOINSTALL=${AUTOINSTALL}"
 
-if [ ! -z "${DEFCONSOLE}" ]; then
+## only change inittab serial setting if netboot is defined.
+if [ ! -z "${DEFCONSOLE}" ] && [ ! -z "${NETBOOT}" ]; then
    if echo "${DEFCONSOLE}" | grep -qs ttyS; then
         # AUTOMATIC SERIAL CONSOLE #
         PORT=$(echo "${DEFCONSOLE}" | \
