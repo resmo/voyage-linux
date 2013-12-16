@@ -1,8 +1,12 @@
 voyage-util (0.13-1) unstable; urgency=low
 
+  * voyage-util: chage motd version to 0.9.2
   * voyage-util: add APU installation profile
   * voyage-util: do not set error and quite in /etc/init.d/voyage-util
   * voyage-util: run remountro in last step in /etc/init.d/voyage-util start
+  * voyage-util: remove w83627hf and leds-alix2 driver for ALIX profile as they are now obsoletted and/or replaced by others
+  * voyage-util: fix multiple cards don't work in alsa_unmute
+  * voyage-util: support passing TARGET_DISK in command line for autoinstall.sh
 
  -- Punky Tse <punkytse@punknix-pluto>  Wed, 02 Oct 2013 16:00:16 +0800
 

@@ -17,7 +17,6 @@ source $EXECDIR/script-utils.sh
 source $EXECDIR/select-profile.sh
 
 DISTDIR=/tmp/root
-TARGET_DISK="/dev/hda"
 TARGET_PART=1 
 TARGET_MOUNT="/tmp/cf" 
 BOOTSTRAP_PART=1
@@ -27,6 +26,8 @@ ROOT_LBL="VOYAGE_FS"
 
 INSTALL_PROFILE=alix
 if [ ! -z $1 ] ; then INSTALL_PROFILE=$1 ; fi
+
+if [ -z "$TARGET_DISK" ] ; then TARGET_DISK="/dev/hda" ; fi
 
 PROFILE_FILE=/etc/voyage-profiles/$INSTALL_PROFILE.pro
 if [ ! -f $PROFILE_FILE ] ; then 
