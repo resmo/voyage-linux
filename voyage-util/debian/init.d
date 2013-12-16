@@ -34,7 +34,7 @@ fi
 
 alsa_unmute()
 {
-	if [ -f /usr/bin/amixer ] && [ -f [ -d /proc/asound ] ; then
+	if [ -f /usr/bin/amixer ] && [ -d /proc/asound ] ; then
 	    # fix for multiple cards
             for ID in `cat /proc/asound/card*/id`; do
 		amixer -c "$ID" scontrols | sed -e 's/^Simple mixer control//' | while read line; do 
