@@ -20,11 +20,13 @@ Starting the Live CD as PXE server
 To start PXE environment from live-cd, after login root (password: voyage) ,
 type:
 
+	# remountrw
 	# /etc/init.d/voyage-pxe start <serial rate>
 
 where <serial rate> is the serial console speed.  Without this parameter, the 
 default is 9600.  Hence, to start PXE server for WRAP/ALIX board, you should:
 
+	# remountrw
 	# /etc/init.d/voyage-pxe start 38400
 	
 You can also set <serial rate> to 0 to disable serial console.  This is useful 
@@ -98,6 +100,9 @@ This will create /dev/hda1 ext2 partition on /dev/hda disk device.
 Following the instruction to select /tmp/root as distribution directory, and 
 /tmp/cf as mount point.  After the installation complete, simple reboot the
 board and Voyage will be started!
+
+Note: You may get read-only file system messages after exiting installation.
+This is normal because your settings cannot be updated on a mounted squashfs.
 
 There are some additional packages installed for PXE and NFS server.  After
 starting Voyage, you can safely remove them by:
