@@ -7,6 +7,7 @@ voyage-util (0.13-1) unstable; urgency=low
   * voyage-util: remove w83627hf and leds-alix2 driver for ALIX profile as they are now obsoletted and/or replaced by others
   * voyage-util: fix multiple cards don't work in alsa_unmute
   * voyage-util: support passing TARGET_DISK in command line for autoinstall.sh
+  * voyage-util: suppress alsa_unmute error if /proc/asound not found
 
  -- Punky Tse <punkytse@punknix-pluto>  Wed, 02 Oct 2013 16:00:16 +0800
 
