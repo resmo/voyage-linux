@@ -23,6 +23,8 @@
 	- run remountro in last step in /etc/init.d/voyage-util start
 	- remove w83627hf and leds-alix2 driver for ALIX profile as they are now obsoletted and/or replaced by others
 	- fix multiple cards don't work in alsa_unmute
+	- support passing TARGET_DISK in command line for autoinstall.sh
+	- alsa_unmute error if /proc/asound not found
 
 0.9.1 (20 Jun 2013)
 - [kernel] linux-image-3.8.13-voyage_12.5-1 
