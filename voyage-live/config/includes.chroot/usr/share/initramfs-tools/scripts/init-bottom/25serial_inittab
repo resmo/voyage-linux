@@ -40,6 +40,9 @@ for x in $(cat /proc/cmdline); do
 		autoinstall=*)
 			AUTOINSTALL=$(sed -e 's%.*autoinstall=%%' /proc/cmdline | \
 						cut -d " " -f 1 )
+		targetdisk=*)
+			TARGET_DISK=$(sed -e 's%.*targetdisk=%%' /proc/cmdline | \
+						cut -d " " -f 1 )
 			;;
   	esac	
 done
@@ -47,6 +50,7 @@ done
 echo "DEFCONSOLE=${DEFCONSOLE}"
 echo "LIVE_GETTY=${LIVE_GETTY}"
 echo "AUTOINSTALL=${AUTOINSTALL}"
+echo "TARGET_DISK=${TARGET_DISK}"
 
 ## only change inittab serial setting if netboot is defined.
 if [ ! -z "${DEFCONSOLE}" ] && [ ! -z "${NETBOOT}" ]; then
@@ -67,7 +71,7 @@ if [ ! -z "${DEFCONSOLE}" ] && [ ! -z "${NETBOOT}" ]; then
 fi
 
 if [ ! -z "${AUTOINSTALL}" ] ; then
-	echo "V0:23:once:/usr/local/sbin/autoinstall.sh ${AUTOINSTALL}" >> /root/etc/inittab
+	echo "V0:23:once:/usr/local/sbin/autoinstall.sh ${AUTOINSTALL} ${TARGET_DISK}" >> /root/etc/inittab
 	sed -i -e "s/^T0/#T0/" /root/etc/inittab 
 fi
 
