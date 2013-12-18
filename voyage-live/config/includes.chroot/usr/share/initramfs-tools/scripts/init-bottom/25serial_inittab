@@ -40,6 +40,7 @@ for x in $(cat /proc/cmdline); do
 		autoinstall=*)
 			AUTOINSTALL=$(sed -e 's%.*autoinstall=%%' /proc/cmdline | \
 						cut -d " " -f 1 )
+			;;
 		targetdisk=*)
 			TARGET_DISK=$(sed -e 's%.*targetdisk=%%' /proc/cmdline | \
 						cut -d " " -f 1 )
