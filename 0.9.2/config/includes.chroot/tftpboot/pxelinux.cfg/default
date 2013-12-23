@@ -1,0 +1,45 @@
+say Voyage Linux PXE boot
+serial 0 9600
+console 0
+default 1
+
+label 0
+	KERNEL linux
+	APPEND initrd=initrd.img boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,9600n8 debug verbose
+
+label 1
+	KERNEL linux
+	APPEND initrd=initrd.img boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,9600n8
+
+label 2
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=wrap targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,38400n8
+
+label 3
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=alix targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,38400n8
+
+label 4
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=apu targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,115200n8
+
+label 5
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=4511 targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,19200n8
+
+label 6
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=5501 targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,19200n8 
+
+label 7
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=6501 targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin console=ttyS0,19200n8 
+
+label 8
+	KERNEL linux
+	APPEND initrd=initrd.img autoinstall=genericpc targetdisk=/dev/sda boot=live netboot=nfs nfsroot=192.168.1.200:/lib/live/mount/medium ethdevice=eth0 live-getty noautologin 
+
+implicit 0
+display display.msg
+prompt 1
+timeout 50
