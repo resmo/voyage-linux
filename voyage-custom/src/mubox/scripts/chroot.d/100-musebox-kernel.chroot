@@ -77,8 +77,52 @@ pgrep cifsd && chrt -f -p 49 \$(pgrep cifsd)
 echo "Done."
 
 EOF
+echo "Done."
+#############################################
+
+echo -n "Generating /lib/voyage-utils/100-cubie ... "
+cat <<EOF > /lib/voyage-utils/100-cubie
+#!/bin/bash
+
+if [ \$(cat /proc/cpuinfo |grep ^Hardware|grep sun7i| wc -l) -eq 0 ] ; then
+        exit
+fi
+
+echo -n "  \$(basename \$0) - tunning cubieboard... "
+
+ifconfig eth0 txqueuelen 10000
+
+taskset -pca 1 \$(pgrep mpd)
+
+pgrep cifsd && chrt -f -p 49 \$(pgrep cifsd)
+
+echo 0 > /sys/class/leds/green\:ph20\:led1/brightness
 
 echo "Done."
+EOF
+
+#############################################
+
+echo -n "Generating /lib/voyage-utils/100-beaglebone ... "
+cat <<EOF > /lib/voyage-utils/100-beaglebone
+#!/bin/bash
+
+if [ \$(cat /proc/cpuinfo |grep ^Hardware|grep AM33XX| wc -l) -eq 0 ] ; then
+        exit
+fi
+
+echo -n "  \$(basename \$0) - tunning beaglebone (black)... "
+
+depmod -a 
+for LED in /sys/class/leds/* ; do echo timer > \$LED/trigger ; done
+sleep 1
+for LED in /sys/class/leds/* ; do echo none > \$LED/trigger ; done
+echo default-on > /sys/class/leds/beaglebone\:green\:heartbeat/trigger
+
+echo "Done."
+EOF
+echo "Done."
+#############################################
 
 chmod +x /lib/voyage-utils/*
 
