@@ -34,11 +34,16 @@ for x in $(cat /proc/cmdline); do
  			export LIVE_GETTY=1 
  			;;
  		console=*)
-			export DEFCONSOLE=$(sed -e 's%.*console=%console=%' /proc/cmdline)
+			export DEFCONSOLE=$(sed -e 's%.*console=%console=%' /proc/cmdline | \
+						cut -d " " -f 1 )
 			;;
 		autoinstall=*)
 			AUTOINSTALL=$(sed -e 's%.*autoinstall=%%' /proc/cmdline | \
-						  cut -d " " -f 1 )
+						cut -d " " -f 1 )
+			;;
+		targetdisk=*)
+			TARGET_DISK=$(sed -e 's%.*targetdisk=%%' /proc/cmdline | \
+						cut -d " " -f 1 )
 			;;
   	esac	
 done
@@ -46,8 +51,10 @@ done
 echo "DEFCONSOLE=${DEFCONSOLE}"
 echo "LIVE_GETTY=${LIVE_GETTY}"
 echo "AUTOINSTALL=${AUTOINSTALL}"
+echo "TARGET_DISK=${TARGET_DISK}"
 
-if [ ! -z "${DEFCONSOLE}" ]; then
+## only change inittab serial setting if netboot is defined.
+if [ ! -z "${DEFCONSOLE}" ] && [ ! -z "${NETBOOT}" ]; then
    if echo "${DEFCONSOLE}" | grep -qs ttyS; then
         # AUTOMATIC SERIAL CONSOLE #
         PORT=$(echo "${DEFCONSOLE}" | \
@@ -65,7 +72,7 @@ if [ ! -z "${DEFCONSOLE}" ]; then
 fi
 
 if [ ! -z "${AUTOINSTALL}" ] ; then
-	echo "V0:23:once:/usr/local/sbin/autoinstall.sh ${AUTOINSTALL}" >> /root/etc/inittab
+	echo "V0:23:once:/usr/local/sbin/autoinstall.sh ${AUTOINSTALL} ${TARGET_DISK}" >> /root/etc/inittab
 	sed -i -e "s/^T0/#T0/" /root/etc/inittab 
 fi
 
