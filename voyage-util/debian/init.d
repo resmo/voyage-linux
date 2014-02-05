@@ -53,20 +53,27 @@ start_leds()
 	
 	case $VOYAGE_PROFILE in
 		'WRAP')
-            echo heartbeat > /sys/class/leds/wrap\::power/trigger
-            echo ide-disk > /sys/class/leds/wrap\::error/trigger
-            echo netdev > /sys/class/leds/wrap\:\:extra/trigger
-            echo eth0 > /sys/class/leds/wrap\:\:extra/device_name
-            echo "link tx rx" > /sys/class/leds/wrap\:\:extra/mode			
+			echo heartbeat > /sys/class/leds/wrap\::power/trigger
+			#echo ide-disk > /sys/class/leds/wrap\::error/trigger
+			echo netdev > /sys/class/leds/wrap\:\:extra/trigger
+			echo eth0 > /sys/class/leds/wrap\:\:extra/device_name
+			echo "link tx rx" > /sys/class/leds/wrap\:\:extra/mode
 			;;
 		'ALIX')
 			echo heartbeat > /sys/class/leds/alix\:1/trigger
-			echo ide-disk > /sys/class/leds/alix\:2/trigger
+			#echo ide-disk > /sys/class/leds/alix\:2/trigger
 			echo netdev > /sys/class/leds/alix\:3/trigger
 		   	echo eth0 > /sys/class/leds/alix\:3/device_name
    			echo "link tx rx" > /sys/class/leds/alix\:3/mode
 
 			echo "tsc" > /sys/devices/system/clocksource/clocksource0/current_clocksource
+			;;
+		'APU')
+			echo heartbeat > /sys/class/leds/apu\:1/trigger
+			#echo ide-disk > /sys/class/leds/apu\:2/trigger
+                        #echo netdev > /sys/class/leds/apu\:3/trigger
+                        #echo eth0 > /sys/class/leds/apu\:3/device_name
+                        #echo "link tx rx" > /sys/class/leds/apu\:3/mode
 			;;
 		*)
 			;;
