@@ -30,13 +30,13 @@ function login($user,$pass)
     {
         if ((crypt($pass, $authorized_users[$user]) == $authorized_users[$user]))
         {
+            // mount read-write
+            if (file_exists('/usr/local/sbin/remountrw'))
+ 	        exec ('sudo /usr/local/sbin/remountrw');
             //session_register('logged_user');
             session_start();
             $_SESSION['logged_user']=$user;
             session_write_close();
-            // mount read-write
-            if (file_exists('/usr/local/sbin/remountrw'))
- 	        exec ('sudo /usr/local/sbin/remountrw');
             header('Location:index.php');
             flush();
             exit();
